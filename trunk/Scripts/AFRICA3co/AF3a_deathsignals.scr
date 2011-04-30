@@ -1,0 +1,68 @@
+block
+{
+  printf("lastsoldier: init begin");
+  DisableSignals(false);
+  FRAME look1;		FRM_FindFrame(look1, "m_palma");
+  FRAME look2;		FRM_FindFrame(look2, "m_AF5_ost_dr4");
+  FRAME look3;		FRM_FindFrame(look3, "m_AF3_rakos8");
+  printf("lastsoldier: init end");
+}
+
+// AF3a_deathsignals - signals for last alive soldiers
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(21)
+{
+  SaveGameValue(101, 1);
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  SetAlarmType(1023, false);
+  SetAlarmType(103, true);
+  HUMAN_SetMode_Crouch();
+  HUMAN_SetMODE_Walk();
+  HUMAN_WeaponOnArm(true);
+  HUMAN_Move("AF3a_ls01");
+}
+
+OnSignal(22)
+{
+  SaveGameValue(102, 1);
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  SetAlarmType(1023, false);
+  SetAlarmType(103, true);
+  HUMAN_SetMode_Crouch();
+  HUMAN_SetMODE_Walk();
+  HUMAN_WeaponOnArm(true);
+  HUMAN_Move("AF3a_ls02");
+}
+
+OnSignal(23)
+{
+  SaveGameValue(103, 1);
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  SetAlarmType(1023, false);
+  SetAlarmType(103, true);
+  HUMAN_SetMode_Crouch();
+  HUMAN_SetMODE_Walk();
+  HUMAN_WeaponOnArm(true);
+  HUMAN_Move("AF3a_ls03");
+}
+
+OnSignal(24)
+{
+  SaveGameValue(104, 1);
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  SetAlarmType(1023, false);
+  SetAlarmType(103, true);
+  HUMAN_SetMode_Crouch();
+  HUMAN_SetMODE_Walk();
+  HUMAN_WeaponOnArm(true);
+  HUMAN_Move("AF3a_ls04");
+}

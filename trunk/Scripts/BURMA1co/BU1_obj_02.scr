@@ -1,0 +1,60 @@
+// BU1_obj_02 - objective dokumenty
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+Frame doc;
+	FRM_FindFrame(doc, "BU1_doc");
+Integer obj1complete;
+	obj1complete=0;
+SetWhenever(lost, false);
+SetWhenever(found, false);
+
+	Frame Documents;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever docum(_MP_IsItemInTeamInventory(1, 252, Documents))
+{
+	SetWhenever(lost, true);
+	If(obj1complete==0)
+	{
+		SendSignal(doc, 1);
+		GoTo end;
+	}
+	SendSignal(obj, 2);
+	GoTo end;
+}
+
+Whenever lost(!_MP_IsItemInTeamInventory(1, 252, Documents))
+{
+	SetWhenever(found, true);
+	If(obj1complete==0)
+	{
+		SendSignal(doc, 2);
+		GoTo end;
+	}
+	SendSignal(obj, 5);
+	GoTo end;
+}
+Whenever found(_MP_IsItemInTeamInventory(1, 252, Documents))
+{
+	SetWhenever(lost, true);
+	If(obj1complete==0)
+	{
+		SendSignal(doc, 3);
+		GoTo end;
+	}
+	SendSignal(obj, 6);
+	GoTo end;
+}
+
+Whenever signal(_SignalReceived(1))	// received from BU1_obj_01
+{
+	obj1complete=1;
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

@@ -1,0 +1,146 @@
+// obj 3 - destroy hakls and treir soldiers
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+  Frame Sn1;	FRM_FindFrame(Sn1, "hakla1"); 
+  Frame Sn2;	FRM_FindFrame(Sn2, "hakla2"); 
+  Frame Sn3;	FRM_FindFrame(Sn3, "hakla3"); 
+  Frame Sn4;	FRM_FindFrame(Sn4, "hakla4"); 
+  Frame Sn5;	FRM_FindFrame(Sn5, "hakla5"); 
+  Frame Sn6;	FRM_FindFrame(Sn6, "hakla6");
+  Frame Hakl;	FRM_FindFrame(Hakl, "Hakl2");
+  
+  Frame Snb1;	FRM_FindFrame(Snb1, "hakle1"); 
+  Frame Snb2;	FRM_FindFrame(Snb2, "hakle2"); 
+  Frame Snb3;	FRM_FindFrame(Snb3, "hakle3"); 
+  Frame Snb4;	FRM_FindFrame(Snb4, "hakle4"); 
+  Frame Snb5;	FRM_FindFrame(Snb5, "hakle5"); 
+  Frame Snb6;	FRM_FindFrame(Snb6, "hakle6");
+  Frame Hakl2;	FRM_FindFrame(Hakl2, "Hakl1");
+  
+  Frame obj1;	FRM_FindFrame(obj1, "obj1");
+  Frame objm;	FRM_FindFrame(objm, "C5_objective");
+
+
+Integer hakls;
+	hakls=0;
+Integer gametype;
+	gametype=0;
+}
+
+gametype=_SPGetGameType();
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+
+Whenever Haklpanaci1 (( (_Actor_GetState(Sn1)==0) And (_Actor_GetState(Sn2)==0) ) And (_Actor_GetState(Sn3)==0) ) 
+{
+hakls=hakls+3;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+Whenever Haklpanaci2 (( (_Actor_GetState(Sn4)==0) And (_Actor_GetState(Sn5)==0) ) And (_Actor_GetState(Sn6)==0) ) 
+{
+hakls=hakls+3;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+
+Whenever Haklbum ( (_Actor_GetState(Hakl)==0) )
+{
+hakls=hakls+1;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+Whenever Haklpanaci3 (( (_Actor_GetState(Snb1)==0) And (_Actor_GetState(Snb2)==0) ) And (_Actor_GetState(Snb3)==0) ) 
+{
+hakls=hakls+3;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+Whenever Haklpanaci4 (( (_Actor_GetState(Snb4)==0) And (_Actor_GetState(Snb5)==0) ) And (_Actor_GetState(Snb6)==0) ) 
+{
+hakls=hakls+3;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+
+Whenever Haklbum2 ( (_Actor_GetState(Hakl2)==0) )
+{
+hakls=hakls+1;
+
+If(hakls==14)
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(14992886);
+PlayMusic(6);
+SendSignal(objm, 2);
+Delay(3000);
+SUBTITLES_SetOn(false);
+SetObjectiveStatus(3, 1);
+}
+GoTo end;
+}
+
+
+Label end:
+
+

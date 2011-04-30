@@ -1,0 +1,32 @@
+// AF3a_obj_carnage - carnage objectives detector
+// -------------------------------------------------------------------------------------------------------------
+
+INTEGER game_type =_SPGetGameType();
+INTEGER cnt;
+
+// -------------------------------------------------------------------------------------------------------------
+
+DisableSignals(true);
+
+Whenever alldead (_GetCountOfCarnageEnemies() == 0){
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(09991805);
+  Delay(2000);
+  SetObjectiveStatus(11, 1);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+if((game_type == 3) OR (game_type == 7))
+{
+  SetObjectiveStatus(11, 0);			// carnage obj (kill all) init
+}
+
+Label LOOP:
+  cnt = _GetCountOfCarnageEnemies();
+  printfnumber("carnage: ", cnt);
+  Delay(2000);
+goto LOOP;
+
+Label END:

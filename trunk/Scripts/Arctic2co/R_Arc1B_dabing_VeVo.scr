@@ -1,0 +1,107 @@
+// 02990480 Pane, prý jste se mnou chtìl o nìèem mluvit.					#vojak	
+// 02990481 Ano, ano ... vèera jsem vám øekl, abyste odnesl složky 			#vedec	
+//		B-15 až B-22 obersturmbannfuehrerovi Kaltenbrunnerovi.	
+// 02990482 Ano pane, to jsem udìlal, v èem je problém?					#vojak	
+// 02990483 To jste sakra neudìlal, odnesl jste úplnì jiné složky, 				#vedec	
+//		ve kterých byla dokumentace k projektu,			
+// 02990484 o kterém Kaltenbrunner vùbec nemá vìdìt!					#vedec	
+// 02990485 Ale to není možné...								#vojak	
+// 02990486 Že ne?! Tento projekt podléhá nejpøísnìjšímu utajení! 				#vedec
+//		Øíše je plná zrádcù, špehù, bolševikù 		
+// 02990487 a vy svou lehkovážností ohrožujete bezpeènost nás všech!			#vedec	
+// 02990488 Máte štìstí, že Kaltenbrunner je ignorant a nemá ani ponìtí, 			#vedec	
+//		èeho se obsah složek týká!		
+// 02990489 Pøíštì vás nechám na místì zastøelit, bez soudu!				#vedec	
+// 02990490 Ale já opravdu nechápu jak se to mohlo stát?					#vojak
+// 02990491 To já také ne a upøímnì je mi to jedno, 						#vedec	
+//		nezajímá mne to, mne zajímá jen to,				
+// 02990492 jak plníte rozkazy, jste tady jen proto, abyste je plnil,				#vedec	
+// 02990493 ne proto, abyste samostatnì uvažoval, flákal se a dìlal tady z toho bordel!	#vedec
+// 02990494 Ale to pøeci ...									#vojak	
+// 02990495 Mlèet! Nebudeme to rozmazávat, zatím z toho nebudu vyvozovat dùsledky, 	#vedec	
+// 02990496 ale zprávu o vás podám, to si mùžete být jistý.				#vedec
+// 02990498 Ano pane, dìkuji pane.								#vojak	
+// 02990499 Hmmm...										#vedec	
+// 1097  7360  1114  3298  2020  748  7372  2739  4121  2890  2194  3668  2263  2124  760  2496  2066  2501  893	
+
+
+Frame vedec;		FRM_FindFrame(vedec, "Static_13");
+Frame vojak;		FRM_FindFrame(vojak, "Static_7");
+
+OnSignal(1)
+{
+ //  SUBTITLES_SetOn(true); ///////////////////////// pokusne, vyhodit
+  FRM_MorphSpeechDelayed(vojak, 02990480, 7, 30); // Pane, prý jste se mnou chtìl o nìèem mluvit.	
+  Delay(13);
+// Ano, ano ... vèera jsem vám øekl, abyste odnesl složky B-15 až B-22 obersturmbannfuehrerovi Kaltenbrunnerovi.	
+  FRM_MorphSpeechDelayed(vedec, 02990481, 7, 30); 
+  Delay(74);
+  FRM_MorphSpeechDelayed(vojak, 02990482, 7, 30); // Ano pane, to jsem udìlal, v èem je problém?	
+  Delay(12);
+// To jste sakra neudìlal, odnesl jste úplnì jiné složky, ve kterých byla dokumentace k projektu,
+  FRM_MorphSpeechDelayed(vedec, 02990483, 7, 30);  
+  Delay(33);
+  FRM_MorphSpeechDelayed(vedec, 02990484, 7, 30); // o kterém Kaltenbrunner vùbec nemá vìdìt!
+  Delay(21);
+  FRM_MorphSpeechDelayed(vojak, 02990485, 7, 30); //  Ale to není možné...
+  Delay(8);
+//  Že ne?! Tento projekt podléhá nejpøísnìjšímu utajení! Øíše je plná zrádcù, špehù, bolševikù 
+  FRM_MorphSpeechDelayed(vedec, 02990486, 7, 30);
+  Delay(74);
+  FRM_MorphSpeechDelayed(vedec, 02990487, 7, 30); // a vy svou lehkovážností ohrožujete bezpeènost nás všech!
+  Delay(28);
+//  Máte štìstí, že Kaltenbrunner je ignorant a nemá ani ponìtí, èeho se obsah složek týká!
+  FRM_MorphSpeechDelayed(vedec, 02990488, 7, 30);
+  Delay(42);
+  FRM_MorphSpeechDelayed(vedec, 02990489, 7, 30);// Pøíštì vás nechám na místì zastøelit, bez soudu!
+  Delay(29);
+  FRM_MorphSpeechDelayed(vojak, 02990490, 7, 30);// Ale já opravdu nechápu jak se to mohlo stát?
+  Delay(22);
+//  To já také ne a upøímnì je mi to jedno, nezajímá mne to, mne zajímá jen to,	
+  FRM_MorphSpeechDelayed(vedec, 02990491, 7, 30);
+  Delay(37);
+  FRM_MorphSpeechDelayed(vedec, 02990492, 7, 30);// jak plníte rozkazy, jste tady jen proto, abyste je plnil,	
+  Delay(23);
+// ne proto, abyste samostatnì uvažoval, flákal se a dìlal tady z toho bordel!
+  FRM_MorphSpeechDelayed(vedec, 02990493, 7, 30);
+  Delay(22);
+  FRM_MorphSpeechDelayed(vojak, 02990494, 7, 30);// Ale to pøeci ...
+  Delay(8);
+// Mlèet! Nebudeme to rozmazávat, zatím z toho nebudu vyvozovat dùsledky, 	
+  FRM_MorphSpeechDelayed(vedec, 02990495, 7, 30);
+  Delay(25);
+  FRM_MorphSpeechDelayed(vedec, 02990496, 7, 30);//  ale zprávu o vás podám, to si mùžete být jistý.
+  Delay(21);
+  FRM_MorphSpeechDelayed(vojak, 02990498, 7, 30);//  Ano pane, dìkuji pane.	
+  Delay(25);
+  FRM_MorphSpeechDelayed(vedec, 02990499, 7, 30);//  Hmmm...	
+  Delay(10);
+
+  SendSignal(vedec, 20);
+  SendSignal(vojak, 20);
+ //  SUBTITLES_SetOn(false); ///////////////////////// pokusne, vyhodit
+}
+
+// vojak
+OnSignal(2)
+{
+  FRM_MorphSpeech(vedec, 0, 0, 0);
+  FRM_MorphSpeech(vojak, 0, 0, 0);
+  SendSignal(vedec, 2);
+  EndScript();
+}
+// vedec
+OnSignal(3)
+{
+  FRM_MorphSpeech(vedec, 0, 0, 0);
+  FRM_MorphSpeech(vojak, 0, 0, 0);
+  EndScript();
+}
+
+Whenever GlobalAlarm (_LoadGameValue(5) != 0)
+{
+  FRM_MorphSpeech(vedec, 0, 0, 0);
+  FRM_MorphSpeech(vojak, 0, 0, 0);
+  SendSignal(vedec, 5);
+  SendSignal(vojak, 5);
+}

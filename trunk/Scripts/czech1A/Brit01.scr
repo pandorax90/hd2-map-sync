@@ -1,0 +1,70 @@
+// Brit 1 - ridic Jeepu
+// --------------------------------------------
+
+Block
+{
+Frame zavora;   FRM_FindFrame(zavora, "zavora1.Cylinder01");
+Frame obj4;	FRM_FindFrame(obj4,"obj4");
+Frame b2;	FRM_FindFrame(b2,"Brit02");
+Frame b3;	FRM_FindFrame(b3,"Brit03");
+Frame b4;	FRM_FindFrame(b4,"Brit04");
+Frame me;	FRM_GetMyFrame(me);
+
+FRM_SwitchFaceTexture(me, "e_f014");
+}
+
+// --------------------------------------------
+
+OnDeath(){
+SendSignal(obj4, 2);
+EndScript();
+}
+
+Whenever Jedem (_SignalReceived(1))
+{
+Delay(1000);
+HUMAN_Drive("pokus", 30);
+HUMAN_Drive("cross", 40);
+SetWhenever(vlak, 1);
+goto End;
+}
+
+Whenever vlak (_ACTOR_GetState(zavora)==0)
+{
+HUMAN_Drive("end", 80);
+HUMAN_BoardVehicle("Jeep",  0, 0);
+Delay(500);
+SendSignal(b2, 3);
+SendSignal(b3, 3);
+SendSignal(b4, 3);
+Delay(1000);
+DisableSignals(1);
+HUMAN_Suspend(1);
+goto End;
+}
+
+Whenever Player (_PlayerInRange(1000))
+{
+Delay(70000);
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("Jeep",  1, 0);
+SendSignal(b2, 1);
+SendSignal(b3, 1);
+SendSignal(b4, 1);
+Delay(1000);
+HUMAN_Drive("zatacka", 70);
+HUMAN_Drive("zatacka2", 20);
+HUMAN_Drive("", 20);
+Delay(2000);
+SendSignal(b2, 2);
+goto End;
+}
+
+// --------------------------------------------
+
+SetWhenever(vlak, 0);
+HUMAN_Suspend(1);
+goto End;
+
+
+Label End:

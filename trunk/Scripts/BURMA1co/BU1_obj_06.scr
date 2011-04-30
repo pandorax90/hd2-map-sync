@@ -1,0 +1,34 @@
+// BU1_obj_06 - optional - katana
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+
+SetWhenever(lost, false);
+SetWhenever(found, false);
+
+Frame Sword;
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever katana(_MP_IsItemInTeamInventory(1, 248, Sword))
+{
+	SetWhenever(lost, true);
+	SendSignal(obj, 8);
+	PlayMusic(36);
+	GoTo end;
+}
+Whenever lost(!_MP_IsItemInTeamInventory(1, 248, Sword))
+{
+	SetWhenever(found, true);
+	SendSignal(obj, 9);
+	GoTo end;
+}
+Whenever found(!_MP_IsItemInTeamInventory(1, 248, Sword))
+{
+	SetWhenever(lost, true);
+	SendSignal(obj, 8);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+
+Label end:

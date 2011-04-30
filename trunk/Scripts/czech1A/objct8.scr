@@ -1,0 +1,56 @@
+// Obj 8 - hod kec se svicakem
+//--------------------------------------
+
+Block
+{
+Frame obj9;		FRM_FindFrame(obj9,"obj9");
+Frame obj2;		FRM_FindFrame(obj2,"obj2");
+
+Frame T1;		FRM_FindFrame(T1,"La_tiger_1");
+Frame T2;		FRM_FindFrame(T2,"La_tiger_2");
+Frame T3;		FRM_FindFrame(T3,"La_tiger_3");
+
+Car_SetFuel(T1, 0);
+Car_SetFuel(T2, 0);
+Car_SetFuel(T3, 0);
+}
+
+//--------------------------------------
+
+Whenever Conversation_Done (_SignalReceived(1))  // hodil kec se svicakem
+{
+SendSignal(obj9, 1);
+SendSignal(obj2, 1);
+SetobjectiveStatus(9, 0);
+SetobjectiveStatus(2, 0);
+SetobjectiveStatus(7, 0);
+SetobjectiveStatus(11, 0);
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(18993601);
+Delay(4000);
+SetobjectiveStatus(8, 1);
+SUBTITLES_SetText(18993606);
+Delay(4000);
+SUBTITLES_SetText(52999703);
+Delay(4000);
+SUBTITLES_SetOn(0);
+goto end;
+}
+
+Whenever Signalman_Dead (_SignalReceived(2))  // svicak zabit
+{
+SetObjectiveStatus(1, 4);     // zabij vsechny 
+SetObjectiveStatus(2, 4);	// znic tigra  
+SetobjectiveStatus(4, 4);     // najdi kamose  
+SetobjectiveStatus(5, 4);     // znic vsechna pancejrova vozidla 
+SetobjectiveStatus(6, 4);     // znic nakladaky  
+SetobjectiveStatus(7, 4);     // najdi trebisskyho  
+SetobjectiveStatus(8, 2);     // hod kec se svicakem  
+SetobjectiveStatus(9, 4);     // zabij dustojniky 
+SetobjectiveStatus(10, 4);    // zabij snipry  
+SetobjectiveStatus(11, 4);    // znic radio 
+goto end;
+}
+
+
+Label end:

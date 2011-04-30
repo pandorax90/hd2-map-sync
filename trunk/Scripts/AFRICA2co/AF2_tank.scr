@@ -1,0 +1,8 @@
+//AF2_tank - zniceni - nepovinny obj.
+
+OnDeath(){
+  SUBTITLES_SetText(06011205);
+  Delay(2000);
+  SUBTITLES_SetOn(false);
+  SetObjectiveStatus(2, 1); 
+}

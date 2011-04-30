@@ -1,0 +1,43 @@
+AddDiaryText(28);  
+Delay(1000);
+INTEGER num_players = _GetNumMembersOfClientTeam();
+INTEGER odvisilali;
+
+// MORE PLAYERS – ENEMIES INCOMMING ALARMED
+// 4151 "Drželi jsme hlídky na hradbách celou noc. Nikdo z nás si nemohl dovolit usnout. Nemohli jsme si ani zapálit, cas se vlekl zoufale pomalu a už jsme zacínali doufat, že nemecké posily z nejakého duvodu neprijedou. Vzdálené burácení motoru nás ale pred úsvitem vyvedlo z omylu. Ze tmy se vynorila nemecká pechota s tanky. Boj ve tme je peklo, nikdy nevíte jiste, zda ten, koho vaše kulka posílá k zemi, není váš prítel. Na pokraji mdlob z vycerpání, promrzlí, ale vítezní, tak jsme ocekávali ráno príštího dne."
+
+// MORE PLAYERS – ENEMIES INCOMMING NOT ALARMED
+// 4152 "Drželi jsme hlídky na hradbách celou noc. Nikdo z nás si nemohl dovolit usnout. Nemohli jsme si ani zapálit, cas se vlekl zoufale pomalu a už jsme zacínali doufat, že nemecké posily z nejakého duvodu neprijedou. Vzdálené burácení motoru nás ale pred úsvitem vyvedlo z omylu. Ze tmy se vynorila nemecká pechota s tanky. Nevedeli, jaké je tady ceká prekvapení, to byla naše výhoda. Boj ve tme je peklo, nikdy nevíte jiste, zda ten, koho vaše kulka posílá k zemi, není váš prítel. Na pokraji mdlob z vycerpání, promrzlí, ale vítezní, tak jsme ocekávali ráno príštího dne."
+
+// LONE WOLF – ENEMIES INCOMMING ALARMED
+// 4153 "Obcházel jsem po hradbách celou noc. Nemohl jsem si dovolit usnout. Nemohl jsme si ani zapálit, cas se vlekl zoufale pomalu a už jsem zacínal doufat, že nemecké posily z nejakého duvodu neprijedou. Vzdálené burácení motoru mne ale pred úsvitem vyvedlo z omylu. Ze tmy se vynorila nemecká pechota s tanky. Boj v témer úplné tme je peklo. Na pokraji mdlob z vycerpání, promrzlý, ale vítezný, tak jsem ocekával ráno príštího dne."
+ 
+// LONE WOLF – ENEMIS INCOMMING NOT ALARMED
+// 4154 "Obcházel jsem po hradbách celou noc. Nemohl jsem si dovolit usnout. Nemohl jsme si ani zapálit, cas se vlekl zoufale pomalu a už jsem zacínal doufat, že nemecké posily z nejakého duvodu neprijedou. Vzdálené burácení motoru mne ale pred úsvitem vyvedlo z omylu. Ze tmy se vynorila nemecká pechota s tanky. Nevedeli, jaké je tady ceká prekvapení a mne se podarilo toho využít. Na pokraji mdlob z vycerpání, promrzlý, ale vítezný, tak jsem ocekával ráno príštího dne."
+
+OnExit()
+{
+  odvisilali = _LoadGameValue(20);
+  if(num_players == 1)
+  {
+    if(odvisilali)
+    {
+      AddDiaryText(4153);  
+    }
+    else
+    {
+      AddDiaryText(4154);  
+    }
+  }
+  else
+  {
+    if(odvisilali)
+    {
+      AddDiaryText(4151);  
+    }
+    else
+    {
+      AddDiaryText(4152);  
+    }
+  }
+}

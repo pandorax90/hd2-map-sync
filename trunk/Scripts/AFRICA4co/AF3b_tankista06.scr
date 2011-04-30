@@ -1,0 +1,39 @@
+// AF3b_tankista05
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME organizer;		FRM_FindFrame(organizer, "dummy_organizer");
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  SendSignal(organizer, 1);
+  EndScript();
+}
+  
+OnAlarm(){
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  SetAlarmType(1023, true);
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  goto ACTIVITY;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_BoardVehicle("Tiger02", true, 3);
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+
+Label ACTIVITY:
+
+Label END:

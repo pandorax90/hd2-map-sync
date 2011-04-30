@@ -1,0 +1,91 @@
+// 02990461	Doktore, potøebuji se vás na nìco zeptat.							# Vedec1
+// 02990462	Použil jsem nìkteré vaše výpoèty, které jste mi dal k dispozici...				# Vedec1
+// 02990463	Ehm, promiòte, nevím teï pøesnì které máte na mysli, mùžete to upøesnit?		# Vedec2
+// 02990464	Jde o výpoèty odporu vzduchu a aerodynamiky u objektu V512.				# Vedec1
+// 02990465	Upravil jsem vzorec tak, aby se dal použít i pro V515 a narazil jsem na drobnou chybu.	# Vedec1
+// 02990466	Nevím, zda má nìjaký zásadní význam na celkový výsledek,				# Vedec1
+//                       ale radìji jsem se s vámi pøišel poradit.
+// 02990467	Ano, je to možné, mohl jsem se zmýlit.							# Vedec2
+// 02990468	Asi tuším o co jde, použil jsem nìkteré konstanty z tabulek staršího data...		# Vedec2
+// 02990469	Pøesnì tak, doktore, také jsem se domníval, že problém bude v použitých konstantách.	# Vedec1
+// 02990470	Ve výpoètu jsem chybu neobjevil, pøišel jsem na ni náhodou pøi kontrolním souètu.	# Vedec1
+// 02990471	Dobrá, víte co? Za chvíli konèím, budete-li mít èas,						# Vedec2
+//		 stavte se u mne v kanceláøi zítra kolem poledne.	
+// 02990472	Spoleènì se na to podíváme.									# Vedec2
+// 02990473	Je mi to velice líto, ale v poledne nemohu.							# Vedec1
+// 02990474	Od jedenácti hodin má moje skupina rezervovaný aerodynamický tunel,			# Vedec1
+// 02990475	budu muset být pøítomen nìkolika testùm,							# Vedec1
+//		 vyhovovalo by vám to naveèer? Øeknìme kolem páté?
+// 02990476	Ale ano, kolem páté je to v poøádku, budu vás tedy oèekávat ve své pracovnì.		# Vedec2
+// 02990477	Dìkuji vám, doktore, jste velice laskav.							# Vedec1
+// 02990478	Když dovolíte, musím nìco dokonèit.	 							# Vedec2
+// 02990479	Samozøejmì.											# Vedec1
+// 1211	2015  4318  4236  5601  3697  3436  5247  3226  3530  5247  1892  1744  2137  3619  3239  1477  1346  593	
+
+
+Frame Vedec1;	FRM_FindFrame(Vedec1, "Static_14");
+Frame Vedec2;	FRM_FindFrame(Vedec2, "Static_1");
+
+OnSignal(1)
+{
+ //  SUBTITLES_SetOn(true); ///////////////////////// pokusne, vyhodit
+  FRM_MorphSpeechDelayed(Vedec1, 02990461, 7, 30); // Doktore, potøebuji se vás na nìco zeptat.	
+  Delay(13);
+// Použil jsem nìkteré vaše výpoèty, které jste mi dal k dispozici...	
+  FRM_MorphSpeechDelayed(Vedec1, 02990462, 7, 30); 
+  Delay(21);
+// Ehm, promiòte, nevím teï pøesnì které máte na mysli, mùžete to upøesnit?	  
+  FRM_MorphSpeechDelayed(Vedec2, 02990463, 7, 30);
+  Delay(44);
+  FRM_MorphSpeechDelayed(Vedec1, 02990464, 7, 30);  // Jde o výpoèty odporu vzduchu a aerodynamiky u objektu V512.
+  Delay(43);
+// Upravil jsem vzorec tak, aby se dal použít i pro V515 a narazil jsem na drobnou chybu.  
+  FRM_MorphSpeechDelayed(Vedec1, 02990465, 7, 30);
+  Delay(57);
+// Nevím, zda má nìjaký zásadní význam na celkový výsledek, ale radìji jsem se s vámi pøišel poradit.
+  FRM_MorphSpeechDelayed(Vedec1, 02990466, 7, 30);
+  Delay(38);
+  FRM_MorphSpeechDelayed(Vedec2, 02990467, 7, 30); // Ano, je to možné, mohl jsem se zmýlit.
+  Delay(35);
+// Asi tuším o co jde, použil jsem nìkteré konstanty z tabulek staršího data...
+  FRM_MorphSpeechDelayed(Vedec2, 02990468, 7, 30);
+  Delay(53);
+//  Pøesnì tak, doktore, také jsem se domníval, že problém bude v použitých konstantách.
+  FRM_MorphSpeechDelayed(Vedec1, 02990469, 7, 30);
+  Delay(33);
+// Ve výpoètu jsem chybu neobjevil, pøišel jsem na ni náhodou pøi kontrolním souètu.
+  FRM_MorphSpeechDelayed(Vedec1, 02990470, 7, 30);
+  Delay(36);
+// Dobrá, víte co? Za chvíli konèím, budete-li mít èas, stavte se u mne v kanceláøi zítra kolem poledne.
+  FRM_MorphSpeechDelayed(Vedec2, 02990471, 7, 30);
+  Delay(53);
+  FRM_MorphSpeechDelayed(Vedec2, 02990472, 7, 30); //  Spoleènì se na to podíváme.	
+  Delay(19);
+  FRM_MorphSpeechDelayed(Vedec1, 02990473, 7, 30); // Je mi to velice líto, ale v poledne nemohu.
+  Delay(18);
+// Od jedenácti hodin má moje skupina rezervovaný aerodynamický tunel,
+  FRM_MorphSpeechDelayed(Vedec1, 02990474, 7, 30);
+  Delay(22);
+// budu muset být pøítomen nìkolika testùm, vyhovovalo by vám to naveèer? Øeknìme kolem páté?
+  FRM_MorphSpeech(Vedec1, 02990475, 7, 30);
+  Delay(3700);
+// Ale ano, kolem páté je to v poøádku, budu vás tedy oèekávat ve své pracovnì.	 	
+  FRM_MorphSpeechDelayed(Vedec2, 02990476, 7, 30);
+  Delay(33);
+  FRM_MorphSpeechDelayed(Vedec1, 02990477, 7, 30); //  Dìkuji vám, doktore, jste velice laskav.
+  Delay(15);
+  FRM_MorphSpeechDelayed(Vedec2, 02990478, 7, 30); //  Když dovolíte, musím nìco dokonèit.	
+  Delay(14);
+  FRM_MorphSpeechDelayed(Vedec1, 02990479, 7, 30); //  Samozøejmì.	
+  Delay(10);
+ //  SUBTITLES_SetOn(false); ///////////////////////// pokusne, vyhodit
+  SendSignal(vedec1, 20);
+  SendSignal(vedec2, 20);
+}
+
+OnSignal(2)
+{
+  FRM_MorphSpeech(Vedec1, 0, 0, 0);
+  FRM_MorphSpeech(Vedec2, 0, 0, 0);
+  EndScript();
+}

@@ -1,0 +1,161 @@
+__SetupAutoLogging(true, "zajebanejdoktor.txt");
+// AF3a_doctor - doctor curing some soldier
+// -------------------------------------------------------------------------------------------------------------
+
+Block{
+  FRAME lekarna; 			FRM_FindFrame(lekarna, "dummy_doctor_inv01");
+  FRAME pacient01; 			FRM_FindFrame(pacient01, "dummy_doctor_inv02");
+  FRAME pacient02; 			FRM_FindFrame(pacient02, "AF3a_pacient02");
+  FRAME this;				FRM_GetMyFrame(this);
+  FRAME get_player;			
+  INTEGER AIEvent			= 0;
+
+
+  SetAlarmType(1023, true);
+  SetAlarmType(814, false);		// 4, 8, 32, 256, 512
+  SaveGameValue(99, 1);
+}
+
+HUMAN_Suspend(true);
+HUMAN_SETEVENTS(true);
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath()
+{
+  SaveGameValue(99, 0);
+  EndScript();
+}
+
+Whenever pacientdeath (!_ACTOR_GetState(pacient02))
+{
+  HUMAN_SetAnim("", 200, 200, false);
+  block
+  {
+    DisableWhenevers(true);
+    SetAlarmType(1023, false);
+    HUMAN_SetMODE_Run();
+    HUMAN_SetMODE_Stand();
+  }
+  HUMAN_Move("AF3_doktor_al");
+  HUMAN_SetAnim("%%panika", 400, 400, true);
+  goto END;
+}
+
+Whenever inrange (_PlayerInRange(40)){
+  SetWhenever(notinrange, true);
+  HUMAN_Suspend(false);
+  goto ACTIVITY;
+}
+
+Whenever notinrange (!_PlayerInRange(40)){
+  SetWhenever(inrange, true);
+  HUMAN_Suspend(true);
+}
+
+OnAlarm(){
+  HUMAN_SetAnim("", 100, 100, false);
+  block{
+    HUMAN_SetOptimized(0);
+    HUMAN_Stop();
+    AIEvent =_GetAlarmType(); 
+    printfnumber("doctor: ", AIEvent);
+  }
+  
+  If (AIEvent == 1) {			// blizka strelba
+    if(_PlayerInRange(15)){
+//      FRM_MorphSpeech(this, 07991508, 3, 10);
+      Delay(1000);
+//      printf("Doctor :: Nooo, stop shooting ...");
+      SetAlarmType(1, false);	// vypnuti reakci na blizkou strelbu
+    }
+  }
+  If (AIEvent == 2) {			// strelba
+    if(_PlayerInRange(20)){
+//      FRM_MorphSpeech(this, 07991413, 3, 10);
+      Delay(1000);
+//      printf("Doctor :: Damn it, what's going on outside ....");
+      SetAlarmType(2, false);	// vypnuti reakci na strelbu
+    }
+  }
+  If (AIEvent == 64) {			// zraneni
+    printf("Doctor :: Aaa you shoot me, you bastard ...");
+    HUMAN_SETMODE_Crouch();
+    Delay(100);
+    HUMAN_SETAIMODE_Defensive();
+    EndScript();
+  }	
+  HUMAN_SetAlarm(false);
+  goto ACTIVITY;
+}
+
+OnAlarmDone(){ 
+  SetAlarmType(1023, false);
+  SetAlarmType(67, true);				// 64, 2, 1
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(1);
+  goto INV_PACIENT;
+}
+
+Whenever blizko(_PlayerInRange(2)){
+  //  SetAlarmType(1023, false);			// aby nereagoval na alarmy
+  FRM_MorphSpeechDelayed(this, 07991507, 3, 20);
+
+  HUMAN_SetAnim("", 300, 300, false);
+  Delay(300);
+  HUMAN_SETMODE_Stand();
+  HUMAN_TurnAtNearestPlayer();
+
+  SUBTITLES_SetOn(true);
+
+  FRM_GetNearestPlayer(this, get_player);
+  FRM_MorphSpeechDelayed(get_player, 07991508, 3, 20);
+  HUMAN_SetAnim("", 200, 200, false);
+  HUMAN_TurnAtNearestPlayer();
+  HUMAN_SetAnim("%%kecy3", 200, 200, false);
+  FRM_MorphSpeechDelayed(this, 07991509, 3, 20);
+  HUMAN_SetAnim("", 200, 200, false);
+  FRM_GetNearestPlayer(this, get_player);
+  HUMAN_TurnAtNearestPlayer();
+  FRM_MorphSpeechDelayed(get_player, 07991510, 3, 20);
+  HUMAN_TurnAtNearestPlayer();
+  HUMAN_SetAnim("%%kecy3", 200, 200, false);
+  FRM_MorphSpeechDelayed(this, 07991511, 3, 20);
+  HUMAN_SetAnim("", 200, 200, false);
+  SUBTITLES_SetOn(false);
+  HUMAN_Move("AF3a_doktor_01");
+  HUMAN_TurnAt(lekarna);
+  HUMAN_Investigate(lekarna);
+  Delay(500);
+Label INV_PACIENT:
+  HUMAN_Move("AF3a_doctor_01");
+  HUMAN_TurnAt(pacient02);
+  HUMAN_SetAnim("", 100, 100, false);
+  Delay(100);
+  HUMAN_SetAnim("%%medik", 300, 300, true);
+ Delay(2000);
+goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Walk();
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SetOptimized(1);
+gosub ENABLE_ALARM;
+HUMAN_Move("AF3a_doctor_01");
+
+Label ACTIVITY:
+  HUMAN_Move("AF3a_doctor_01");
+  HUMAN_TurnAt(pacient02);
+  Delay(500);
+  HUMAN_SetAnim("%%medik", 300, 300, true);
+goto END;
+
+Label ENABLE_ALARM:			// slouzi k nastaveni alarmu do puvodniho stavu
+  SetAlarmType(1023, false);
+  SetAlarmType(67, true);			// e: 1, 2, 64
+return;
+
+Label END:

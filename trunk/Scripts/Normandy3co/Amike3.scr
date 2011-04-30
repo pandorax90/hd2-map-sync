@@ -1,0 +1,30 @@
+// Ally 
+// -------------------------------------------------------------------------------------------------------------
+block
+{
+  Frame me;		            FRM_GetMyFrame(me);
+  Frame t1;	FRM_FindFrame(t1,"obj3");
+}
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(1)
+{
+DisableSignals(1);
+HUMAN_SETMODE_Crouch();
+HUMAN_Stop();
+goto END;
+}
+
+FRM_SwitchFaceTexture(me, "e_f009");
+HUMAN_SetOptimized(1);
+HUMAN_SETMODE_Crouch();
+Delay(11000);
+HUMAN_illFire(t1, 6000);
+goto palim;
+
+Label palim:
+Delay(8000);
+HUMAN_illFire(t1, 6000);
+goto palim;
+
+Label END:

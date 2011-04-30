@@ -1,0 +1,80 @@
+// BU2_objective - objectives
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer obj;
+	obj=0;
+Integer gametype;
+	gametype=0;
+Frame xplo;
+	FRM_FindFrame(xplo, "rndxplo01");
+Frame diary;
+	FRM_FindFrame(diary, "BU2_diary");
+}
+
+gametype=_SPGetGameType();
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(2)	// received from BU2_06, BU2_22
+{
+		obj=obj+1;
+	GoTo result;
+}
+
+OnSignal(3)	// received from rndxplo01
+{
+	If(_IsTeamMemberDead())
+	{
+		GoTo dalej;
+	}
+	If(gametype==2)	{	GoTo dalej;	}
+	SetObjectiveStatus(3, 1);
+	SendSignal(diary, 1);
+
+	Label dalej:
+	printf("objective complete - gather your troops at exit point");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992733);
+	Delay(3000);
+	SetObjectiveStatus(2, 1);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+SetObjectiveStatus(1, 0);	// capture the bunker
+//SetObjectiveStatus(2, 4);	// gather your troops at the exit point
+//SetObjectiveStatus(3, 4);	// optional - all troops must survive
+
+Delay(2000);
+printf("capture bunker on the hill");
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(13992607);
+Delay(3000);
+SUBTITLES_SetOn(false);
+GoTo end;
+
+Label result:
+	If((obj==2))
+	{
+		GoTo objcomplete;	// capture the bunker
+	}
+	GoTo end;
+
+Label objcomplete:
+	SetObjectiveStatus(2, 0);
+	printf("Capture bunker on the hill - objective complete");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992606);
+	Delay(3000);
+	SetObjectiveStatus(1, 1);
+	PlayMusic(36);
+	SUBTITLES_SetOn(false);
+	SendSignal(xplo, 2);
+	printf("Gather your troops at the exit point");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992732);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+
+Label end:

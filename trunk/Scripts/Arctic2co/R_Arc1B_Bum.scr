@@ -1,0 +1,46 @@
+// Testuje TIMER - je to na .... vypnute kvuli tem blbostem vpravo dole - casum kdy co buchne ....
+			//SetInterfaceTimer(0);		// poèáteèní inicializace
+integer Bum1 = 500;
+integer Bum2 = 500;
+integer Bum3 = 500;
+integer Bum4 = 500;
+integer Bum5 = 500;
+integer X = 300;
+
+// Nekde byl polozen dynamit
+OnSignal(1)
+{
+  Block
+    {
+       Bum1 = _LoadGameValue(41);
+       Bum2 = _LoadGameValue(42);
+       Bum3 = _LoadGameValue(43);
+       Bum4 = _LoadGameValue(44);
+       Bum5 = _LoadGameValue(45);
+    }
+       If (Bum1< Bum2) {X = Bum1; } else { X = Bum2; }
+       If (Bum3< X) {X = Bum3; }
+       If (Bum4< X) {X = Bum4; }
+       If (Bum5< X) {X = Bum5; }
+       X = X *1000;
+			//  SetInterfaceTimer(X);
+}
+
+// Nekde byl odstranen dynamit
+OnSignal(2)
+{
+  Block
+    {
+       Bum1 = _LoadGameValue(41);
+       Bum2 = _LoadGameValue(42);
+       Bum3 = _LoadGameValue(43);
+       Bum4 = _LoadGameValue(44);
+       Bum5 = _LoadGameValue(45);
+    }
+       If (Bum1< Bum2) {X = Bum1; } else { X = Bum2; }
+       If (Bum3< X) {X = Bum3; }
+       If (Bum4< X) {X = Bum4; }
+       If (Bum5< X) {X = Bum5; }
+       X = X *1000;
+			//  If (X != 300000) { SetInterfaceTimer(X); } else { SetInterfaceTimer(0); }
+}

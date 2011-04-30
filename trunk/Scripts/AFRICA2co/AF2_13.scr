@@ -1,0 +1,79 @@
+// AF2_13
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME activator;			FRM_FindFrame(activator, "af2_activator");
+  INTEGER Atype			= 0;
+  INTEGER alarmcnt			= 0;
+
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever inrange(_PlayerInRange(300)){
+  goto ACTIVATE;
+}
+
+OnDeath(){
+  printf("13: dead"); 
+  EndScript();
+}
+
+OnAlarm(){
+  block{
+    SetWhenever(inrange, false);
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(false);
+    HUMAN_SETMODE_Stand();
+    HUMAN_SETMODE_Run();
+    Atype = _GetAlarmType();
+    printfnumber("13: ", Atype);
+  }
+  HUMAN_SetAnim("", 100, 100, false);
+  Delay(100);
+
+  if(alarmcnt == 0){
+    alarmcnt = 1;
+    printf("sakra, 13: uvidel nekoho podezreleho");
+    Delay(3000);
+    printf("musim varovat ostatni");
+    HUMAN_Move("AF2_13_01");
+    SendSignal(activator, 1);
+    HUMAN_Move("AF2_13_02");
+    SendSignal(activator, 5);
+  }  
+  HUMAN_SETMODE_Crouch();
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(true);
+  HUMAN_SETMODE_Guard();
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_SETMODE_Guard();
+  HUMAN_SETMODE_Crouch();
+//  HUMAN_SetAnim("%%dalekohled", 500, 500, true);
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(true);
+goto ACTIVITY;
+
+Label ACTIVITY:
+//  HUMAN_UseInv(99); 				// now use binocular
+  HUMAN_SetAnim("%%dalekohled", 300, 300, true);
+
+Label END:

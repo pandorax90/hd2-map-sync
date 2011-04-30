@@ -1,0 +1,90 @@
+// OK
+// after global alarm income as a reinforcement
+
+SetWhenever(Usni, False);
+SetWhenever(Budicek, False);
+
+Block
+{
+  integer AIEvent;
+  Frame FRM; 		FRM_GetMyFrame(FRM);
+  Frame see;		FRM_FindFrame(see, "dummy_reinfo_1_see");
+  frame alarm;		FRM_FindFrame(alarm, "dummy_GlobalAlarm");
+
+  HUMAN_SETEVENTS(false);
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_SetOptimized(1);
+}
+  HUMAN_Suspend(true);
+
+
+Whenever Usni ( (_LoadGameValue(74) == 2) and (_LoadGameValue(73) !=24))
+{
+  HUMAN_Suspend(True);
+  SetWhenever(Budicek, True);
+}
+
+Whenever Budicek ( (_LoadGameValue(74) == 1) or (_LoadGameValue(73) ==24) )
+{
+  HUMAN_Suspend(False);
+  HUMAN_SetOptimized(2);
+  SetWhenever(Usni, True);
+}
+
+
+Whenever ACTIVE  ( _SignalReceived(1); )
+{
+  Printf("REINFO 1 - SSSIIIGGGNNNAALLL 1111111111111111111111111111111111111111111111111+");
+  Label wait_2:
+    if ( _CameraInRange() < 18 ) 
+      {
+        delay(5000);
+        goto wait_2;
+      }
+  //delay(5000);
+  block 
+   {
+      HUMAN_Suspend(false);
+      HUMAN_SETAIMODE_Defensive();
+      HUMAN_SETMODE_Walk();
+      HUMAN_SETEVENTS(true);
+    }  
+   HUMAN_Move("Reinfo1");
+   HUMAN_TurnAt(see);
+   HUMAN_SETMODE_Crouch();
+   SetWhenever(Usni, True);
+}
+
+SetWheneverTime(ACTIVE, 1500);
+
+OnAlarm()
+{
+  Block
+    {
+      DisableWhenevers(True);
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Reinfo 1: ", AIEvent);
+    }
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+  If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  }
+   HUMAN_Move("Reinfo1");
+   HUMAN_TurnAt(see);
+   DisableWhenevers(False);
+   HUMAN_SETMODE_Crouch();
+}
+
+OnDeath()
+{
+  Printf("S litosti oznamujeme, ze  ZEMREL nas kamarad ... POSILA - 1");
+  EndScript();
+}
+
+
+label TheEnd:
+ 

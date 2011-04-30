@@ -1,0 +1,28 @@
+FRAME meteor;			FRM_FindFrame(meteor, "meteor01");
+FRAME this;				FRM_GetMyFrame(this);
+INTEGER particle;
+
+Whenever eir (_EnemyInRange(this, 20))
+{
+  printf("warrning METEOSTORM APROACHING");
+  FRM_WatchTrack(meteor, "t_meteor_01");  
+  FRM_CreateIndexedParticle(113, meteor, particle);
+  FRM_RotateX(meteor, 720, 90);
+  FRM_RotateZ(meteor, 720, 90);
+  Delay(2500);
+  PlaySound(6, 8);
+  Delay(6000);
+  FRM_FinishIndexedParticle(particle);
+}
+
+Whenever LGV (_LoadGameValue(60) == 1)
+{
+  printf("activating METEOSTORM ;)");
+  SetWhenever(eir, true);
+  goto END;
+}
+
+SetWhenever(eir, false);
+SetWheneverTime(LGV, 2000);
+
+Label END:

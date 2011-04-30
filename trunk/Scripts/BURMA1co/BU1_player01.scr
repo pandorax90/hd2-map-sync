@@ -1,0 +1,6 @@
+Frame player;
+
+OnUse()
+{
+	ScriptAssign(player, "BU1_cam1");
+}

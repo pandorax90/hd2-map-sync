@@ -1,0 +1,29 @@
+// Obj 1 - Ubranit Bunkr , zabit vsechny
+//----------------------------------------------------------
+
+Whenever Obj2 (_SignalReceived(3))
+{
+SetObjectiveStatus(2, 0);
+goto end;
+}
+
+Whenever Dis (_SignalReceived(2))
+{
+DisableWhenevers(0);
+goto end;
+}
+
+Whenever AED (_AllEnemiesDead())
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(07991406);
+Delay(6000);
+SUBTITLES_SetOn(0);
+SetObjectiveStatus(1, 1);
+goto end;
+}
+
+DisableWhenevers(1);
+goto end;
+
+Label end:

@@ -1,0 +1,36 @@
+// Obj 7 - najdi Trebisskyho
+//--------------------------------------
+
+Whenever Trebissky_Found_SUCCESS (_SignalReceived(1)) 
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(20994007);
+Delay(5000);
+SUBTITLES_SetOn(0);
+SetobjectiveStatus(7, 1);
+goto end;
+}
+
+Whenever Trebissky_Dead (_SignalReceived(2))
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(18023602);
+Delay(4000);
+SUBTITLES_SetOn(0);
+SetObjectiveStatus(1, 4); 
+SetObjectiveStatus(2, 4);
+SetobjectiveStatus(3, 4);
+SetobjectiveStatus(4, 4); 
+SetobjectiveStatus(5, 4);  
+SetobjectiveStatus(6, 4); 
+SetobjectiveStatus(8, 4);
+SetobjectiveStatus(9, 4);
+SetobjectiveStatus(10, 4);
+SetobjectiveStatus(11, 4);
+Delay(500);
+SetobjectiveStatus(7, 2);
+goto end;
+}
+
+
+Label end:

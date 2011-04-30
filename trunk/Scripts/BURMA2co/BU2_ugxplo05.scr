@@ -1,0 +1,17 @@
+// BU2_ugxplo05 - underground explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame ugxplo05;
+	FRM_GetMyFrame(ugxplo05);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever detector(_SignalReceived(1))	// received from ugxplo05trig
+{
+	PlaySound(6, 5);
+	MakeExplosion(ugxplo05, 0, 3000);
+	FRM_CreateParticle(51, ugxplo05);
+	SetWhenever(detector, true);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

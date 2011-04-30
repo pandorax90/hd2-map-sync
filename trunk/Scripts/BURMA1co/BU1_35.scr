@@ -1,0 +1,59 @@
+// BU1_35 - examining fallen rocks
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(12, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	HUMAN_SetAnim("", 200, 200, false);
+	HUMAN_SETSIGHTRANGE(55);
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Stand();
+	HUMAN_SETMODE_Walk();
+	HUMAN_TurnAtNearestPlayer();
+	GoTo end;
+}
+
+OnDeath()
+{
+EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+// Starting pose
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f050");
+
+	HUMAN_Move("BU1_35_01");
+	HUMAN_Move("BU1_35_02");
+	HUMAN_Move("BU1_35_03");
+	HUMAN_Move("BU1_35_04");
+	HUMAN_Move("BU1_35_05");
+	HUMAN_Move("BU1_35_06");
+	HUMAN_Move("BU1_35_07");
+	HUMAN_Move("BU1_35_08");
+	HUMAN_Move("BU1_35_09");
+	HUMAN_Move("BU1_35_10");
+	HUMAN_Suspend(true);
+
+Label end:

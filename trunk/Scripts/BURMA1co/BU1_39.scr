@@ -1,0 +1,89 @@
+// BU1_39 - trying to drop the tree
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame sekera;
+	FRM_FindFrame(sekera, "sekera02");
+Frame sekera_v;
+	FRM_FindFrame(sekera_v, "sekera02.Box02");
+Frame me;
+	FRM_GetMyFrame(me);
+Integer phobj;
+	phobj=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(12, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+If(phobj==0)
+{
+	Block
+	{
+	FRM_CreatePhysicalObject(sekera_v, 5, true, false);
+	FRM_SetOn(sekera, false);
+	phobj=1;
+	}
+}
+	HUMAN_SetAnim("", 200, 200, false);
+	HUMAN_SETSIGHTRANGE(55);
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Stand();
+	HUMAN_SETMODE_Walk();
+	HUMAN_TurnAtNearestPlayer();
+	GoTo end;
+}
+
+OnDeath()
+{
+If(phobj==0)
+{
+	Block
+	{
+	FRM_CreatePhysicalObject(sekera_v, 5, true, false);
+	FRM_SetOn(sekera, false);
+	phobj=1;
+	}
+}
+	EndScript();
+}
+
+Whenever player(_PlayerInRange(60))
+{
+	HUMAN_Suspend(false);
+	Block
+	{
+	Frame ruky;
+	FRM_FindFrame(ruky, "BU1_39.hw1");
+	FRM_TeleportNearFrame(sekera, ruky, true);
+	}
+	FRM_FindFrame(ruky, "");
+	HUMAN_SetAnim("%%drevorubec1", 200, 200, true);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Starting pose
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f049");
+HUMAN_Suspend(true);
+
+Label end:

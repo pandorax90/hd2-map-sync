@@ -1,0 +1,34 @@
+Frame car;		FRM_FindFrame(car, "la_OpelE_4");
+
+HUMAN_SETMODE_Stand();
+HUMAN_ACTIVITY_Smoke(true);
+HUMAN_WeaponOnArm(False);
+
+OnAlarm()
+	{
+	HUMAN_ACTIVITY_Smoke(false);
+	HUMAN_WeaponOnArm(true);
+	HUMAN_SETMODE_Run();
+	HUMAN_SETAIMODE_Aggressive();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Walk();
+	HUMAN_SETMODE_Stand();
+	HUMAN_Move("GE_9");
+	HUMAN_TurnAt(car);
+	HUMAN_ACTIVITY_Smoke(true);
+	}
+	
+	
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

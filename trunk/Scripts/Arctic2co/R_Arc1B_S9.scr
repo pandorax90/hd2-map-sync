@@ -1,0 +1,88 @@
+Block
+ {
+    frame sit;			FRM_FindFrame(sit, "dummy_hajzl");
+    frame alarm;		FRM_FindFrame(alarm, "dummy_GlobalAlarm");
+    frame MyFRM;		FRM_GetMyFrame(MyFRM);	
+    frame vyrusen_turn;	FRM_FindFrame(vyrusen_turn, "dummy_S9_vyrusen_turn");
+    frame vyrusen_sit;		FRM_FindFrame(vyrusen_sit, "dummy_S9_vyrusen_sit");
+    integer  AIEvent;
+    HUMAN_SETAIMODE_Zombie();
+    SetAlarmType(1023, False);
+    HUMAN_SetOptimized(1);	
+  }
+
+HUMAN_ACTIVITY_Sit(sit);
+HUMAN_Suspend(true);
+goto TheEnd;
+
+Whenever hajzl (_PlayerInRange(8);)
+{
+  HUMAN_Suspend(false);  
+  If (_LoadGameValue(5) != 0) {goto Bordel;}
+}
+
+
+OnSignal(5)		// open door
+{
+Label bordel:
+  DisableSignals(True);
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(2);	
+  SetAlarmType(1023, True);
+  If ((_LoadGameValue(73)!=12) and (_LoadGameValue(72)!=6)) 
+  {
+     SUBTITLES_SetOn(False);
+     FRM_MorphSpeech(MyFRM, 14992874, 5, 15);
+  }
+  Delay(2500);
+  HUMAN_SETMODE_Stand();
+  Delay(500);
+//  HUMAN_WeaponOnArm(True);
+  Delay(800);
+  HUMAN_SETMODE_Guard();
+  HUMAN_Move("S9_vyrusen");
+  HUMAN_WeaponOnArm(False);
+  Delay(1000);
+  HUMAN_TurnAt(vyrusen_turn);
+  Delay(1000);
+  HUMAN_ACTIVITY_Sit(vyrusen_sit);
+  Goto TheEnd;  
+}
+
+OnAlarm()
+{
+  Block
+    {
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Static 9: ", AIEvent);
+    }
+  HUMAN_SetOptimized(2);	
+  Printf("HAJZELNIK - STAND START");
+  HUMAN_SETMODE_Stand();
+  Printf("HAJZELNIK - STAND END");
+  Delay(500);
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  Printf("Buton ----- S9"); }
+  HUMAN_SetAlarm(False);
+  HUMAN_SetOptimized(1);
+  HUMAN_Move("S9_DeAlarm");
+  HUMAN_SETMODE_Crouch();
+  HUMAN_TurnAt(sit);
+  goto TheEnd;
+}
+
+OnDeath()
+{
+  FRM_MorphSpeech(MyFRM, 0, 0, 0);
+  Printf("No takze CHCIPNUL vojak ... STATIC-9 (na hajzlu), nemam ho rad");
+  EndScript();
+}
+
+
+Label TheEND:

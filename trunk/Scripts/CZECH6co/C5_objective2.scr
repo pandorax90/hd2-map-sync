@@ -1,0 +1,203 @@
+// C5_objective
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame r01;	FRM_FindFrame(r01, "C5_R01");
+Frame r02;	FRM_FindFrame(r02, "C5_R02");
+Frame r03;	FRM_FindFrame(r03, "C5_R03");
+Frame r04;	FRM_FindFrame(r04, "C5_R04");
+Frame r05;	FRM_FindFrame(r05, "C5_R05");
+Frame r06;	FRM_FindFrame(r06, "C5_R06");
+Frame r07;	FRM_FindFrame(r07, "C5_R07");
+Frame r08;	FRM_FindFrame(r08, "C5_R08");
+Frame r09;	FRM_FindFrame(r09, "C5_R09");
+Frame r10;	FRM_FindFrame(r10, "C5_R10");
+Frame r11;	FRM_FindFrame(r11, "C5_R11");
+Frame r12;	FRM_FindFrame(r12, "C5_R12");
+Frame r13;	FRM_FindFrame(r13, "C5_R13");
+Frame r14;	FRM_FindFrame(r14, "C5_R14");
+Frame r15;	FRM_FindFrame(r15, "C5_R15");
+Frame r16;	FRM_FindFrame(r16, "C5_R16");
+Frame r17;	FRM_FindFrame(r17, "C5_R17");
+Frame r18;	FRM_FindFrame(r18, "C5_R18");
+Frame r19;	FRM_FindFrame(r19, "C5_R19");
+Frame r20;	FRM_FindFrame(r20, "C5_R20");
+Frame deadcounter;
+	FRM_FindFrame(deadcounter, "C5_RU_deadcounter");
+Frame diary;
+	FRM_FindFrame(diary, "C5_diary");
+Frame teleporter;
+	FRM_FindFrame(teleporter, "C5_player_teleporter");
+}
+
+SetWhenever(alldead, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from C5_G38 on death
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994604);
+	printf("Search the corpse for documents");
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(2)	// received from C5_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994605);
+	printf("You have found the documents");
+	printf("objective 1 - ok");
+	Delay(2000);
+	printf("delay 2000");
+	SetObjectiveStatus(2, 0);
+	SetObjectiveStatus(1, 1);
+	printf("setobjectivestatus 1,1");
+
+	Block
+	{
+	SendSignal(r01, 1);
+	SendSignal(r02, 1);
+	SendSignal(r03, 1);
+	SendSignal(r04, 1);
+	}
+	Block
+	{
+	SendSignal(r05, 1);
+	SendSignal(r06, 1);
+	SendSignal(r07, 1);
+	SendSignal(r08, 1);
+	}
+	Block
+	{
+	SendSignal(r09, 1);
+	SendSignal(r10, 1);
+	SendSignal(r11, 1);
+	SendSignal(r12, 1);
+	}
+	Block
+	{
+	SendSignal(r13, 1);
+	SendSignal(r14, 1);
+	SendSignal(r15, 1);
+	SendSignal(r16, 1);
+	}
+	Block
+	{
+	SendSignal(r17, 1);
+	SendSignal(r18, 1);
+	SendSignal(r19, 1);
+	SendSignal(r20, 1);
+	}
+	SetWhenever(rus, true);
+	SUBTITLES_SetOn(false);
+	SendSignal(teleporter, 1);
+	GoTo end;
+}
+
+OnSignal(3)	// received from C5_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994606);
+	printf("You have lost the documents");
+	printf("objective 1 - in progress");
+	SetObjectiveStatus(1, 0);
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(4)	// received from C5_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994605);
+	printf("You have found the documents");
+	printf("objective 1 - ok");
+	SetObjectiveStatus(1, 1);
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+Whenever rus(_SignalReceived(8))	// received from C5_player_teleporter
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994603);
+	printf("Kill all Russian resistance");
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	SendSignal(deadcounter, 2);
+	GoTo end;
+}
+
+OnSignal(9)	// received from C5_RU_deadcounter
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994609);
+	printf("You killed all russian resistance");
+	printf("objective 2 - ok");
+	SetObjectiveStatus(2, 1);
+	SendSignal(diary, 1);
+	Delay(3000);
+	If(!_IsTeamMemberDead())
+	{
+		SetObjectiveStatus(5, 1);
+	}
+	SUBTITLES_SetOn(false);
+	SetWhenever(alldead, true);
+	GoTo end;
+}
+
+OnSignal(10)	// received from C5_obj01
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994612);
+	printf("Optional objective complete - get German tank");
+	SetObjectiveStatus(3, 1);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(11)	// received from C5_obj02
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(23994613);
+	printf("Optional objective complete - sabotage German radiostation");
+	SetObjectiveStatus(4, 1);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+Whenever alldead(_GetCountOfCarnageEnemies()==0)
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(21990002);
+	Delay(3000);
+	SetObjectiveStatus(6, 1);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+SetObjectiveStatus(1, 0);	// get the documents
+//SetObjectiveStatus(2, 4);	// kill all Russian soldiers
+//SetObjectiveStatus(3, 4);	// optional - get the Tiger
+//SetObjectiveStatus(4, 4);	// optional - sabotage the radiostation
+//SetObjectiveStatus(5, 4);	// all team members must survive
+SetObjectiveStatus(6, 0);	// bloodshed objective - kill all enemies
+}
+
+SUBTITLES_SetOn(true);
+printf("Get the documents");
+SUBTITLES_SetText(23994601);
+Delay(3000);
+SUBTITLES_SetText(20994001);
+Delay(3000);
+SUBTITLES_SetOn(false);
+
+Label end:

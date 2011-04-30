@@ -1,0 +1,13 @@
+  Frame MyFRM;		FRM_GetMyFrame(MyFRM);
+  Integer First_use = 1;
+
+OnUse()
+{
+  If (first_use) 
+   {	 
+       DOOR_Lock(MyFRM, false); 
+       first_use = 99;
+   }
+}
+
+

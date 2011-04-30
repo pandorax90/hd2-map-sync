@@ -1,0 +1,90 @@
+// X_N1_kamera-ya - camera control
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame kamera01;
+	FRM_FindFrame(kamera01, "cam01");
+Frame kamera02;
+	FRM_FindFrame(kamera02, "cam02");
+Frame kamera03;
+	FRM_FindFrame(kamera03, "cam03");
+Frame kamera04;
+	FRM_FindFrame(kamera04, "cam04");
+Frame kamera05;
+	FRM_FindFrame(kamera05, "cam05");
+Integer gametype;
+	gametype=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+// -------------------------------------------------------------------------------------------------------------
+gametype=_SPGetGameType();
+If((gametype==3) OR (gametype==7))
+{
+	EndScript();
+}
+DECORATOR_SetOn(false);
+SetPlayerInput(false);
+CSC_FadeOut(1);	// turn the screen black
+Delay(1000);
+
+SetPlayerInput(true);
+CSC_RunCutscene(1);
+
+OnCutscene(1)
+{
+SUBTITLES_SetOn(true);
+FRM_SetActiveCamera(kamera01);
+SUBTITLES_SetText(16013201);
+printf("Destroy the cannons");
+CSC_FadeIn(300);	// turn the screen back
+Delay(3000);
+CSC_FadeOut(300);
+Delay(300);
+FRM_SetActiveCamera(kamera02);
+FRM_WatchTrack(kamera02, "Camera1");
+SUBTITLES_SetText(16013202);
+printf("shooting at our boat convoy");
+CSC_FadeIn(300);
+Delay(3300);
+
+CSC_FadeOut(300);
+Delay(300);
+FRM_SetActiveCamera(kamera03);
+FRM_WatchTrack(kamera03, "Camera2");
+SUBTITLES_SetText(16013203);
+printf("Switch on the generator and then the lighthouse");
+CSC_FadeIn(300);
+Delay(3300);
+
+CSC_FadeOut(300);
+Delay(300);
+FRM_SetActiveCamera(kamera04);
+SUBTITLES_SetText(16013204);
+printf("-HINT- USE UNDERGROUND TUNNELS TO GET IN THERE");
+CSC_FadeIn(100);
+Delay(1600);
+
+CSC_FadeOut(100);
+Delay(100);
+FRM_SetActiveCamera(kamera05);
+CSC_FadeIn(100);
+Delay(1600);
+
+CSC_FadeOut(300);
+Delay(300);
+
+CSC_EndCutscene();
+}
+
+OnCutsceneDone(1)
+{
+	SUBTITLES_SetOn(false);
+	CSC_FadeIn(300);
+	Delay(300);
+	DECORATOR_SetOn(true);
+	EndScript();
+}
+
+Label end:

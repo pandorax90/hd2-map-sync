@@ -1,0 +1,74 @@
+// BU1_01 - guarding the bridge
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(12, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+Block
+{
+	HUMAN_SETSIGHTRANGE(55);
+	HUMAN_SetOptimized(false);
+	HUMAN_SETMODE_Run();
+}
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SETMODE_Guard();
+	HUMAN_SetOptimized(true);
+	HUMAN_SetAlarm(false);
+	GoTo start;
+}
+
+Whenever player(_PlayerInRange(60))
+{
+	HUMAN_Suspend(false);
+	HUMAN_SetOptimized(true);
+	GoTo start;
+}
+
+OnDeath()
+{
+EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+// Starting pose
+Block
+{
+HUMAN_SETMODE_Guard();
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f046");
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label start:
+	HUMAN_Move("BU1_01_01");
+	Delay(10000);
+	HUMAN_Move("BU1_01_02");
+	HUMAN_Move("BU1_01_03");
+	HUMAN_Move("BU1_01_02");
+	HUMAN_Move("BU1_01_01");
+	HUMAN_Move("BU1_01_04");
+	Delay(1000);
+	GoTo start;
+
+Label end:

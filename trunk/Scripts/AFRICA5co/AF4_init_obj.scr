@@ -1,0 +1,13 @@
+block
+{
+  SetObjectiveStatus(1, 0);	// Find and capture Hans Schumann
+  SetObjectiveStatus(2, 4);	// Force Hans Schumann to cooperate
+  SetObjectiveStatus(3, 4);	// Hans Schumann must survive
+  SetObjectiveStatus(4, 0);	// Eliminate enemy resistance near runway
+  SetObjectiveStatus(5, 4);	// Fly away in JU88 with Hans Schumann
+  SetObjectiveStatus(6, 0);	// Destroy german tanks
+  SetObjectiveStatus(7, 0);	// Destroy german cisterns
+  SetObjectiveStatus(8, 0);	// Destroy german aircrafts
+  SetObjectiveStatus(9, 4);	// Hear secret talk
+  SetObjectiveStatus(10, 4);	// all team members must survive
+}

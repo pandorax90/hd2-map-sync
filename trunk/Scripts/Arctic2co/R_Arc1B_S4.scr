@@ -1,0 +1,192 @@
+
+  SetWhenever(Usni, False);
+  SetWhenever(Budicek, False);  
+
+integer  AIEvent;
+integer Po_bliku = 0;
+integer firsttest = 0;
+integer RND;
+frame see;			FRM_FindFrame(see, "Dummy_S4_See");	
+frame sit;			FRM_FindFrame(sit, "Dummy_S4_Sit");		
+frame alarm;			FRM_FindFrame(alarm, "dummy_GlobalAlarm");	
+frame Tlacitko;			FRM_FindFrame(Tlacitko, "m_alarm_");	
+frame Vypinac;		FRM_FindFrame(Vypinac, "g_zasuv47");
+frame Provozni_rad;		FRM_FindFrame(Provozni_rad, "m_AF5_cedulka2");
+frame Chrapani_sound;	FRM_FindFrame(Chrapani_sound, "S_spac");
+frame dvere;			FRM_FindFrame(dvere, "m_dv_m01");
+
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SetOptimized(2);
+
+  SetAlarmType(1023, False);	
+  SetAlarmType(339, True);	// 1+2+16+64+256 
+
+HUMAN_Move("S4_sit");		
+HUMAN_TurnAt(see);
+HUMAN_ACTIVITY_Sit(sit);
+HUMAN_Suspend(true);
+goto TheEnd;
+
+Whenever A ( _PlayerInRange(6); )	
+{
+  HUMAN_Suspend(False);
+  SetAlarmType(8, True);	// 1+2+8+16+64+256 
+  HINT_Add(10680);
+// 10680 "When you find doors that cannot be opened, try to find the key or pick the lock."
+  Goto Init;
+}
+
+Whenever AA ( _PlayerInRange(2); )	
+{
+  SetAlarmType(4, True);
+}
+
+label Start:			
+  HUMAN_Move("S4_sit");		
+  Delay(500);
+  HUMAN_WeaponOnArm(False);
+  Delay(2500);
+  HUMAN_TurnAt(see);
+  HUMAN_ACTIVITY_Sit(sit);
+label init:
+  HUMAN_SetAnim("%%ozralstul", 400, 400, True);
+  FRM_SetOn(Chrapani_sound, True);
+goto TheEnd;
+
+Whenever Usni ( _LoadGameValue(74) == 2 )
+{
+  HUMAN_Stop();
+  HUMAN_Suspend(True);
+  SetWhenever(Budicek, true);
+  Goto TheEnd;
+}
+Whenever Budicek ( _LoadGameValue(74) == 1 )
+{
+  HUMAN_Suspend(False);
+  SetWhenever(Usni, true);
+  goto KONEC;
+}
+
+
+OnAlarm()
+{
+  HUMAN_SetAnim("", 250, 250, False);
+  Block
+    {
+      FRM_SetOn(Chrapani_sound, false);
+      DisableWhenevers(true);
+      DisableSignals(true);
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Static 4: ", AIEvent);
+      SetAlarmType(36, True);
+      HUMAN_Stop();
+      HUMAN_Suspend(False);	
+      HUMAN_SETMODE_Walk();
+      HUMAN_SETAIMODE_Defensive();
+      HUMAN_SETSIGHTRANGE(30);  
+      HUMAN_SETHEARRANGE(40);
+    }
+  HUMAN_SETMODE_StandFast();
+  If ( (AIEvent == 8) OR ( _PlayerInRange(2)) ) { EndScript(); }
+  If ( Po_bliku == 1) { EndScript(); }
+  HUMAN_Move("S4_alarm");
+  HUMAN_TurnAt(alarm);
+  Delay(500);
+  HUMAN_ACTIVITY_Point(alarm);
+  SendSignal(alarm, 1);
+  SendSignal(Tlacitko, 1);
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  Printf("Buton ----- S4"); }
+  SetAlarmType(1023, true);	
+  HUMAN_SetAlarm(False);
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_Move("S4_sit");		
+  Delay(500);
+  HUMAN_WeaponOnArm(False);
+  Delay(2500);
+  HUMAN_TurnAt(see);
+  HUMAN_ACTIVITY_Sit(sit);
+  DisableWhenevers(False);
+}
+
+Onsignal(21)
+{
+  DisableWhenevers(True);
+  OnSignal(22) 
+     {
+        DisableWhenevers(True);
+        RND = _RandomInt(10000) + 15000;
+        Delay(RND);
+     }
+  DisableSignals(True);		// !!!!! NIKDE NEZAPINAT
+  FRM_SetOn(Chrapani_sound, false);
+  HUMAN_SetAnim("", 500, 500, True);
+  Delay(250);
+  HUMAN_LookAround(3); 
+  Delay(250);
+  Printf("A jestli mi nekdo rekna ze S4 leze po stole tak budu vrazdit.");
+  Printf("Ve scriptu NEMA kolize, pokud leze tak to TO PACHA PROGRAM !!!!!!!!!!!!");
+  HUMAN_SetOptimized(2); 
+  HUMAN_SETMODE_Stand();
+  HUMAN_LookAround(0); 
+  delay(250);
+  HUMAN_SetAnim("%%protahovani", 500, 500, False);
+  Delay(1000);
+  SetAlarmType(375, True);	// 1+2+4+16+32+64+256  
+  Delay(1500);
+  HUMAN_SetAnim("", 200, 200, False);
+  HUMAN_SETMODE_Guard();
+
+			  HUMAN_Move("S4_alarm");
+			  HUMAN_TurnAt(Vypinac);
+			  HUMAN_SetAnim("%%mechanik", 250, 250, False);
+			  PlaySound(2, 45);
+		//	  DOOR_Lock(dvere, false); 	// je to na onuse ve dverich 
+			  Delay(1000);
+			  HUMAN_SetAnim("", 250, 250, False);
+			  Delay(250);
+
+  Po_bliku =1;
+  HUMAN_Move("S4_vypinac");
+  HUMAN_TurnAt(Vypinac);
+  Delay(500);
+  SendSignal(Vypinac, 21);
+  Delay(150);
+  HUMAN_ACTIVITY_Point(Vypinac);
+  HUMAN_Move("S4_vypinac_End");
+  HUMAN_LookAround(3); 
+  Delay(15000);
+  HUMAN_LookAround(0); 
+Label KONEC:
+  HUMAN_Move("S4_Cte");
+  HUMAN_TurnAt(Provozni_rad);
+//////////////////////  // ANIMACKA JAK SI CTE
+}
+
+OnDeath()
+{
+  Printf("Oznamujeme vam, ze nahle SKONAL vojak ... STATIC - 4");
+  FRM_SetOn(Chrapani_sound, false);
+  EndScript();
+}
+
+Label TheEND:
+  delay(1000);
+  if (( _LoadGameValue(5) != 0) and (firsttest ==0)) 
+    {
+       firsttest = 1;
+       goto GLOBALALARM;
+     }
+goto TheEnd;
+
+Label GLOBALALARM:
+  FRM_SetOn(Chrapani_sound, false);
+  HUMAN_SetAnim("", 500, 500, True);

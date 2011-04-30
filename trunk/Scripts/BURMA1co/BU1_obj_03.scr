@@ -1,0 +1,31 @@
+// BU1_obj_03 - at airplane parts
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+Integer deadcount;
+	deadcount=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from BU1_ondeath boxes
+{
+	deadcount=deadcount+1;
+	printfnumber("deadcounter = ", deadcount);
+
+	If(deadcount>6)
+	{
+		Block
+		{
+		EnableSignal(1, false);
+		printf("posielam signal 3 objectivu");
+		SendSignal(obj, 3);
+		}
+		GoTo end;
+	}
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

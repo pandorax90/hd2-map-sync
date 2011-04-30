@@ -1,0 +1,61 @@
+// AF4_letadla_organizer - organizuje niceni letadel
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME this;			FRM_GetMyFrame(this);
+  INTEGER let1		= 1;
+  INTEGER let2		= 1;
+  INTEGER let3		= 1;
+  INTEGER let4		= 1;
+  INTEGER let5		= 1;
+  INTEGER cnt			= 0;
+
+  SaveGameValue(21, 1);
+  SaveGameValue(22, 1);
+  SaveGameValue(23, 1);
+  SaveGameValue(24, 1);
+  SaveGameValue(24, 1);
+}
+
+Delay(1000);
+INTEGER num_players	= _GetNumMembersOfClientTeam();
+
+OnSignal(1){
+  let1 = _LoadGameValue(21);  printfnumber("let1: ", let1);
+  let2 = _LoadGameValue(22);  printfnumber("let2: ", let2);
+  let3 = _LoadGameValue(23);  printfnumber("let3: ", let3);
+  let4 = _LoadGameValue(24);  printfnumber("let4: ", let4);
+  let5 = _LoadGameValue(25);  printfnumber("let5: ", let5);
+
+  cnt = 0;
+  if(!let1){ cnt = cnt + 1;  }
+  if(!let2){ cnt = cnt + 1;  }
+  if(!let3){ cnt = cnt + 1;  }
+  if(!let4){ cnt = cnt + 1;  }
+  if(!let5){ cnt = cnt + 1;  }
+
+  if(cnt == 3)
+  {
+    SaveGameValue(40, 1); 
+  }
+  if(cnt == 5)
+  {
+     if(num_players == 1)
+    {
+      AddDiaryText(4176);
+    }
+    else
+    {
+      AddDiaryText(4174);
+    }
+   SaveGameValue(40, 2);
+    SUBTITLES_SetOn(true);
+    printf("nepovinný úkol byl splnìn: Znicil jsi vsechna letadla");
+    SUBTITLES_SetText(09991912);			// nepovinný úkol byl splnìn: Znièil jsi tìžkou techniku
+    SUBTITLES_SetOn(false);
+    SetObjectiveStatus(8, 1);
+    EndScript();
+  }
+}
+
+Label END:

@@ -1,0 +1,63 @@
+INTEGER carnage = 0;
+
+Delay(3000);
+block
+{
+  FRAME obj;			FRM_FindFrame(obj, "MINARET22");
+  FRAME act;
+  INTEGER cge_cnt = 0;
+  INTEGER nrm_cnt = 0;
+}
+
+if((_SPGetGameType() == 3) OR (_SPGetGameType() == 7))
+{
+  carnage = 1;
+  goto CARNAGE;
+}
+else
+{
+  goto NORMAL;
+}
+
+Label CARNAGE:
+  cge_cnt = _GetCountOfCarnageEnemies();
+  printfnumber("CARNAGE ENEMIES: ", cge_cnt);
+  Delay(5000);
+goto CARNAGE;
+
+Label NORMAL:
+  nrm_cnt = _GetNumLiveEnemies();
+  printfnumber("NONCARNAGE ENEMIES: ", nrm_cnt);
+  Delay(5000);
+goto NORMAL;
+
+Whenever ustup ((_GetCountOfCarnageEnemies() < 5) AND (!carnage))
+{
+  SendSignal(obj, 1); 
+  FRM_FindFrame(act, "af3b_01"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_02"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_03"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_04"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_05"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_06"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_07"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_08"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_09"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_10"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_11"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_12"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_13"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_14"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_15"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_16"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_17"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_18"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_19"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_20"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_21"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_22"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_23"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_24"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+  FRM_FindFrame(act, "af3b_25"); if(_actor_getstate(act)){ FRM_MorphSpeech(act, 08991607, 5, 80); }
+}
+

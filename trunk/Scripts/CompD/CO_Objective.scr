@@ -1,0 +1,15 @@
+// CO_objective
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+SetObjectiveStatus(1, 0);     // Capture Freiberg - ok
+SetObjectiveStatus(2, 0);     // Find documents - ok
+SetObjectiveStatus(3, 4);     // Destroy the fuel storage - ok
+SetObjectiveStatus(4, 0);     // Kill the enemy in the complex - ok
+SetObjectiveStatus(5, 4);     // Acquire the code tables - ok
+}
+
+//-------------------------------------------------------------------------------------
+
+Label end:

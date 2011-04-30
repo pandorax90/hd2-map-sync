@@ -1,0 +1,20 @@
+
+Delay(1000);	// nutne kvuli initu
+
+integer number;		number = _GetNumMembersOfClientTeam();
+integer diary;			diary = 0;
+
+if ( number > 1 ) {Diary = 4395} else {Diary = 4396}
+
+
+OnExit()
+{
+  AddDiaryText(44); 
+  AddDiaryText(4487);		// KURVA provizorni protoze se ztratil text ...
+}
+
+PrintfNumber("***ACTUAL DIARY STATE ***", Diary);
+
+
+//  MORE PLAYERS  	 4395
+//  LONE WOLF 	 4396

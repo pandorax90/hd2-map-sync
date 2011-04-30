@@ -1,0 +1,28 @@
+
+frame NULL;		FRM_FindFrame(NULL, "");
+
+  DOG_SETAIMODE_Aggressive();
+
+OnAlarm()
+{
+  printf("DOG_2 receiv alarm - should repeat util not have way to you ...");
+  DOG_SETMODE_Run();
+  DOG_Attack(NULL);
+}
+
+OnSignal(1)
+{
+  Block
+    {
+//       DOG_ClearAlarm();
+       printf("DOG_2 - see you ... ?");
+       DOG_SetRangeSight(75);
+       DOG_SetRangeHear(50);
+    }
+    Goto TheEnd;
+}
+
+  DOG_ClearAlarm();
+  DOG_Move("Dog2_lie");
+  DOG_SETMODE_Lie();
+Label TheEnd:

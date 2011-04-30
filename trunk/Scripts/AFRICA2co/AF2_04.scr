@@ -1,0 +1,139 @@
+// AF2_04 - waiting on player, calling mayday
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME dummyalert01;		FRM_FindFRAME(dummyalert01, "dummy_alert01");
+  FRAME radio;			FRM_FindFRAME(radio, "m_AF5_prisj");
+  INTEGER Atype			= 0;
+  INTEGER rnd				= 0;
+
+  INTEGER odvysilano		= 0;
+
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+  SaveGameValue(50, 0);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(20){
+  goto ALERT;
+}
+
+OnDeath(){
+  printf("04: dead");
+  if(!odvysilano){
+    SaveGameValue(50, 1);
+    SUBTITLES_SetOn(true);
+    SUBTITLES_SetText(06011206);
+    Delay(3000);
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+OnSignal(1){
+  goto ACTIVATE;
+}
+
+OnAlarm(){
+  block{
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(false);
+    HUMAN_SETSIGHTRANGE(400);
+    AType = _GetAlarmType();
+    printfnumber("04: ", Atype);
+  }
+
+  if(!odvysilano){
+    HUMAN_SetMode_Stand();
+    HUMAN_SetMode_Run();
+    HUMAN_Move("AF2_04_alert");
+    HUMAN_WeaponOnArm(false);
+    HUMAN_SetAnim("%%ctuneco", 200, 200, true);
+    Delay(4000);
+    PlayMusic(34);
+    printf("AXIS FORCES IN NEARBY OASIS WERE WARNED");
+    odvysilano = 1;
+    HUMAN_SetAnim("", 200, 200, false);
+  }
+
+  HUMAN_SetAnim("", 100, 100, false);
+  Delay(100);
+  HUMAN_SETMODE_Stand();
+  if(Atype == 256){
+    HUMAN_SetAlarm(false);
+    goto ALERT;
+  }
+  SendSignal(dummyalert01, 1);
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  HUMAN_SETMODE_Guard();
+  HUMAN_SetOptimized(true); 
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+  goto ACTIVITY;
+}
+
+OnSignal(5){
+  printf("04: now at OnSignal(5)");
+  HUMAN_Stop();
+  HUMAN_SetAnim("", 200, 200, false);
+  Delay(200);
+  HUMAN_SetMODE_Run();
+  HUMAN_SetMODE_Crouch();
+  HUMAN_Move("AF2_04_alert");
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_SETMODE_Guard();
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(true);
+  HUMAN_SETMODE_Crouch();
+goto END;
+
+Label ACTIVITY: 
+  HUMAN_Move("AF2_04_02");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_04_03");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_04_04");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_04_05");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_04_06");
+    gosub LOOKAROUND;
+goto ACTIVITY;
+
+Label LOOKAROUND:
+  rnd = _RandomInt(2);
+  if(rnd == 1){
+    rnd = _RandomInt(1500) + 1500;
+    HUMAN_SetAnim("%%turnleft", 500, 500, false);  Delay(rnd);
+    rnd = _RandomInt(1500) + 1500;
+    HUMAN_SetAnim("%%turnright", 500, 500, false);  Delay(rnd);
+  }
+return;
+
+Label ALERT:
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_SetMode_Stand();
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  HUMAN_SetMODE_Run();
+  HUMAN_Move("AF2_04_alert");
+  HUMAN_SetMode_Crouch();
+  HUMAN_SETSIGHTRANGE(400);
+
+Label END:

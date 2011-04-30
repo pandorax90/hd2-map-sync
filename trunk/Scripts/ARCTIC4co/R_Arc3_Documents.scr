@@ -1,0 +1,49 @@
+
+Block
+{
+Frame OBJ;		FRM_FindFrame(OBJ, "dummy_objectives");
+Frame MyFRM;	FRM_GetMyFrame(MyFRM);
+Frame Documents;
+
+  FRM_SetOn(MyFRM, False);
+  SetWhenever(X, True);		// dokumenty nalezeny
+  SetWhenever(LOST, False);		// dokumenty ztraceny
+  SetWhenever(FIND, False);		// dokumenty znovunalezeny
+
+}
+
+
+Whenever  X  (_MP_IsItemInTeamInventory(1, 254, Documents))
+{
+  Block
+    {
+       Printf("AAAAAAHA DOKUMENTY !");
+       SendSignal(OBJ, 24);  
+//  FRM_SetOn(MyFRM, False);
+      SetWhenever(LOST, True);
+   }
+}
+
+Whenever  LOST (!_MP_IsItemInTeamInventory(1, 254, Documents))
+{
+  Block
+    {
+       Printf("DOKUMENTY ZTRACENY!");
+       SendSignal(OBJ, 25);  
+       SetWhenever(FIND, True);
+   }
+       SetInterfaceTimer(120000);
+       Delay(119900);
+       SendSignal(OBJ, 30);  
+}
+
+Whenever  FIND (_MP_IsItemInTeamInventory(1, 254, Documents))
+{
+  Block
+   {
+      Printf("DOKUMENTY ZNOVU NALEZENY!");
+      SetInterfaceTimer(0);   
+      SendSignal(OBJ, 26);  
+      SetWhenever(LOST, True);
+   }
+}

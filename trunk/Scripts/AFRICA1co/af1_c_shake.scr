@@ -1,0 +1,21 @@
+FRAME camera_ee;
+
+OnSignal(1)
+{
+  goto SHAKE;
+}
+
+OnSignal(2)
+{
+
+}
+
+goto END;
+
+Label SHAKE:
+  FRM_GetActiveCamera(camera_ee);
+  MakeExplosion(camera_ee, 0, 1000);
+  Delay(800);
+goto SHAKE;
+
+Label END:

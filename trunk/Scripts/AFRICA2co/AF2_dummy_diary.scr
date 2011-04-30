@@ -1,0 +1,21 @@
+Delay(1000);
+INTEGER num_players = _GetNumMembersOfClientTeam();
+
+// MORE PLAYERS
+// 4121 "Vydali jsme se na cestu pres poušt. Vybrat si vuz s flakem byla moudrá volba, proti nalétavajícím Messerschmidtum by nám byly naše zbrane jen málo platné. Narazili jsme na nemeckou zásobovací kolonu, evidentne byla po stretu s našimi jednotkami. Kolem cesty ležely na rozpáleném písku vraky automobilu a težké techniky. Obraz zkázy dovršil sestrelený Junkers, který kousek od kolony dopadnul na zem. Náš Opel vypovedel službu, museli jsme vzít zavdek jediným funkcním nemeckým vozem, který tam byl."
+
+// LONE WOLF 
+// 4122 "Vydal jsem se na cestu pres poušt. Vybrat si vuz s flakem byla moudrá volba, proti nalétavajícím Messerschmidtum bych zmohl jen málo. Narazil jsem na nemeckou zásobovací kolonu, evidentne byla po stretu s našimi jednotkami. Kolem cesty ležely na rozpáleném písku vraky automobilu a težké techniky. Obraz zkázy dovršil sestrelený Junkers, který kousek od kolony dopadnul na zem. Muj Opel vypovedel službu, musel jsem vzít zavdek jediným funkcním nemeckým vozem, který tam byl."
+
+OnExit()
+{
+  AddDiaryText(26);  
+  if(num_players == 1)
+  {
+    AddDiaryText(4122);  
+  }
+  else
+  {
+    AddDiaryText(4121);  
+  }
+}

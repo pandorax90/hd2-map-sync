@@ -1,0 +1,199 @@
+// MAIN for OBJ
+// objective 3 info and changing for mission Arctic1B
+
+//  OBJ 1 - najdi vse o leteckem vyzkumu
+//  OBJ 2 - prozkoumej koplex
+//  OBJ 3 - vrat se 	--------------------------  !!!!!!!!!! nove 4 !!!!!!!!!!!
+//  OBJ 4 - poloz vybusniny	--------------  !!!!!!!!!! nove 3 !!!!!!!!!!!
+//  OBJ 5 - (nepovinny) bud potichu (savevalue ... 5)
+//  OBJ 6 - (nepovinny) vybusniny   (savevalue ... 6) 	
+
+Block 
+  {
+      SetObjectiveStatus(1, 0);	// inicializace    - o vyzkumu
+      SetObjectiveStatus(2, 0);	// inicializace    - prozkoumej
+      SetObjectiveStatus(3, 0);	// inicializace    - naloze 
+
+      SetupTacticalMode(False);
+
+      integer counter = 0;
+      integer OBJ1 = 0;
+      integer OBJ2 = 0;
+      integer OBJ4 = 0;
+      frame  MyFRM;	FRM_GetMyFrame(MyFRM);
+      frame BUM;	FRM_FindFrame(BUM, "dummy_objective5");
+      frame CaMERA;	FRM_FindFrame(Camera, "dummy_camera");
+      integer OBJ5 = 0;
+      integer OBJ6 = 0;
+      frame OBJ_K;	FRM_FindFrame(OBJ_K, "objectives_carnage");
+
+      SaveGameValue(5, 0);	// ? global alarm ?	... 0 - NO, 99,666 - YES
+      SaveGameValue(6, 0);	// uklada se v objective5.scr
+      SaveGameValue(72, 99);	// positioon of player - detection before	predposledni
+      SaveGameValue(73, 99);	// positioon of player - last detection		posledni
+      SaveGameValue(74, 0);	// positioon of player - start = 0, upper floor = 1 , lower floor = 2 
+      SaveGameValue(77, 1);	// obj pro carmage a test leavingu !! je i v KRVAK
+  }
+
+HINT_ClearAll();
+HINT_Add(10520);
+HINT_Add(10525);
+HINT_Add(10530);
+// 10520 "By taking and wearing enemy uniform you can avoid being detected by enemy soldiers.
+// The time you can remain undercover is limited and is indicated by the third bar on the right of your portrait."
+// 10525 "You can be detected in enemy uniform immediately when spotted laying explosives, 
+// cutting a hole in a fence, taking photos or lock-picking."
+// 10530 "You can be detected immediately whilst wearing enemy uniform if you are carrying 
+// any visible allied items."
+
+////////////////////////////	test CSC - 2
+//    DElay(10000);
+//    SetObjectiveStatus(1, 1);
+//    SetObjectiveStatus(2, 1);
+//    SetObjectiveStatus(3, 1);
+////////////////////////////
+
+// !!!!!!!!!!!!!!! V objective5 je     SetObjectiveStatus(4, 3);	// KO - návrat na povrch po bouchnutí - smrt
+
+  setwhenever (OBJ_3, false);
+
+// PROZKOUMEJ komplex - OBJ2
+OnSignal(8)
+{ 
+  If ( OBJ2 == 1 ) { goto Odskok; }
+  OBJ2 = 1;
+  IF ( ((OBJ1 == 1) AND (OBJ2 == 1)) AND (OBJ4 == 1) )     {    SetObjectiveStatus(4, 0); }	// In progres - inicializace  
+  Block
+   {
+     SetObjectiveStatus(2, 1);		// Succes  
+     SUBTITLES_SetOn(True);
+     SUBTITLES_SetText(02990406);  //ÚKOL SPLNÌN - POTØEBNÉ INFORMACE NALEZENY
+   }
+  Delay(2500);
+  SUBTITLES_SetOn(False);
+}
+
+// Najdi MATERIALY - OBJ1
+OnSignal(7)
+{
+    counter = counter + 1;
+    If ( counter == 3)
+      {
+        OBJ1 = 1;
+        IF ( ((OBJ1 == 1) AND (OBJ2 == 1)) AND (OBJ4 == 1) )     {    SetObjectiveStatus(4, 0); }   // In progres - inicializace  
+        SetObjectiveStatus(1, 1);		// suces
+        SendSignal(CAMERA, 1);
+        Delay(3100);
+        SUBTITLES_SetOn(True);
+        SUBTITLES_SetText(02990405); //ÚKOL SPLNÌN - OBJEKT PROZKOUMÁN
+        Delay(2500);
+        SUBTITLES_SetOn(False);
+        If ( ((OBJ1 == 1) AND (!OBJ2 == 1)) AND (OBJ4 == 1) )     {  SendSignal(MyFRM, 8);   }
+      }
+}
+
+// dynamit polozeny - OBJ4
+OnSignal(12)
+{
+    If ( OBJ4 == 1 ) { goto Odskok; }
+    OBJ4 = 1;
+    IF ( ((OBJ1 == 1) AND (OBJ2 == 1)) AND (OBJ4 == 1) )     {    SetObjectiveStatus(4, 0); }   // In progres - inicializace  
+    SetObjectiveStatus(3, 1);		// Succes
+    printf ("OBJECTIVE 4 - OK ");
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(02990418);  //ÚKOL SPLNÌN - VÝBUŠNINY INSTALOVÁNY
+    Delay(3500);
+    SUBTITLES_SetOn(False);  
+    If ( ((OBJ1 == 1) AND (!OBJ2 == 1)) AND (OBJ4 == 1) )     {  SendSignal(MyFRM, 8);   }
+}
+
+// dynamit sebranej - OBJ4
+OnSignal(13)
+{
+    If ( OBJ4 == 2 ) { goto TheEnd; }
+    OBJ4 = 2;
+    printf ("OBJECTIVE 4 - Neni hotov !");
+    SetObjectiveStatus(3, 0);		// In progres
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(02990419);	//NÁLOŽ ODSTRANÌNA - JE TØEBA ZNOVU ZKONTROLOVAT NÁLOŽE
+    Delay(3500);
+    SUBTITLES_SetOn(False);  
+}
+
+label Odskok:
+IF ( ((OBJ1 == 1) AND (OBJ2 == 1)) AND (OBJ4 == 1) )       
+  { 
+     Block
+      {
+        SUBTITLES_SetOn(True);
+        PlayMusic(32);
+        SUBTITLES_SetText(02990410); 
+        setwhenever (OBJ_3, true); 
+      }
+     Delay(2000);
+     SUBTITLES_SetOn(False);
+  }
+
+// RETURN on surface
+Whenever OBJ_3 ( _PlayerInRange(4); )
+  {
+    If ( (((OBJ1 == 1) and (OBJ2==1)) and (OBJ4==1)) and (_LoadGameValue(77)==1) )
+      {      
+        }else{
+         setwhenever (OBJ_3, true);          
+         goto TheEnd;
+      }
+    block
+     { 
+        printf ("OBJECTIVE 3 - OK ");
+        SUBTITLES_SetOn(True);
+        SUBTITLES_SetText(02990407);  // obj return
+        OBJ5 = _LoadGameValue(5);
+        OBJ6 = _LoadGameValue(6);
+        SendSignal(BUM, 17);		// vypnuti testu na explozi
+     }
+//    Delay(1500);
+      Delay(500);
+    If ( OBJ5 == 0 ) 
+        {
+            SetObjectiveStatus(5, 1);		// Succes
+//            SUBTITLES_SetText(02990450);        // nepov. obj silence
+//            Delay(2500);
+        }
+    If ( OBJ6 == 99 ) 
+        {
+            SetObjectiveStatus(6, 1);		// Succes
+//            SUBTITLES_SetText(02990455);        // nepov. obj 5x dynamit
+//            Delay(2500);
+        }
+    CSC_RunCutscene(2);  
+    SUBTITLES_SetOn(False);
+  }
+  SetWheneverTime(OBJ_3, 100); // !!! nutne - at se minimalizuje sance ze se PLAYER dostane az ke dverim
+
+OnCutscene(2)
+{
+  Block
+   {
+      frame  PLAYER;			FRM_FindFrame(PLAYER, "_PLAYER_ 0");
+      frame BUM1;			FRM_FindFrame(BUM1, "BUM1");
+      frame BUM2;			FRM_FindFrame(BUM2, "BUM2");
+      frame BUM3;			FRM_FindFrame(BUM3, "BUM3");
+      frame BUM4;			FRM_FindFrame(BUM4, "BUM4");
+      frame BUM5;			FRM_FindFrame(BUM5, "BUM5");
+      FRM_SetOn(PLAYER, False);
+      SetActorState(BUM1, 2);
+      SetActorState(BUM2, 2);
+      SetActorState(BUM3, 2);
+      SetActorState(BUM4, 2);
+      SetActorState(BUM5, 2);     
+      SUBTITLES_SetOn(False); // pojistka
+   }
+}
+
+OnCutsceneDone(2)
+{
+    SetObjectiveStatus(4, 1);		// Succes
+}
+
+Label TheEnd:

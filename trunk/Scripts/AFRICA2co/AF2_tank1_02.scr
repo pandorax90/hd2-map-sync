@@ -1,0 +1,44 @@
+// AF1_tank01_02
+// -------------------------------------------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------------------------------------------
+OnDeath(){
+EndScript();
+}
+  
+OnAlarm(){
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+EndScript();
+}
+OnAlarmDone(){
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  HUMAN_BoardVehicle("Panzer01", false, 1);
+  HUMAN_TurnAtNearestPlayer();
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_BoardVehicle("Panzer01", true, 1);
+  HUMAN_SetOptimized(2);
+goto END;
+
+Label END:

@@ -1,0 +1,16 @@
+// AF2_activator - turns on the enemies
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME mes_sprite;				FRM_FindFRAME(mes_sprite, "dummy_letka_mes");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------------------------------------------
+
+//Whenever playerinrange (_PlayerInRange(100)){
+  printf("prelet mes aktivovan");
+  FRM_WatchTrack(mes_sprite, "flying_mes");
+  EndScript();
+//}

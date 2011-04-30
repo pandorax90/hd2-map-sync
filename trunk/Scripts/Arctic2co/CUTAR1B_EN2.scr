@@ -1,0 +1,38 @@
+Block
+{
+Frame commando;	FRM_GetMyFrame(commando);
+Frame stengun;	FRM_FindFrame(stengun, "CUTsten");
+Frame zasleh;		FRM_FindFrame(zasleh, "CUTsten.flash");
+Frame ruka;		FRM_FindChildFrame(ruka, "hw1", commando);
+Frame target; 		FRM_FindChildFrame(target, "wt", commando);
+Frame zada;		FRM_FindChildFrame(zada, "d", commando);
+Frame batoh;		FRM_FindFrame(batoh, "CUTBAG1.CUTBAG");
+Frame holsters;	FRM_FindFrame(holsters, "CUTvyb_ar1.CUTvyb");
+
+FRM_SetOn(zasleh,false);
+}
+
+OnCutscene(1)
+{
+
+	Block
+	{
+	
+	FRM_SetOn(stengun,true);
+	FRM_TeleportNearFrame(stengun, ruka, true);
+	FRM_TeleportNearFrame(batoh, zada, true);
+	FRM_TeleportNearFrame(holsters, zada, true);
+	FRM_SetTarget(stengun,target,true );
+	FRM_SetAnimation(commando, "%%sashlida2.i3d",true);
+	
+	}
+
+}
+
+OnCutsceneDone(1)
+{
+FRM_SetAnimation(commando, "",true);
+
+FRM_SetOn(stengun,false);
+
+}

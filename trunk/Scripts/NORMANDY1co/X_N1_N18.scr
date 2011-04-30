@@ -1,0 +1,78 @@
+// N18 - officer
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer setalarm;
+	setalarm=0;
+Frame me;
+	FRM_GetMyFrame(me);
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(16, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	HUMAN_SetAnim("", 200, 200, false);
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	Block
+	{
+	HUMAN_SetAlarm(false);
+	SetWhenever(alarm, true);
+	}
+	HUMAN_SETMODE_Stand();
+	If(setalarm==1)	{	GoTo alarmed;		}
+	GoTo end;
+}
+
+Whenever activate(_SignalReceived(1))	// received from N17_A1
+{
+	HUMAN_Suspend(false);
+	HUMAN_SetOptimized(2);
+//	printf("N18: activating");
+	If(setalarm==1)	{	GoTo alarmed;		}
+	GoTo path;
+}
+
+Whenever alarm(_SignalReceived(3))		// received from Alarm12
+{
+	setalarm=1;
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+HUMAN_SETAIMODE_Aggressive();
+FRM_SwitchFaceTexture(me, "e_f024");
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label path:
+	HUMAN_SetAnim("%%rozhovor", 1000, 1000, false);
+	Delay(7000);
+	GoTo path;
+
+Label alarmed:
+	HUMAN_SetAnim("%%rozhovor", 1000, 1000, false);
+	Delay(7000);
+	GoTo alarmed;
+
+Label end:

@@ -1,0 +1,12 @@
+// kontrola scriptu a objektivu
+//---------------------------------------------------------
+frame OBJ;	FRM_FindFrame(OBJ, "objectives");
+frame OBJ_K;	FRM_FindFrame(OBJ_K, "objectives_carnage");
+
+ScriptAssign(OBJ, "R_arc1A_objectives");	
+
+if ( (_SPGetGameType()==3) OR (_SPGetGameType()==7) ) 
+{
+  ScriptAssign(OBJ_K, "R_Arc1A_OBJ_KRVAK"); 
+}
+   

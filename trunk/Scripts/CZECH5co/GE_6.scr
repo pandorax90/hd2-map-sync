@@ -1,0 +1,34 @@
+Label Guard:
+HUMAN_SETMODE_Guard();
+HUMAN_SETMODE_Stand();
+HUMAN_WeaponOnArm(false);
+HUMAN_Move("GE_61");
+HUMAN_Move("GE_62");
+GoTo Guard;
+
+OnAlarm()
+	{
+	HUMAN_WeaponOnArm(true);
+	HUMAN_SETMODE_Run();
+	HUMAN_SETMODE_Crouch();
+	HUMAN_Move("GE_6s");
+	HUMAN_SetSniper(1,5);
+	HUMAN_SETAIMODE_Defensive();
+	EndScript();
+	}
+	
+OnAlarmDone()
+	{
+	HUMAN_SetAlarm(false);
+	GoTo Guard;
+	}
+
+	
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

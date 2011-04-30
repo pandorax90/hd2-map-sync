@@ -1,0 +1,120 @@
+// C5_objective
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+//SetObjectiveStatus(1, 4);	// kill the enemy
+SetObjectiveStatus(2, 0);     // destroy all tanks
+//SetObjectiveStatus(3, 4);     // destroy the hakl
+SetObjectiveStatus(4, 0);     // get the camp
+SetObjectiveStatus(5, 0);     // kill enemy officers
+SetObjectiveStatus(6, 0);     // kill snipers
+//SetObjectiveStatus(7, 4);     // assemble
+//SetObjectiveStatus(8, 4);     // noone can escape
+
+  Frame tigr;	FRM_FindFrame(tigr,"tanke1");
+  Frame tigr1;	FRM_FindFrame(tigr1,"tanke2");
+  Frame tigr2;	FRM_FindFrame(tigr2,"tanke3");
+
+  
+  Frame n1;		FRM_FindFrame(n1,"C5_G99");
+  Frame n2;		FRM_FindFrame(n2,"C5_G98");
+  Frame n3;		FRM_FindFrame(n3,"C5_G96");
+  Frame n4;		FRM_FindFrame(n4,"C5_G94");
+  Frame n5;		FRM_FindFrame(n5,"C5_G88");
+  Frame n6;		FRM_FindFrame(n6,"C5_G85");
+  Frame n7;		FRM_FindFrame(n7,"C5_G60");
+  
+  Frame n8;		FRM_FindFrame(n8,"D5_G11");
+  Frame n9;		FRM_FindFrame(n9,"D5_G12");
+  Frame n10;	FRM_FindFrame(n10,"D5_G13");
+  Frame n11;	FRM_FindFrame(n11,"D5_G14");
+  Frame n12;	FRM_FindFrame(n12,"D5_G15");
+  Frame n13;	FRM_FindFrame(n13,"D5_G16");
+  
+  Frame n14;	FRM_FindFrame(n14,"D5_G17");
+  Frame n15;	FRM_FindFrame(n15,"D5_G18");
+  Frame n16;	FRM_FindFrame(n16,"D5_G19");
+  Frame n17;	FRM_FindFrame(n17,"D5_G20");
+  Frame n18;	FRM_FindFrame(n18,"D5_G21");
+  Frame n19;	FRM_FindFrame(n19,"D5_G22");
+  Frame n20;	FRM_FindFrame(n20,"D5_G23");
+  Frame n21;	FRM_FindFrame(n21,"D5_G24");
+  Frame n22;	FRM_FindFrame(n22,"D5_G25");
+  Frame n23;	FRM_FindFrame(n23,"D5_G26");
+  Frame n24;	FRM_FindFrame(n24,"D5_G27");
+  Frame n25;	FRM_FindFrame(n25,"D5_G28");
+  Frame n26;	FRM_FindFrame(n26,"D5_G29");
+  Frame n27;	FRM_FindFrame(n27,"D5_G30");
+  Frame n28;	FRM_FindFrame(n28,"D5_G31");
+  Frame n29;	FRM_FindFrame(n29,"D5_G32");
+  Frame n30;	FRM_FindFrame(n30,"D5_G33");
+  Frame n31;	FRM_FindFrame(n31,"D5_G34");
+  Frame n32;	FRM_FindFrame(n32,"D5_G35");
+  Frame n33;	FRM_FindFrame(n33,"D5_G36");
+
+  Frame g93;	FRM_FindFrame(g93,"C5_G93");
+
+  Frame obj1;	FRM_FindFrame(obj1,"obj1");
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+Onsignal(1)
+{
+  SendSignal(n1, 2);
+  SendSignal(n2, 2);
+  SendSignal(n3, 2);
+  SendSignal(n4, 2);
+  SendSignal(n5, 2);
+  SendSignal(n6, 2);  
+  SendSignal(n7, 2);
+  SendSignal(n8, 2);
+  SendSignal(n9, 2);
+  SendSignal(tigr, 1);
+  SendSignal(n10, 2);
+  SendSignal(n11, 2);
+  SendSignal(n12, 2);
+  SendSignal(n13, 2);  
+  SendSignal(n14, 2);
+  SendSignal(n15, 2);  
+  SendSignal(n16, 2);
+  SendSignal(n17, 2);
+  SendSignal(n18, 2);  
+  SendSignal(n19, 2);
+  
+  SendSignal(n20, 2);
+  SendSignal(n21, 2);
+  SendSignal(n22, 2);
+  SendSignal(n23, 2);  
+  SendSignal(n24, 2);
+  SendSignal(n25, 2);  
+  SendSignal(n26, 2);
+  SendSignal(n27, 2);
+  SendSignal(n28, 2);  
+  SendSignal(n29, 2);
+  
+  SendSignal(n30, 2);
+  SendSignal(n31, 2);
+  SendSignal(n32, 2);
+  SendSignal(n33, 2);  
+  SendSignal(obj1, 1);
+  PlayMusic(31);	
+  
+  Delay(5000);
+  SendSignal(n8, 3);
+  SendSignal(n9, 3);
+  SendSignal(n10, 3);
+  SendSignal(n11, 3);
+  SendSignal(n12, 3);
+  SendSignal(n13, 3);
+  SendSignal(tigr1, 3);
+  SendSignal(tigr2, 3);  
+  Delay(1000);
+  SetObjectiveStatus(7, 1);
+  Delay(120000);
+  HUMAN_Kill(g93);	
+goto end;
+}
+
+Label end:

@@ -1,0 +1,16 @@
+// obj 1 - kill the enemy
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever AED (_AllEnemiesDead()) 
+{
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(21990002);
+PlayMusic(6);
+SetObjectiveStatus(1, 1);
+Delay(6000);
+SetObjectiveStatus(8, 1);
+SUBTITLES_SetOn(false);
+GoTo end;
+}
+
+Label end:

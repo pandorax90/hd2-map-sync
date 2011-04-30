@@ -1,0 +1,113 @@
+  SetWhenever(Usni, False);
+  SetWhenever(Budicek, False);
+
+integer  AIEvent;
+frame alarm;		FRM_FindFrame(alarm, "dummy_GlobalAlarm");	
+frame posranej_buton;	FRM_FindFrame(posranej_buton, "m_alarm_16");
+
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Guard();
+HUMAN_SetOptimized(2);
+
+HUMAN_Suspend(true);
+goto TheEnd;
+
+Whenever A ((_PlayerInRange(30)) and (_LoadGameValue(74)==2))		
+{
+  HUMAN_Suspend(False);
+  SetWhenever(Usni, true);
+  goto Start;
+}
+
+SetAlarmType(4, False);	
+Whenever FUUUJ ( _PlayerInRange(10); )	// musim zapnout kroky az tady
+{
+  SetAlarmType(4, True); 
+  Goto start;	
+}
+
+
+Whenever Usni ( _LoadGameValue(74) == 1 )
+{
+  HUMAN_Stop();
+  HUMAN_Suspend(True);
+  SetWhenever(Budicek, true);
+  Goto TheEnd;
+}
+Whenever Budicek ( (_PlayerInRange(30)) and (_LoadGameValue(74) == 2) )
+{
+  HUMAN_Suspend(False);
+  SetWhenever(Usni, true);
+  If (_LoadGameValue(5) == 0) { goto Start; } else { goto DeAlarm;}
+}
+
+
+label Start:
+  HUMAN_Move("W5_1");		
+  HUMAN_Move("W5_2");		
+  HUMAN_Move("W5_3");		
+  HUMAN_Move("W5_4");
+  HUMAN_Move("W5_5");
+  HUMAN_Move("W5_6");
+  HUMAN_Move("W5_7");
+  HUMAN_Move("W5_2");
+goto Start;
+
+
+OnAlarm()
+{
+  DisableWhenevers(True);
+//  SetWhenever(FUUUJ, False);
+  HUMAN_SETMODE_Stand();
+  Block
+    {
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Walker 5: ", AIEvent);
+      HUMAN_Stop();
+      HUMAN_Suspend(False);	
+      HUMAN_SETMODE_Walk();
+      HUMAN_SETAIMODE_Defensive();
+    }
+  If (((_FrameInRange(Posranej_buton)<6) AND (!_PlayerInRange(8))) AND (_LoadGameValue(5) != 666) )
+    {
+       HUMAN_SETMODE_Run();  
+       HUMAN_Move("alarm_16");
+       HUMAN_TurnAt(Posranej_buton);
+       HUMAN_ACTIVITY_Point(Posranej_buton);
+       If (_LoadGameValue(5) != 666) { SendSignal(alarm , 2); }
+       Printf("Debil W5 zmacknul posranej buton 16!");
+       EndScript();
+     }
+//  If (((AIEvent == 256) OR (AIEvent == 2)) OR ((AIEvent == 1) OR (AIEvent == 16))) { SendSignal(alarm , 1); }
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  }
+  HUMAN_SetAlarm(False);
+  HUMAN_SETMODE_Silence();
+  HUMAN_SetOptimized(1);
+  HUMAN_SETMODE_Crouch();
+  goto DeAlarm;
+}
+
+OnDeath()
+{
+  Printf("volbou osudu nas az do pristiho spusteni opustil : WALKER-5");
+  SendSignal(alarm , 3);
+  EndScript();
+}
+
+label DeAlarm:
+  HUMAN_LookAround(1);
+  HUMAN_Move("W5_3");	
+label DeAlarmLoop:
+  HUMAN_TurnAtNearestPlayer();
+  Delay(2500);
+goto DeAlarmLoop;
+
+Label TheEND:

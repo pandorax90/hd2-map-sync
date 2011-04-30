@@ -1,0 +1,99 @@
+CSC_FadeOut(1); 
+Delay(200);
+	Block
+	{
+
+frame K1;		FRM_FindFrame(K1, "K1");
+frame K2;		FRM_FindFrame(K2, "K2");
+frame K3;		FRM_FindFrame(K3, "K00");
+frame see_K1;		FRM_FindFrame(see_K1, "dummy_K1_see");
+frame see_K2;		FRM_FindFrame(see_K2, "dummy_K2_see");
+frame target1;		FRM_FindFrame(target1, "cameraTRGT01");
+frame target2;		FRM_FindFrame(target2, "cameraTRGT02");
+
+frame null;		FRM_FindFrame(null, "");
+frame comm3;		FRM_FindFrame(comm3, "CUTEn3");
+frame comm2;		FRM_FindFrame(comm2, "CUTEn2");	
+frame comm1;		FRM_FindFrame(comm1, "CUTEn1");	
+frame ENDcam;	FRM_FindFrame(ENDcam, "ENDcamera01");
+
+
+
+/////////////////////----------------sounds-----------------//////////////////////////////////
+frame sound1;		FRM_FindFrame(sound1, "S_cut");	
+frame sound2;		FRM_FindFrame(sound2, "S_cut2");
+
+
+	integer sas_v_predeslej_misi;
+	sas_v_predeslej_misi = _LoadGameValue(1);
+
+
+	if(sas_v_predeslej_misi < 4)
+	{
+	FRM_SetOn(comm3, false);
+	}
+
+	if(sas_v_predeslej_misi < 3)
+	{
+	FRM_SetOn(comm1, false);
+	}
+
+	if(sas_v_predeslej_misi < 2)
+	{}
+
+Delay(1000);
+
+
+
+
+
+
+OnCutscene(2)
+{
+
+  CSC_FadeIn(250);   
+FRM_SetOn(sound2, true);
+	
+	Block 
+	{
+	FRM_SetOn(comm1, false);
+	FRM_SetOn(comm2, false);
+	FRM_SetOn(comm3, false);
+	FRM_SetActiveCamera(K3);
+	CSC_SetCameraAnimation(K3,"#CamA2b1");
+	}
+Delay(3700);
+
+CSC_SetCameraAnimation(K3,"#CamA2b2");
+Delay(400);
+CSC_SetTimer(100, 3000);
+Delay(350);
+CSC_SetTimer(1000, 3000);
+ Delay(1100); 
+CSC_FadeOut(250); 
+  Delay(300); 
+  CSC_EndCutscene(); 
+
+
+
+}
+
+OnCutsceneDone(2)
+{
+FRM_SetOn(sound2, false);
+FRM_SetActiveCamera(ENDcam);
+CSC_SetCameraAnimation(K3,"");
+CSC_FadeIn(250); 
+
+}
+
+
+
+
+
+
+	FRM_SetOn(comm2, false);
+	}
+
+
+

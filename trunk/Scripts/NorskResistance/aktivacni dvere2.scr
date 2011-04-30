@@ -1,0 +1,11 @@
+frame small9;	FRM_FindFrame(small9,"small9");
+
+
+
+OnUse()
+{
+Printf("dvere signal na kroky");
+
+SendSignal(small9,1);
+
+}

@@ -1,0 +1,43 @@
+// T2, 3
+// ----------------------------
+
+Block
+{
+SetAlarmType(1,1); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,0); //exploze
+SetAlarmType(32,1); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,1); //zeskriptu
+SetAlarmType(256,0); //pratelska strelba
+SetAlarmType(512,0); //vidim flakotu
+}
+
+// ----------------------------
+
+OnDeath(){
+EndScript();
+}
+
+OnAlarm(){
+HUMAN_TurnAtNearestPlayer();
+EndScript();
+}
+
+OnAlarmDone(){
+HUMAN_SetAlarm(0);
+goto END;
+}
+
+// ---------------------------
+
+HUMAN_SETSIGHTRANGE(98);
+HUMAN_SETHEARRANGE(98);
+HUMAN_BoardVehicle("La_tiger_1", 1,2);
+HUMAN_SetOptimized(1);
+goto END;
+
+
+Label END:

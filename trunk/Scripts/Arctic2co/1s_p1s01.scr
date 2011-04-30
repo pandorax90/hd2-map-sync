@@ -1,0 +1,65 @@
+////-------------prepinani lightmap od dveri      m_d_po01   a      m_d_po09------------------------
+
+Block 
+ {
+   Frame p1s01;		FRM_GetMyFrame(p1s01);
+   Frame m_d_po01;		FRM_FindFrame(m_d_po01, "m_d_po01");
+   Frame m_d_po02;		FRM_FindFrame(m_d_po02, "m_d_po02");
+   Frame m_d_po09;		FRM_FindFrame(m_d_po09, "m_d_po09");
+   Integer door_p1s01;		door_p1s01=0;
+   Integer door_po09;		door_po09=0;
+   Integer door_po01;		door_po01=0;
+   integer Stav = 0;		// !!!! TADY PLATI game value 21 on/off light
+
+/////////////////// INITIALIZATION !!!!!!!!!!!!!!!!!
+      FRM_SetLightMap(m_d_po01, 0);
+      FRM_SetLightMap(m_d_po02, 0);
+      FRM_SetGroupLightMap("1s_m_d_po09", 0);
+      FRM_SetLightMap(p1s01, 0);
+////////////////////////////////////////////////////////////
+ }
+
+OnSignal(1)		// door 1
+{
+  If (_ACTOR_GetState(m_d_po01) != 4) 
+  {
+     If (door_po01==0) { door_po01=1; } Else { door_po01=0;}
+     If (door_po01==1) { door_p1s01= door_p1s01 + 2;} Else { door_p1s01= door_p1s01 - 2;}
+   If (_LoadGamevalue(21) == 0) 
+    {
+    Block
+      {
+        FRM_SetLightMap(m_d_po01,door_po01);
+        FRM_SetLightMap(m_d_po02,door_po01);
+        FRM_SetLightMap(p1s01,door_p1s01);
+      } 
+    }
+  }
+}
+
+OnSignal(2)		// door 9
+{
+  If (door_po09==1) { door_po09=0; } Else { door_po09=1;}
+  If (door_po09==1) { door_p1s01= door_p1s01 + 1;} Else { door_p1s01= door_p1s01 - 1;}
+  Stav = _LoadGamevalue(21);
+  If (Stav == 0)
+  {
+  Block
+    {
+      FRM_SetGroupLightMap("1s_m_d_po09",door_po09);
+      FRM_SetLightMap(p1s01,door_p1s01); 
+    }
+  }
+}
+
+// zhaslo se ...
+OnSignal(21)
+{
+  Block
+    {
+      FRM_SetLightMap(m_d_po01,door_po01);
+      FRM_SetLightMap(m_d_po02,door_po01);
+      FRM_SetGroupLightMap("1s_m_d_po09",door_po09);
+      FRM_SetLightMap(p1s01,door_p1s01); 
+    } 
+}

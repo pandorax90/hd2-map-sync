@@ -1,0 +1,141 @@
+// AF3a_18 - guard on the minaret (not optimized)
+// -------------------------------------------------------------------------------------------------------------
+
+Block{
+  FRAME look_alarm;		FRM_FindFrame(look_alarm, "dummy_21_lookalarm");
+  FRAME dummy_alarm;	FRM_FindFrame(dummy_alarm, "dummy_alarm");
+  FRAME alarm_wp;		FRM_FindFrame(alarm_wp, "dummy_pristup01");
+  FRAME flaska;		FRM_FindFrame(flaska, "");
+  FRAME look1_01;		FRM_FindFrame(look1_01, "AF3a_18_look1_01");
+  FRAME look1_02;		FRM_FindFrame(look1_02, "AF3a_18_look1_02");
+  FRAME look1_03;		FRM_FindFrame(look1_03, "AF3a_18_look1_03");
+  FRAME look2_01;		FRM_FindFrame(look2_01, "AF3a_18_look2_01");
+  FRAME look2_02;		FRM_FindFrame(look2_02, "AF3a_18_look2_02");
+  FRAME look2_03;		FRM_FindFrame(look2_03, "AF3a_18_look2_03");
+  FRAME look3_01;		FRM_FindFrame(look3_01, "AF3a_18_look3_01");
+  INTEGER rnd 		= 0;
+  INTEGER Atype 		= 0;
+  INTEGER firsttime		= 0;
+
+  SetAlarmType(1023, true);					// enable all alarms
+  SetAlarmType(4, false);					// disable 4
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  printf("18: dead");
+  FRAME dd; FRM_FindFrame(dd, "dummy_deathdetector");
+  SendSignal(dd, 1);
+  EndScript();
+}
+
+OnAlarm(){
+  HUMAN_SetAnim("", 100, 100, false);
+  block{
+    DisableSignals(true);
+    HUMAN_Stop();
+    HUMAN_SETSIGHTRANGE(300);
+    Atype = _GetAlarmType();
+    printfnumber("18: ", Atype);
+  }
+
+  if(!firsttime){
+    Delay(2000);
+    firsttime = 1;
+  }
+  SendSignal(dummy_alarm, 1);
+  HUMAN_TurnAtNearestPlayer();
+  EndScript();
+}
+
+OnAlarmDone(){ 
+  SetAlarmType(1023, true);					// enable all alarms
+  SetAlarmType(768, false);					// 512, 256
+  HUMAN_SETSIGHTRANGE(100);
+  HUMAN_SetOptimized(1);
+  HUMAN_SetAlarm(false);
+  HUMAN_SetMODE_Crouch();
+  goto END;
+}
+
+OnSignal(20){
+  HUMAN_SetAnim("", 100, 100, false);
+  SetAlarmType(1023, false);
+  HUMAN_Stop();
+  HUMAN_SETSIGHTRANGE(400);
+  HUMAN_SETMODE_Run();
+  HUMAN_Move("AF3a_18_04");
+  printf("18 :: Alarm, alarm, we are ambushed ...");
+  HUMAN_TurnAt(alarm_wp);
+  HUMAN_SetAnim("!suppfireKN1a", 200, 200, true);
+  Delay(1000);
+  HUMAN_Attack(look_alarm, 200);			// mel by vystrelit varovne vystrely do vzduchu
+  SetAlarmType(1023, true); 
+//  HUMAN_SetAnim("%%turnleft", 500, 500, false);  Delay(2000);
+//  HUMAN_SetAnim("%%turnright", 500, 500, false);  Delay(2000);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Label START:
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETMODE_Guard();
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_SetSniper(true, 10);
+  HUMAN_SetOptimized(1);
+
+Label ACTIVITY:
+  HUMAN_Move("AF3a_18_01");
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look1_01);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look1_02);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look1_03);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  gosub VYBERCINNOST;
+  HUMAN_Move("AF3a_18_04");
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look2_01);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look2_02);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_TurnAt(look2_03);
+  rnd = _RandomInt(5000) + 15000;  Delay(rnd);
+  HUMAN_Move("AF3a_18_06");
+  gosub VYBERCINNOST;
+goto ACTIVITY;
+
+Label VYBERCINNOST:
+  rnd = _RandomInt(10);
+  if(rnd == 0){ 
+    gosub HOTDRINK;
+  }
+  if(rnd == 1){ 
+    gosub SMOKE;
+  }
+return;
+
+Label HOTDRINK:
+  Delay(200);
+  HUMAN_ACTIVITY_Hot();
+  Delay(500);
+  HUMAN_ACTIVITY_Drinkbottle(flaska);
+  rnd = _RandomInt(5);
+  if(rnd == 0){
+    Delay(500);
+    HUMAN_ACTIVITY_Drinkbottle(flaska);
+  }
+return;
+
+Label SMOKE:
+  Delay(1000);
+  HUMAN_ACTIVITY_Smoke(true);
+  rnd = _RandomInt(5000) + 15000; Delay(rnd);
+  HUMAN_ACTIVITY_Smoke(false);
+  Delay(300);
+  Return;
+
+Label END:

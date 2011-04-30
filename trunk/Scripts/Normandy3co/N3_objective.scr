@@ -1,0 +1,66 @@
+// N3_objective
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+SetObjectiveStatus(1, 0);	// find the valuables
+SetObjectiveStatus(2, 0);     // kill the enemy
+SetObjectiveStatus(3, 0);     // rescue the prisoners
+SetObjectiveStatus(4, 0);     // clear the bridge of explosives
+
+Frame N1;		FRM_FindFrame(N1, "N3_G27");
+Frame N2;		FRM_FindFrame(N2, "N3_G28");
+Frame N3;		FRM_FindFrame(N3, "N3_G29");
+Frame N4;		FRM_FindFrame(N4, "N3_G30");
+Frame N5;		FRM_FindFrame(N5, "N3_G31");
+Frame N6;		FRM_FindFrame(N6, "N3_G32");
+Frame N7;		FRM_FindFrame(N7, "N3_G33");
+Frame N8;		FRM_FindFrame(N8, "N3_G16");
+
+Frame A1;		FRM_FindFrame(A1, "Amike1");
+Frame A2;		FRM_FindFrame(A2, "Amike2");
+Frame A3;		FRM_FindFrame(A3, "Amike3");
+Frame A4;		FRM_FindFrame(A4, "Amike4");
+Frame A5;		FRM_FindFrame(A5, "Amike5");
+Frame A6;		FRM_FindFrame(A6, "Amike6");
+Frame A7;		FRM_FindFrame(A7, "Amike9");
+
+Frame TK;		FRM_FindFrame(TK, "Runne9");
+Frame T2;		FRM_FindFrame(T2, "ShermanBum");
+Frame Na1;		FRM_FindFrame(Na1, "OpelVrak_1");
+Frame Na2;		FRM_FindFrame(Na2, "OpelVrak_2");
+Frame Na3;		FRM_FindFrame(Na3, "OpelVrak_3");
+Frame Na4;		FRM_FindFrame(Na4, "OpelVrak_4");
+Frame Na5;		FRM_FindFrame(Na5, "OpelVrak_5");
+Frame Na6;		FRM_FindFrame(Na6, "OpelVrak_6");
+}
+
+//---------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+Whenever post1 ( (((((((_ACTOR_GetState(N1)==0) and (_ACTOR_GetState(N2)==0)) and (_ACTOR_GetState(N3)==0)) and (_ACTOR_GetState(N4)==0)) and (_ACTOR_GetState(N5)==0)) and (_ACTOR_GetState(N6)==0)) and (_ACTOR_GetState(N7)==0)) and (_ACTOR_GetState(N8)==0)  )
+{	
+SendSignal(A1, 1);
+SendSignal(A2, 1);
+SendSignal(A3, 1);
+SendSignal(A4, 1);
+SendSignal(A5, 1);
+SendSignal(A6, 1);
+SendSignal(A7, 1);
+goto end;
+}
+
+MakeExplosion(Na1, 9000000000, 9000);
+MakeExplosion(Na2, 9000000000, 9000);
+MakeExplosion(Na3, 9000000000, 9000);
+MakeExplosion(Na4, 9000000000, 9000);
+MakeExplosion(Na5, 9000000000, 9000);
+MakeExplosion(Na6, 9000000000, 9000);
+Delay(18000);
+HUMAN_Kill(TK);
+Delay(2000);
+MakeExplosion(T2, 10000000, 5000);
+FRM_CreateParticle(53, T2);
+goto end;
+
+Label end:

@@ -1,0 +1,87 @@
+
+  integer  AIEvent;
+  frame friend; 		FRM_FindFrame(friend, "Static_Guard_4");
+  frame sit; 		FRM_FindFrame(sit, "dummy_alkoholik_sit");
+  frame door; 		FRM_FindFrame(door, "m_dvere_23");
+  frame dabing;	FRM_FindFrame(dabing, "dummy_dabing_alkac");
+  frame MyFRM;	FRM_GetMyFrame(MyFRM);
+
+
+HUMAN_SETAIMODE_Zombie();
+HUMAN_SetOptimized(1);
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Walk();
+
+SetAlarmType(1023, False);	
+
+Whenever Klapka_2 (_PlayerInRange(15);)			
+{
+  goto Klapka_2_Action;
+}
+SetWhenever(Klapka_2, False);
+
+if ( (_SPGetGameType()!=3) AND (_SPGetGameType()!=7) ) 
+{ HUMAN_Suspend(True);}
+goto TheEnd;				
+OnSignal(20)			// Static_Guard_4 posila info o svem alarmu
+{						
+  HUMAN_Suspend(False);		
+  goto Klapka_1_Action;
+}			
+
+label Klapka_1_Action:
+//  HUMAN_Move("Alkoholik_1");
+  HUMAN_Move("Alkoholik_2");
+  HUMAN_Move("Alkoholik_3");
+  HUMAN_TurnAt(friend);
+  Printf("Hej, .. .. .  Johan, .... pojd sem. . . ");
+  Sendsignal(dabing, 1);
+// 04990850 Hej, .. .. .  Johan, .... pojd sem. . . 
+  Delay(850);
+  // Animaci pokynuti rukou
+  Delay(1500);
+  HUMAN_Move("Alkoholik_2");
+  HUMAN_Move("Alkoholik_1");
+  If (!_PlayerInRange(10)) {  HUMAN_Suspend(True); }	
+  SetWhenever(Klapka_2, True);
+goto TheEnd;
+
+label Klapka_2_Action:
+  HUMAN_Suspend(False);
+  SetAlarmType(511, True);	
+  HUMAN_TurnAt(door);
+  HUMAN_ACTIVITY_Sit(sit);
+goto TheEnd;
+
+OnAlarm()
+{
+  HUMAN_SETMODE_Stand();
+  Block
+    {
+      AIEvent =_GetAlarmType();
+      PrintfNumber("Alkoholik: ", AIEvent);
+      HUMAN_SetAnim("", 300, 300, False);
+      HUMAN_Stop();
+      HUMAN_SETMODE_Walk();
+      HUMAN_SETSIGHTRANGE(80);
+      HUMAN_SETHEARRANGE(95);
+    }
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  HUMAN_SetAlarm(False);
+  HUMAN_SETMODE_Walk();
+  HUMAN_SetOptimized(1);
+  HUMAN_SETMODE_Stand();
+  HUMAN_Move("Alkoholik_1");
+}
+
+OnDeath()
+{
+  FRM_MorphSpeech(MyFRM, 0, 0, 0);
+  EndScript();
+}
+
+Label TheEND:

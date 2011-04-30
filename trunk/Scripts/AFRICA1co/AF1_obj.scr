@@ -1,0 +1,68 @@
+// AF1_obj - objectives detector
+// -------------------------------------------------------------------------------------------------------------
+block
+{
+  SetObjectiveStatus(1, 0);		// find Hans Schumann - in progress
+  SetObjectiveStatus(2, 4);		// find Documents about Schumanns departure
+  SetObjectiveStatus(3, 0);		// eliminate all enemies - in progress
+  SetObjectiveStatus(4, 4);		// destroy all aircrafts  - inactive
+  SetObjectiveStatus(5, 4);		// escape in flak vehicle
+  SetObjectiveStatus(6, 4);		// destroy all fuel tanks
+  SetObjectiveStatus(7, 4);		// all team members alive
+  INTEGER pokecali 				= 0;
+  INTEGER obj2					= 0;
+  INTEGER obj3					= 0;
+  SaveGameValue(18, 0);					// je obj 05 zaply?? 0 = ne, 1 = ano
+  FRAME pobocnik;		FRM_FindFrame(pobocnik, "AF1_pobocnik");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(5){
+  pokecali = 1;
+  goto END;
+}
+
+OnSignal(6){
+  if(pokecali == 1){
+    DisableSignals(true);
+    SUBTITLES_SetOn(true);
+    SUBTITLES_SetText(05011010);
+    Delay(2000);
+    SUBTITLES_SetOn(false);
+    if(obj3 == 1){
+      SaveGameValue(18, 1);
+    }
+    obj2 = 1;
+    if(obj3 == 0)
+    {
+      SetObjectiveStatus(2, 1);
+    }
+    goto END;
+  }
+}
+
+Whenever alldead ((_GetCountOfCarnageEnemies() == 0) AND (!_ACTOR_GetState(pobocnik))){
+//  if((!_LoadGameValue(42)) AND (_LoadGameValue(80)))
+//  {
+//    SetWhenever(alldead, true);
+//    goto END;
+//  }
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(05991005);
+  Delay(2000);
+  if(obj2 == 1){
+    SaveGameValue(18, 1);
+  }
+  obj3 = 1;
+
+  if(obj2 == 0)
+  {
+    SetObjectiveStatus(3, 1);
+  }
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Label END:

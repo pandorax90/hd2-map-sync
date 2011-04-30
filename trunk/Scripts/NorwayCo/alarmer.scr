@@ -1,0 +1,33 @@
+block
+{
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+Frame spider;		FRM_FindFrame(spider,"spider");
+Frame refl1;		FRM_FindFrame(refl1,"k_tirpicrefl2");
+Frame refl2;		FRM_FindFrame(refl2,"k_tirpicrefl1");
+
+integer alarm;		alarm=0;
+}
+
+goto end;
+
+OnSignal(1)
+{
+printf("alarmer dostal signal");
+SetWhenever(jeeeb,0);
+
+label jednou:
+SendSignal(Refl1,1);
+SendSignal(Refl2,1);
+SendSignal(spider,1);				//rozdelowac
+
+
+}
+goto end;
+
+Whenever jeeeb(_SignalReceived(2))
+{
+goto jednou;
+}
+
+label end:

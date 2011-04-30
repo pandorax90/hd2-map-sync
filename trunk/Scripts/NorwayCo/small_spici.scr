@@ -1,0 +1,93 @@
+Frame chrupky;	FRM_FindFrame(chrupky, "S_chrupky");
+Integer x;		x=0;
+Integer al;		al=0;
+
+HUMAN_SetOptimized(2);
+HUMAN_SETEVENTS(0);
+
+
+
+FRM_SetOn(chrupky,0);
+HUMAN_Suspend(1);
+goto end;
+
+
+OnAlarm()
+{
+x=x+1;
+if (x==3)
+{
+printf ("spici alarm");
+FRM_SetOn(chrupky,0);
+SetAlarmType(32,1);	
+goto wake;
+}
+
+if (al==1)
+{
+EndScript();
+}
+
+delay (100);
+HUMAN_SetAlarm(0);
+goto end;
+}
+
+OnAlarmDone()
+{
+goto end;
+}
+
+
+OnDeath()
+{
+
+
+printf("nechrapu");
+FRM_SetOn(chrupky,0);
+EndScript();
+goto end;
+}
+
+
+Whenever dd(_PlayerInRange(9))
+{
+FRM_SetOn(chrupky, 1);
+
+block
+{
+HUMAN_Suspend(0);
+HUMAN_SETEVENTS(0);
+}
+HUMAN_SETMODE_Lie();
+delay (300);
+HUMAN_SetAnim("%%ospalozral",100,100,1);
+goto end;
+}
+
+
+
+Whenever slysim(_SignalReceived(1))
+{
+//dvere
+block
+{
+HUMAN_SETEVENTS(1);
+SetAlarmType(765,0);		//2+ 256
+
+}
+goto end;
+}
+
+
+label wake:
+printf ("spici wake");
+HUMAN_SetAnim("",200,200,0);
+Delay (300);
+HUMAN_SETMODE_Stand();
+Delay (900);
+HUMAN_TurnAtNearestPlayer();
+al=1;
+HUMAN_SetAlarm(0);
+
+label end:

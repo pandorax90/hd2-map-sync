@@ -1,0 +1,16 @@
+frame alkac;		FRM_FindFrame(alkac, "Alkoholik");
+
+
+// 04990850	Hej! Johan! Pojï sem ke mnì! 	
+
+OnSignal(1)
+{
+  FRM_MorphSpeechDelayed(alkac, 04990850, 0, 60);	  Delay(25);
+}
+
+OnSignal(2)
+{
+  // konec - alarm, death ...
+  printf("KONEC DABINGU Alkac... TERMINATOR ");
+  EndScript();
+}

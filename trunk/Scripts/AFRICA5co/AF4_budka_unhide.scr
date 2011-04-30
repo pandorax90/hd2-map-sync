@@ -1,0 +1,18 @@
+// AF4_4 - budka_unhide
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME budka;			FRM_FindFrame(budka, "Budka_ingame");
+FRAME budka_cut;		FRM_FindFrame(budka_cut, "CUTbudka");
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnCutscene(1)
+{
+  FRM_SetOn(budka, false);
+}
+
+OnCutsceneDone(1)
+{
+  FRM_SetOn(budka, true);
+  FRM_SetOn(budka_cut, false);
+}

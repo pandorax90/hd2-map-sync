@@ -1,0 +1,29 @@
+HUMAN_Suspend(true);
+SetAlarmType(1023, true);
+Whenever PIR (_PlayerInRange(20))
+	{
+	HUMAN_Suspend(false);
+	}
+
+OnAlarm()
+	{
+	HUMAN_Suspend(false);
+	HUMAN_SETMODE_Stand();
+	HUMAN_SETMODE_Run();
+	HUMAN_SETAIMODE_Aggressive();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	HUMAN_Move("GE_129j");
+	}
+
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

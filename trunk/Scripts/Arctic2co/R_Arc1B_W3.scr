@@ -1,0 +1,150 @@
+
+  SetWhenever(Usni, False);
+  SetWhenever(Budicek, False);
+
+integer  AIEvent;
+frame alarm;		FRM_FindFrame(alarm, "dummy_GlobalAlarm");		
+frame see_CVAK;	FRM_FindFrame(see_CVAK, "m_d_po09");
+
+frame posranej_buton;	FRM_FindFrame(posranej_buton, "m_alarm_8");
+
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Guard();
+HUMAN_SetOptimized(1);
+
+HUMAN_Suspend(true);
+goto TheEnd;
+
+Whenever A ( (_PlayerInRange(30)) and (_LoadGameValue(74)==1) )
+{
+  HUMAN_Suspend(False);
+  SetWhenever(Usni, true);
+  Goto start;	
+}
+
+SetAlarmType(132, False);	
+Whenever FUUUJ ( _PlayerInRange(10); )	// musim zapnout kroky az tady
+{
+  SetAlarmType(4, True); 
+  Goto start;	
+}
+
+Whenever Usni ( _LoadGameValue(74) == 2 )
+{
+  HUMAN_Stop();
+  HUMAN_Suspend(True);
+  SetWhenever(Budicek, true);
+  Goto TheEnd;
+}
+Whenever Budicek ( _LoadGameValue(74) == 1 )
+{
+  HUMAN_Suspend(False);
+  SetWhenever(Usni, true);
+  If (_LoadGameValue(5) == 0) { goto Start; } else { goto DeAlarm;}
+}
+
+
+Label DeAlarm:
+// W4A_Start , W4A_12_6, W4A_8910
+  HUMAN_WeaponOnArm(true);
+  HUMAN_SETMODE_Silence();
+  HUMAN_SETMODE_Crouch();
+  Delay(1500);
+  HUMAN_Move("W7A_Start");
+label Hledej:
+  If ((_LoadGameValue(73)==12) and (_LoadGameValue(72)==6)) 
+     {
+         Printf("**********************R2 HLEDA 12 6****************************");
+         HUMAN_Move("W4A_12_6");  
+         HUMAN_TurnAtNearestPlayer();
+         Delay(500);
+         HUMAN_LookAround(3);  
+         Delay(6000); 
+         HUMAN_Move("W4A_Start");
+         HUMAN_LookAround(0);  
+         Delay(6000); 
+     }
+  If (((_LoadGameValue(73)==8) or (_LoadGameValue(73)==9)) or (_LoadGameValue(73)==10))
+     {
+         Printf("**********************R2 HLEDA 8,9,10 ****************************");
+         HUMAN_Move("W4A_8910");  
+         HUMAN_LookAround(3);  
+         Delay(6000); 
+         HUMAN_Move("W4A_Start");
+         HUMAN_LookAround(0);  
+         Delay(6000); 
+     }
+  Delay(500);
+goto Hledej;
+
+label Start:
+  HUMAN_Move("W3_1");		
+  HUMAN_Move("W3_2");		
+  HUMAN_Move("W3_3");		
+  HUMAN_Move("W3_2");		
+  HUMAN_Move("W3_4");		
+  HUMAN_Move("W3_5");		
+  HUMAN_Move("W3_6");		
+  HUMAN_Move("W3_5");		
+goto Start;
+
+
+OnAlarm()
+{
+  Block
+    {
+      DisableWhenevers(True);
+      SetWhenever(FUUUJ, False);
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Walker 3: ", AIEvent);
+      HUMAN_Stop();
+      HUMAN_Suspend(False);	
+      HUMAN_SETMODE_Walk();
+      HUMAN_SETAIMODE_Zombie();
+    }
+  If (((_FrameInRange(Posranej_buton)<6) AND (!_PlayerInRange(8))) AND (_LoadGameValue(5) != 666) )
+    {
+       HUMAN_SETMODE_Run();  
+       HUMAN_Move("alarm_8");
+       HUMAN_TurnAt(Posranej_buton);
+       HUMAN_ACTIVITY_Point(Posranej_buton);
+       If (_LoadGameValue(5) != 666) { SendSignal(alarm , 2); }
+       Printf("Debil W3 zmacknul posranej buton 8!");
+       EndScript();
+     }
+//  If (((AIEvent == 256) OR (AIEvent == 2)) OR ((AIEvent == 1) OR (AIEvent == 16))) { SendSignal(alarm , 1); }
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  Printf("Buton ----- W3"); }
+  HUMAN_SetAlarm(False);
+  HUMAN_SETMODE_Walk();
+  HUMAN_SetOptimized(1);
+  HUMAN_SETMODE_Stand();
+  DisableWhenevers(False);
+  goto DeAlarm;
+}
+
+// cvakly dveeere, dveeere leti, player vchazi do dveri (a nic je zamceno)
+OnSignal(21)
+{
+  HUMAN_Move("W3_CVAK");
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_SETMODE_Crouch();
+  HUMAN_TurnAt(see_CVAK);
+}
+
+OnDeath()
+{
+  Printf("volbou osudu nas az do pristiho spusteni opustil : WALKER-3");
+  SendSignal(alarm , 3);
+  EndScript();
+}
+
+
+Label TheEND:

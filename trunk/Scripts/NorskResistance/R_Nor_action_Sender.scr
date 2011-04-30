@@ -1,0 +1,54 @@
+// Send signal to tirpic guard.  1...HAT    2...BOTTLE   3...COLD   4... SEE on SEA
+
+block
+{
+  integer what_signal;
+  integer what_soldier;
+  integer waiter;
+  //frame T1;	FRM_FindFrame(T1, "tirpic_guard_1");
+ // frame T2;	FRM_FindFrame(T2, "tirpic_guard_2");
+  frame T3;	FRM_FindFrame(T3, "tirpic_guard_3");
+  frame T4;	FRM_FindFrame(T4, "tirpic_guard_4");
+  frame T5;	FRM_FindFrame(T5, "tirpic_guard_5");
+//  frame T6;	FRM_FindFrame(T6, "tirpic_guard_6");
+ // frame T7;	FRM_FindFrame(T7, "tirpic_guard_7");
+  frame T8;	FRM_FindFrame(T8, "tirpic_guard_8");
+  frame T9;	FRM_FindFrame(T9, "tirpic_guard_9");
+  
+  frame T11;	FRM_FindFrame(T11, "tirpic_guard_11");
+ // frame T12;	FRM_FindFrame(T12, "tirpic_guard_12");
+ // frame T13;	FRM_FindFrame(T13, "tirpic_guard_13");
+  frame T14;	FRM_FindFrame(T14, "tirpic_guard_14");
+  frame T15;	FRM_FindFrame(T15, "tirpic_guard_15");
+ // frame T16;	FRM_FindFrame(T16, "tirpic_guard_16");
+
+  frame T18;	FRM_FindFrame(T18, "tirpic_guard_18");
+}
+delay (10000);
+
+label Newer_ending_sending:
+  what_signal = _RandomInt(12)+1;
+  If (what_signal > 4) {what_signal = 4}  	// signal no. 4 has a high priority 
+  what_soldier = _RandomInt(18)+1;
+  waiter = _RandomInt(10000)+7000;
+  //If (what_soldier==1) { SendSignal(T1, what_signal); }
+  //If (what_soldier==2) { SendSignal(T2, what_signal); }
+  If (what_soldier==3) { SendSignal(T3, what_signal); }
+  If (what_soldier==4) { SendSignal(T4, what_signal); }
+  If (what_soldier==5) { SendSignal(T5, what_signal); }
+  //If (what_soldier==6) { SendSignal(T6, what_signal); }
+  //If (what_soldier==7) { SendSignal(T7, what_signal); }
+  If (what_soldier==8) { SendSignal(T8, what_signal); }
+  If (what_soldier==9) { SendSignal(T9, what_signal); }
+  
+  If (what_soldier==11) { SendSignal(T11, what_signal); }
+  //If (what_soldier==12) { SendSignal(T12, what_signal); }
+  //If (what_soldier==13) { SendSignal(T13, what_signal); }
+  If (what_soldier==14) { SendSignal(T14, what_signal); }
+  If (what_soldier==15) { SendSignal(T15, what_signal); }
+  //If (what_soldier==16) { SendSignal(T16, what_signal); }
+
+  If (what_soldier==18) { SendSignal(T18, what_signal); }
+goto Newer_ending_sending;
+
+

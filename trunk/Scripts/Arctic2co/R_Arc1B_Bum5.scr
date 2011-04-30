@@ -1,0 +1,28 @@
+frame BUM;		FRM_FindFrame(BUM, "dummy_obj4_Fail");	
+integer X = 300;
+SaveGameValue(45, X);
+
+// Zapina casovac
+OnSignal(1)
+{
+  SendSignal(BUM, 1);
+Label loop:
+  X = _LoadGameValue(45);
+  Delay(500);
+  X = X -1;
+  SaveGameValue(45, X);
+  If (X == 0) { Printf("BUM5 -------------------------------------- BUUUUUUUUUUUUUUUM");   EndScript();}
+goto loop;
+}
+
+// Vypina casovac
+OnSignal(2)
+{
+Block
+  {  
+    Printf("Vypinam BUM5 casovac.");
+    X = 300;
+    SaveGameValue(45, X);
+    SendSignal(BUM, 2);
+  }
+}

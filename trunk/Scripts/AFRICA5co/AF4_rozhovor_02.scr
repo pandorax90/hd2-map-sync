@@ -1,0 +1,147 @@
+// AF2_rozhovor_02 - rozhovor mezi trema vojakama v hangaru
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME af40;			FRM_FindFrame(af40, "AF4_40");
+FRAME af41;			FRM_FindFrame(af41, "AF4_41");
+FRAME af42;			FRM_FindFrame(af42, "AF4_42");
+
+//	VOJAK-1	09991913	Hele kamaráde, zdá se mi to nebo Franz nìjak divnì stojí?	
+//	VOJAK-2	09991914	Když jsi to øekl, tak mi taky pøipadá celý nakøivo, co blázníš Franz?	
+//	VOJAK-3	09991915	Dejte mnì oba pokoj	
+//	VOJAK-1	09991916	Ale no tak, svìø se kamarádùm.	
+//	VOJAK-3	09991917	Podívejte se, mám za sebou pár tìžkejch dnù, to se malá nehoda pøihodí raz dva.	
+//	VOJAK-2	09991918	Malá nehoda?	
+//	VOJAK-3	09991919	Jak øíkám, malá nehoda	
+//	VOJAK-2	09991920	Jak malá ta nehoda asi byla?	
+//	VOJAK-3	09991921	Asi 160 centimetrù, zatracená arabská štìtka...	
+//	VOJAK-1	09991922	Hahaha...	
+//	VOJAK-2	09991923	Hahaha ... co se ti stalo?	
+//	VOJAK-3	09991924	Celkem nic, potkal jsem ji když jsem vycházel z kavárny dole ve mìstì, slovo dalo slovo a šli jsme k ní domù.	
+//	VOJAK-2	09991925	A?	
+//	VOJAK-3	09991926	No, tam na mì místo radovánek èekal její bratr s hodnì ostrým kolenem, marnì jsem mu vysvìtloval, že zaplatím,	
+//	VOJAK-3	09991927	ten blázen na mì vytáhnul nùž, já vytáhnul bouchaèku a to už se opravdu naštval, vyrazil mnì ji z ruky,	
+//	VOJAK-3	09991928	ani nevím jak a potom jsem už inkasoval jednu za druhou.	
+//	VOJAK-1	09991929	Teda to snad není možný, ty ses nechal zmlátit od nìjakýho arabáèe?	
+//	VOJAK-3	09991930	Už je to tak, nevìdìl jsem, kolik ta ženská tìch bratrù má, tak jsem radši couval ven.	
+//	VOJAK-2	09991931	Teda, ty máš ale smùlu, to ti øeknu.	
+//	VOJAK-3	09991932	Mnì to vykládej. A pøitom byla dost hezká, ne že ne.	
+//	VOJAK-2	09991933	Nic si z toho nedìlej, takovejch ještì bude.	
+//	VOJAK-3	09991934	To právì doufám, že ani moc ne.	
+//	VOJAK-1	09991935	Hahaha...	
+//	VOJAK-2	09991936	Hahaha, asi máš pravdu.	
+
+OnSignal(1){
+  if(!_LoadGameValue(31))
+  {
+    EndScript();
+  }
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR 02");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(af40, 10);
+  FRM_MorphSpeechDelayed(af40, 09991913, 8, 20);
+  SendSignal(af40, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991914, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991915, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af40, 10);
+  FRM_MorphSpeechDelayed(af40, 09991916, 8, 20);
+  SendSignal(af40, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991917, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991918, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991919, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991920, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991921, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af40, 10);
+  FRM_MorphSpeechDelayed(af40, 09991922, 8, 20);
+  SendSignal(af40, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991923, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991924, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991925, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991926, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af42, 09991927, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af42, 09991928, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af40, 10);
+  FRM_MorphSpeechDelayed(af40, 09991929, 8, 20);
+  SendSignal(af40, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991930, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991931, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991932, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991933, 8, 20);
+  SendSignal(af41, 11);
+
+  SendSignal(af42, 10);
+  FRM_MorphSpeechDelayed(af42, 09991934, 8, 20);
+  SendSignal(af42, 11);
+
+  SendSignal(af40, 10);
+  FRM_MorphSpeechDelayed(af40, 09991935, 8, 20);
+  SendSignal(af40, 11);
+
+  SendSignal(af41, 10);
+  FRM_MorphSpeechDelayed(af41, 09991936, 8, 20);
+  SendSignal(af41, 11);
+  SUBTITLES_SetOn(false);
+}
+
+OnSignal(2){
+  block
+  {
+    FRM_MorphSpeech(af40, 0, 0, 0);
+    FRM_MorphSpeech(af41, 0, 0, 0);
+    FRM_MorphSpeech(af42, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+Label END:

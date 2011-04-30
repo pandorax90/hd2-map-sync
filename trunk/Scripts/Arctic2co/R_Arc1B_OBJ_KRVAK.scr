@@ -1,0 +1,49 @@
+Block
+{
+  Frame Reinfo1;	FRM_FindFrame(Reinfo1, "Reinforcement_1");
+  Frame Reinfo2;	FRM_FindFrame(Reinfo2, "Reinforcement_2");
+  Frame Reinfo3;	FRM_FindFrame(Reinfo3, "Reinforcement_3");
+  Frame Reinfo5;	FRM_FindFrame(Reinfo5, "Reinforcement_5");
+  Frame Reinfo6;	FRM_FindFrame(Reinfo6, "Reinforcement_6");
+  Frame Reinfo7;	FRM_FindFrame(Reinfo7, "Reinforcement_7");
+  Frame Reinfo8;	FRM_FindFrame(Reinfo8, "Reinforcement_8");
+  frame BUM;		FRM_FindFrame(BUM, "dummy_objective5");
+  integer Budicek = 0;
+  integer OBJ5;
+  integer OBJ6;
+}
+
+  SetObjectiveStatus(7, 0);
+
+
+Whenever XXX ( _GetCountOfCarnageEnemies() == 0 )
+{
+  SetObjectiveStatus(7, 1);
+  SaveGameValue(77, 1);
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(01990204);  
+  Delay(3500);
+  SUBTITLES_SetOn(False);
+  Goto TheEnd;
+}
+SetWheneverTime(XXX, 1500);
+
+
+Delay(5000);
+      SaveGameValue(77, 0);	// obj pro carmage a test leavingu !! NESAHAT je i v OBJECTIVE3 skriptu
+Delay(45000);
+If (Budicek==0) 
+{
+    SendSignal(Reinfo1, 1);
+    SendSignal(Reinfo2, 1);
+    SendSignal(Reinfo3, 1);
+    SendSignal(Reinfo5, 1);
+    SendSignal(Reinfo6, 1);
+    SendSignal(Reinfo7, 1);
+    SendSignal(Reinfo8, 1);
+    Budicek = 1; 
+}
+
+Label theEnd:
+
+

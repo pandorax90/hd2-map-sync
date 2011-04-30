@@ -1,0 +1,152 @@
+block{
+  FRAME me;					FRM_GetMyFrame(me);
+  FRAME null;					FRM_FindFrame(null, "");
+  FRAME bleszcam01;				FRM_FindFrame(bleszcam01, "camera_cutblesz01");
+  FRAME bleszcam02;				FRM_FindFrame(bleszcam02, "camera_cutblesz02");
+  FRAME bleszcam03;				FRM_FindFrame(bleszcam03, "camera_cutblesz03");
+  FRAME attack;				FRM_FindFrame(attack, "AF4_23");
+  FRAME attack_st;				FRM_FindFrame(attack_st, "dummy_attack_schumann");
+  INTEGER Atype				= 0;
+
+  SaveGameValue(77, 0);			// value used for sniper detect........
+  SaveGameValue(88, 0);
+
+  SetAlarmType(1023, false);			// 512, 256
+  HUMAN_SETAIMODE_Zombie();
+  INTEGER atcutscene				= 0;
+  HUMAN_SetOptimized(1);
+}
+  HUMAN_Suspend(true);
+  printf("init done");
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever pir (_PlayerInRange(12))
+{
+  HUMAN_Suspend(false);
+  SetAlarmType(1023, true);
+  goto END;
+}
+
+//Whenever npir (!_PlayerInRange(14))
+//{
+//  SetAlarmType(1023, false);
+//  goto END;
+//}
+
+OnDeath(){
+  block
+  {
+    SaveGameValue(88, 1);
+    DisableWhenevers(true);
+    DisableSignals(true);
+  }
+  if(atcutscene)
+  {
+    CSC_EndCutscene();
+  }
+  EndScript();
+}
+
+OnSignal(9){
+  printf("sig9");
+  HUMAN_Suspend(false);
+  SetAlarmType(1023, false);
+//  HUMAN_SetEVENTS(false);
+  HUMAN_SetMODE_Stand();
+  HUMAN_Move("AF4_31_02");
+  goto END;
+}
+
+OnSignal(1){
+  printf("sniper se aktivoval");
+  goto ACTIVATE;
+}
+
+OnAlarm(){
+  block
+  {
+    SaveGameValue(88, 1);
+    SetWhenever(pir, false);
+//    SetWhenever(npir, false);
+    printf("SNIPER SE ZALARMOVAL.....");
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(0);
+    Atype = _GetAlarmType();
+    printfnumber("31: ", Atype);
+  }
+
+  HUMAN_TurnAtNearestPlayer();
+  EndScript();
+}
+
+OnAlarmDone(){
+  SaveGameValue(88, 0);
+  SetWhenever(pir, true);
+//  SetWhenever(npir, true);
+  SetAlarmType(1023, false);
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(1);
+  goto ACTIVATE;
+}
+
+OnCutscene(20){
+  atcutscene = 1;
+  SaveGameValue(77, 1);
+  CSC_FadeOut(100);
+  SetAlarmType(1023, false);
+  HUMAN_Suspend(false);
+  SetAlarmType(1023, false);
+  HUMAN_SetSniper(true, 1);
+  HUMAN_SETAIMODE_Zombie();
+  FRM_TeleportNearCheckpoint(me, "AF4_31_02", "AF4_31_03");
+  Delay(100);
+  HUMAN_TurnAt(attack_st);  
+  Delay(100);
+  HUMAN_WeaponUp(true);
+  HUMAN_SETMODE_STAND();
+  FRM_SetCameraFrame(null);
+  FRM_SetActiveCamera(bleszcam02);
+  HUMAN_TurnAt(attack_st);
+  CSC_FadeIn(100);
+  SUBTITLES_SetOn(true);
+  FRM_MorphSpeechDelayed(me, 09011816, 20, 50);
+//  SUBTITLES_SetText(09011816);
+  Delay(500);  
+  HUMAN_IllFire(attack, 500);
+  Delay(1200);  
+  SUBTITLES_SetOn(false);
+  atcutscene = 0;
+  CSC_EndCutscene();
+}
+
+OnCutsceneDone(20){
+  FRM_SetCameraFrame(null);
+  CSC_FadeIn(100);
+  HUMAN_Attack(attack, 10000);
+  SetAlarmType(1023, true);
+  HUMAN_Attack(attack, 60000);
+  SaveGameValue(88, 1);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SetMODE_Crouch();
+//  HUMAN_SetEVENTS(false);
+goto END;
+
+Label ACTIVATE:
+  printf("before activate");
+  HUMAN_Suspend(false);
+  HUMAN_SETMODE_Walk();
+goto END;
+
+Label ACTIVITY:
+  HUMAN_Move("AF4_31_01");
+  HUMAN_Move("AF4_31_02");
+  HUMAN_Move("AF4_31_03");
+  HUMAN_Move("AF4_31_04");
+goto ACTIVITY;
+
+Label END:

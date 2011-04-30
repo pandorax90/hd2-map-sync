@@ -1,0 +1,14 @@
+frame stuul;	FRM_GetMyFrame(stuul);
+//FRM_SetOn(stuul,0);
+
+
+OnSignal(1)
+{
+printf("mel bych padnout-stul");
+//FRM_SetAnimation(stuul,"%%padajici stul.i3d",0);
+SetActorState(stuul, 1);
+delay (4085);
+//FRM_SetAnimation(stuul,"",0);
+
+
+}

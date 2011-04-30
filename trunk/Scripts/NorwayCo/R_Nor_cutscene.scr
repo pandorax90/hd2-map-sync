@@ -1,0 +1,25 @@
+
+
+
+CSC_FadeOut(1); 
+Delay(500);
+CSC_RunCutscene(1);
+
+
+
+
+
+OnCutscene(1) 
+{ 
+ CSC_EndCutscene(); 
+
+}
+
+OnCutsceneDone(1) 
+{ 
+
+  CSC_FadeIn(250); 
+}
+
+
+label end:

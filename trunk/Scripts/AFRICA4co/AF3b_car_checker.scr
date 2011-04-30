@@ -1,0 +1,26 @@
+// AF3a_car_checker - detects whether some car is usable
+// -------------------------------------------------------------------------------------------------------------
+
+SaveGameValue(50, 1);
+SaveGameValue(51, 1);
+SaveGameValue(52, 1);
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever vsechnyzniceny ((!_LoadGameValue(50)) AND (!_LoadGameValue(52))){
+  goto PROTECT_DAMAGED_CAR_FAILED;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+goto END;
+
+Label PROTECT_DAMAGED_CAR_FAILED:
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(11992212);
+  Delay(3000);
+  SUBTITLES_SetOn(false);
+  SetObjectiveStatus(2, 3);
+goto END;
+
+Label END:

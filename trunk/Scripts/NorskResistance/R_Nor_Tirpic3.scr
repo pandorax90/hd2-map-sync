@@ -1,0 +1,70 @@
+// Tirpic guard number 3
+// Walk on stupid guard way and sometime do some action 
+
+block
+{
+  integer counter=1;
+    frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+integer end;	end=(_RandomInt(3));
+end=(end+3);
+SetAlarmType(1,0); //blizka strelba
+SetAlarmType(2,0); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,0); //exploze
+SetAlarmType(32,0); //vidi
+SetAlarmType(64,0); //jsem zranen
+SetAlarmType(128,0); //zeskriptu
+SetAlarmType(256,0); //pratelska strelba
+SetAlarmType(512,0); //vidim flakotu
+
+HUMAN_SETSIGHTRANGE(400);
+
+HUMAN_SETMODE_Guard();
+HUMAN_WeaponOnArm(true);
+HUMAN_SetOptimized(2);
+
+Frame me;	FRM_GetMyFrame(me);
+integer mrd;	mrd=(_SPGetGameType());
+DisableWhenevers(1);
+}
+HUMAN_Suspend(true);
+
+	
+if ((mrd==3) or (mrd==7))
+{
+block
+{
+DisableSignals(1);
+HUMAN_Killex(me,2);
+}
+goto end;
+}
+
+DisableWhenevers(0);
+goto end;
+
+
+OnDeath()
+{
+DisableSignals(1);
+EndScript();
+}
+
+goto end;
+Whenever a (_PlayerInRange(60))
+{
+  HUMAN_Suspend(false);
+}
+
+label impish_way:
+
+    HUMAN_Move("T3_1");
+
+    HUMAN_Move("T3_2");
+goto impish_way;
+
+
+
+label end:

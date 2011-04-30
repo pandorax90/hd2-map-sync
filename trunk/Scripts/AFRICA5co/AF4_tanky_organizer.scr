@@ -1,0 +1,38 @@
+// AF1_tanky_organizer - organizuje nepovinny ukol - znic tezkou techniku
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME me;      			FRM_GetMyFrame(me);
+
+  INTEGER tank1			= 1;
+  INTEGER tank2			= 1;
+  INTEGER tank3			= 1;
+
+  SaveGameValue(11, 1);
+  SaveGameValue(12, 1);
+  SaveGameValue(13, 1);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(1){
+  tank1 = _LoadGameValue(11);  printfnumber("tank1: ", tank1);
+  tank2 = _LoadGameValue(12);  printfnumber("tank2: ", tank2);
+  tank3 = _LoadGameValue(13);  printfnumber("tank3: ", tank3);
+
+  if(tank1){ goto END;  }
+  if(tank2){ goto END;  }
+  if(tank3){ goto END;  }
+
+  SUBTITLES_SetOn(true);
+  printf("nepovinný úkol byl splnìn: Znicil jsi tezkou techniku");
+  SUBTITLES_SetText(09991829);			// nepovinný úkol byl splnìn: Znièil jsi tìžkou techniku
+  Delay(2000);
+  SetObjectiveStatus(6, 1);
+  SUBTITLES_SetOn(false);
+  EndScript();
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Label END:

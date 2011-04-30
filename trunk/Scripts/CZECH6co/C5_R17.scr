@@ -1,0 +1,85 @@
+// C5_R17 - russian Isu 152 driver
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame me;
+	FRM_GetMyFrame(me);
+Frame kubel;
+	FRM_FindFrame(kubel, "Kubel_RUS");
+Frame isu;
+	FRM_FindFrame(isu, "Isu152");
+Frame r18;
+	FRM_FindFrame(r18, "C5_R18");
+Frame r19;
+	FRM_FindFrame(r19, "C5_R19");
+Frame r20;
+	FRM_FindFrame(r20, "C5_R20");
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(272, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	HUMAN_SetOptimized(2);
+	GoTo end;
+}
+
+OnSignal(1)	// received from C5_objective
+{
+	HUMAN_Suspend(false);
+	Block
+	{
+	FRM_TeleportNearCheckpoint(isu, "C5_isu_tele", "C5_isu01");
+	FRM_TeleportNearCheckpoint(kubel, "C5_kubel_tele", "C5_kubel01");
+	}
+	GoTo end;
+}
+
+Whenever run(_SignalReceived(2))	// received from C5_player_teleporter
+{
+	SendSignal(r18, 2);
+	Delay(3000);
+	HUMAN_Drive("C5_isu01", 12);
+	HUMAN_Drive("C5_tank11", 12);
+	HUMAN_Drive("C5_isu02", 12);
+	Block
+	{
+	HUMAN_BoardVehicle("Isu152", false, 0);
+	SendSignal(r18, 31);
+	SendSignal(r19, 31);
+	SendSignal(r20, 31);
+	HUMAN_SETEVENTS(true);
+	}
+	GoTo end;
+}
+
+OnDeath()
+{
+	EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+HUMAN_BoardVehicle("Isu152", true, 0);
+HUMAN_SetOptimized(2);
+HUMAN_SETEVENTS(false);
+HUMAN_Suspend(true);
+
+Label end:

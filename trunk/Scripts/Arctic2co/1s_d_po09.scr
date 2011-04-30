@@ -1,0 +1,43 @@
+////-------------prepinani lightmap od dveri d_po09------------------------
+Block
+{   
+  Frame MyFRM;		FRM_GetMyFrame(MyFRM);
+  frame p1s01;			FRM_FindFrame(p1s01,"p1s01");
+  frame vratnej;		FRM_FindFrame(vratnej,"Static_4");
+  frame DvereDoBbudky;	FRM_FindFrame(DvereDoBbudky, "m_dv_m01");
+  frame DvereNaPicu;		FRM_FindFrame(DvereNaPicu, "m_d_po02a");
+  Integer Stav = 0;	
+  Integer Stav2 = 0;
+  frame D1;		FRM_FindFrame(D1, "m_d_po09");
+  frame D2;		FRM_FindFrame(D2, "m_d_po02a");
+}
+  Integer First_use = 1;
+
+OnUse()
+{
+  If (first_use == 1) 
+      {	 
+          DOOR_Lock(MyFRM, false); 
+          first_use = 99;
+          SetActorState(DvereNaPicu, 2);
+      }
+  Block
+    {
+       FRM_SetLightMap(D1, 5);
+       FRM_SetLightMap(D2, 5);
+       Stav = _LoadGameValue(21);
+       Stav2 = _ACTOR_GetState(MyFRM);		// 0...zavrene
+       If (Stav2 != 0 ) { SendSignal(p1s01, 2); }
+    }
+    If ((Stav2 != 0 ) AND (stav == 0)) { SendSignal(DvereDoBbudky, 5); Printf("CVAK CVAK"); }
+    Delay(1000);
+    SendSignal(vratnej, 21);	
+}
+
+
+// POMOOOOOC
+Whenever sss (_PlayerInRange(2) )
+{
+  Delay(1500);
+  SendSignal(vratnej, 21);	
+}

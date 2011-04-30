@@ -1,0 +1,137 @@
+// AF2_01 - soldier
+// -------------------------------------------------------------------------------------------------------------
+INTEGER loaded = _LoadGameValue(51);
+printfnumber("LOADED VALUE: ", loaded);
+
+block{
+  FRAME dummyalert01;		FRM_FindFrame(dummyalert01, "dummy_alert01");
+  FRAME junk;				FRM_FindFrame(junk, "HoriciJunkers");
+  FRAME af05;				FRM_FindFrame(af05, "AF2_05");
+  FRAME af06;				FRM_FindFrame(af06, "AF2_06");
+  INTEGER Atype			= 0;
+  INTEGER rnd				= 0;
+
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+}
+ 
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(20){
+  goto ALERT;
+}
+
+OnDeath(){
+  printf("01: dead"); 
+  EndScript();
+}
+
+OnSignal(1){
+  goto ACTION;
+}
+
+OnAlarm(){
+  block{
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(false);
+    HUMAN_SETSIGHTRANGE(400);
+    AType = _GetAlarmType();
+    printfnumber("01: ", Atype);
+  }
+  HUMAN_SetAnim("", 100, 100, false);
+  Delay(100);
+  HUMAN_SETMODE_Stand();
+  SendSignal(dummyalert01, 1);
+  if(Atype == 256){
+    HUMAN_SetAlarm(false);
+    goto ALERT;   
+  }
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  HUMAN_SETMODE_Guard();
+  HUMAN_SetOptimized(true); 
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+  goto ACTIVITY;
+}
+
+OnSignal(5){
+  printf("01: now at OnSignal(5)");
+  HUMAN_Stop();
+  HUMAN_SetAnim("", 200, 200, false);
+  Delay(200);
+  HUMAN_SetMODE_Run();
+  HUMAN_SetMODE_Crouch();
+  HUMAN_Move("AF2_01_alert");
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_SETMODE_Guard();
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(true);
+goto ACTIVITY;
+
+Label ACTION:
+  SendSignal(af05, 2);
+  SendSignal(af06, 2);
+
+  SetAlarmType(32, false);
+  printf("01: signal 1 received ... OK - ACTION check suspicious vehicle");
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETMODE_Run();
+//  SendSignal(junk, 1);
+  Delay(200);
+  printf("");
+  HUMAN_Move("AF2_01_01");  
+  Delay(200);
+
+Label HALT:
+  HUMAN_ACTIVITY_Salute(2);
+  SetAlarmType(32, true);
+  Delay(5000);
+
+Label ACTIVITY: 
+  HUMAN_Move("AF2_01_02");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_01_03");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_01_04");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_01_05");
+    gosub LOOKAROUND;
+  HUMAN_Move("AF2_01_06");
+    gosub LOOKAROUND;
+goto ACTIVITY;
+
+Label LOOKAROUND:
+  rnd = _RandomInt(2);
+  if(rnd == 1){
+    rnd = _RandomInt(1500) + 1500;
+    HUMAN_SetAnim("%%turnleft", 500, 500, false);  Delay(rnd);
+    rnd = _RandomInt(1500) + 1500;
+    HUMAN_SetAnim("%%turnright", 500, 500, false);  Delay(rnd);
+  }
+return;
+
+Label ALERT:
+  HUMAN_SetAnim("", 100, 100, false);
+  HUMAN_SetMode_Stand();
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(0);
+  HUMAN_SetMODE_Run();
+  HUMAN_Move("AF2_01_alert");
+  HUMAN_SetMode_Crouch();
+  HUMAN_SETSIGHTRANGE(400);
+
+Label END:

@@ -1,0 +1,11 @@
+Frame player;
+	
+
+
+
+OnUse()
+{
+
+ 	ScriptAssign(player, "CUTSAS2_af4");
+
+}

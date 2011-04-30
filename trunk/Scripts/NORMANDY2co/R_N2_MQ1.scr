@@ -1,0 +1,24 @@
+
+frame MyFRM;		FRM_GetMyFrame(MyFRM);
+frame KONCOVKA;	FRM_FindFrame(KONCOVKA, "dummy_MQ1_End");
+frame SOUND1;		FRM_FindFrame(SOUND1, "MQ1-sound");
+frame SOUND2;		FRM_FindFrame(SOUND2, "MQ_interier");
+
+
+  FRM_SetOn(SOUND1, False);
+  FRM_SetOn(SOUND2, False);
+  Delay(1500);
+  Delay(10000);				// !!! BACHA Vrabcek potrebuje zachovat stávajici odstup MQ1 a 2
+  FRM_WatchTrack(MyFRM, "MQ1");
+  FRM_SetOn(SOUND1, True);
+  FRM_SetOn(SOUND2, True);
+
+
+Whenever TO_JE_KONEC ( _FrameInRange(KONCOVKA)<15 )
+{
+  FRM_SetOn(MyFRM, False);
+  FRM_SetOn(SOUND1, False);
+  FRM_SetOn(SOUND2, False);
+  delay(1500);
+  EndScript();
+}

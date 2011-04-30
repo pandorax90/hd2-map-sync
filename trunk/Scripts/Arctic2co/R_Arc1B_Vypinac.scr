@@ -1,0 +1,78 @@
+// frame svetlo;		FRM_FindFrame(svetlo, "1sut-vratnice");
+frame X1;		FRM_FindFrame(X1, "p1s01");
+frame X2;		FRM_FindFrame(X2, "m_dv_m01");
+frame lustrON;		FRM_FindFrame(lustrON, "m_svet_3");
+frame lustrOFF;	FRM_FindFrame(lustrOFF, "m_svet_4");
+
+  FRM_SetOn(lustrON, False);  // inicializace - NUTNA !!!
+  FRM_SetOn(lustrOFF, True);  // inicializace - NUTNA !!!
+//  FRM_SetOn(svetlo, False);    // inicializace - NUTNA !!!
+
+  SaveGameValue(21, 0);
+
+
+OnUse()
+{
+If ( _LoadGameValue(21)==0 ) 
+  {
+  // tady a ted je ROZNUTO
+    Block
+      {
+         SaveGameValue(21, 1);
+//         FRM_SetOn(svetlo, True); 
+         FRM_SetOn(lustrON, True); 
+         FRM_SetOn(lustrOFF, False); 
+         PlaySound(3, 4);			// provizorni DODELAT
+         FRM_SetGroupLightMap("Blikni_si",  4);
+       }
+    } else {
+  // a ted ZHASNUTO
+    Block
+      {
+         SaveGameValue(21, 0);
+//         FRM_SetOn(svetlo, False); 
+         FRM_SetOn(lustrON, False); 
+         FRM_SetOn(lustrOFF, True); 
+         PlaySound(3, 4);			// provizorni DODELAT
+         FRM_SetGroupLightMap("Blikni_si",  0);	// ASI ODSUD VYHODIT TU PODLAHU (prepinat samostatne)
+         SendSignal(X1, 21);
+         SendSignal(X2, 21);
+     }
+  }
+}
+
+
+// a tady to pousti S4
+OnSignal(21)
+{
+Frame W1;	FRM_FindFrame(W1, "Walker_1");
+Frame W3;	FRM_FindFrame(W3, "Walker_3");
+SendSignal(W1, 21);
+SendSignal(W3, 21);
+If ( _LoadGameValue(21)==0 ) 
+  {
+  // tady a ted je ROZNUTO
+    Block
+      {
+         SaveGameValue(21, 1);
+//         FRM_SetOn(svetlo, True); 
+         FRM_SetOn(lustrON, True); 
+         FRM_SetOn(lustrOFF, False); 
+         PlaySound(3, 4);			// provizorni DODELAT
+         FRM_SetGroupLightMap("Blikni_si",  4);
+       }
+    } else {
+  // a ted ZHASNUTO
+    Block
+      {
+         SaveGameValue(21, 0);
+//         FRM_SetOn(svetlo, False); 
+         FRM_SetOn(lustrON, False); 
+         FRM_SetOn(lustrOFF, True); 
+         PlaySound(3, 4);			// provizorni DODELAT
+         FRM_SetGroupLightMap("Blikni_si",  0);	// ASI ODSUD VZHODIT TU PODLAHU (prepinat samostatne)
+         SendSignal(X1, 21);
+         SendSignal(X2, 21);
+     }
+  }
+}

@@ -1,0 +1,22 @@
+
+Delay(1000);		// at to se dokonci init a vraci to spravne hodnoty
+
+integer number;		number = _GetNumMembersOfClientTeam();
+integer diary;			diary = 0;
+
+if ( number > 1 ) {Diary = 4011} else {Diary = 4013}
+
+Whenever BORDEL ( _SignalReceived(1) ) {Diary = Diary -1;}
+
+OnExit()
+{
+  AddDiaryText(21);
+  AddDiaryText(Diary);
+}
+
+PrintfNumber("***ACTUAL DIARY STATE ***", Diary);
+
+// MORE PLAYERS - SHOOTING ... 4010
+// MORE PLAYERS – NO SHOOTING ... 4011
+// LONE WOLF - SHOOTING ... 4012
+// LONE WOLF – NO SHOOTING ... 4013

@@ -1,0 +1,28 @@
+// SF_G28 - Ridic Panzera (La_tiger_2)
+// -------------------------------------------
+
+Whenever Spawn (_SignalReceived(1))
+{
+DisableAlarms(1);
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("La_tiger_2", 1, 0);
+Delay(250);
+HUMAN_Drive("AmiiTank_3", 10);
+HUMAN_Drive("", 0);
+goto END;
+}
+// -------------------------------------------
+
+OnDeath(){
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(17993413);
+Delay(4000);
+SUBTITLES_SetOn(0);
+EndScript();
+}
+
+HUMAN_Suspend(1);
+goto END;
+
+
+Label END:

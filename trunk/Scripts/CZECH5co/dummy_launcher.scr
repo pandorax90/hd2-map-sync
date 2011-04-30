@@ -1,0 +1,33 @@
+Frame cam;			FRM_FindFrame(cam, "camera_1");
+Frame dummy_launcher;	FRM_FindFrame(dummy_launcher, "dummy_launcher");
+Frame GE_11;			FRM_FindFrame(GE_11, "GE_11");
+Frame NULL;			FRM_FindFrame(NULL, "");
+
+Whenever PIR (_PlayerInRange(120))
+	{
+	CSC_RunCutscene(1);
+	}
+
+OnCutscene(1)
+	{	
+	CSC_FadeOut(1);
+	FRM_SetActiveCamera(cam);
+	FRM_SetCameraFrame(dummy_launcher);
+	CSC_FadeIn(1000);
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(22994411);
+	Delay(5000);
+	SUBTITLES_SetText(22994412);
+	Delay(5000);
+	SUBTITLES_SetText(22994413);
+	Delay(5000);
+	SUBTITLES_SetOn(false);
+	Delay(3000);
+	}
+
+OnCutsceneDone(1)
+	{
+	CSC_FadeOut(500);
+	FRM_SetCameraFrame(NULL);
+	CSC_FadeIn(200);
+	}

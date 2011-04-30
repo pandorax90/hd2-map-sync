@@ -1,0 +1,85 @@
+Block
+{
+Frame camera;	FRM_GetMyFrame(camera);
+Frame endCamera;	FRM_FindFrame(endCamera,"cut_endcamera");
+
+
+////////////-------------------------------sounds-----------------------------------//////////////////////////////////
+
+Frame sound1;		FRM_FindFrame(sound1, "S_cut01");
+Frame sound2;		FRM_FindFrame(sound2, "S_cut02");
+Frame sound3;		FRM_FindFrame(sound3, "S_cut03");
+}
+
+
+OnCutscene(10)
+{
+
+CSC_FadeIn(1500);
+
+	Block
+	{
+	FRM_SetActiveCamera(camera);					///////1. strih
+	CSC_SetCameraAnimation(camera, "#CamNor1");
+	
+	FRM_SetOn(sound1, true);
+	}
+
+Delay(4600);  
+
+
+	CSC_SetCameraAnimation(camera, "#CamNor2");			///////2. strih
+	
+Delay(8100); 	
+
+	CSC_SetCameraAnimation(camera, "#CamNor3");			///////3. strih
+	
+Delay(3900); 	
+
+	Block
+	{
+	CSC_SetCameraAnimation(camera, "#CamNor4");			///////4. strih
+	
+	FRM_SetOn(sound2, true);
+	FRM_SetOn(sound1, false);	
+	}
+
+Delay(4900); 	
+
+	CSC_SetCameraAnimation(camera, "#CamNor5");			///////5. strih
+	
+Delay(3900); 	
+
+	Block
+	{
+	CSC_SetCameraAnimation(camera, "#CamNor6");			///////6. strih
+	
+	FRM_SetOn(sound3, true);
+	FRM_SetOn(sound2, false);	
+	}
+
+Delay(8000);
+CSC_FadeOut(700); 
+Delay(800); 
+
+
+CSC_EndCutscene();
+ 
+}
+
+
+OnCutsceneDone(10)
+{
+	Block
+	{
+	FRM_SetActiveCamera(endCamera);
+	CSC_SetCameraAnimation(camera, "");	
+	FRM_SetOn(sound1, false);
+	FRM_SetOn(sound2, false);
+	FRM_SetOn(sound3, false);
+	}
+
+CSC_FadeIn(250);  
+
+}
+

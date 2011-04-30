@@ -1,0 +1,65 @@
+////////////////////////////////////////////////////////////////// VEDEC //////////////////////////////////////////////////////////////////////
+
+
+frame MyFRM;		FRM_GetMyFrame(MyFRM);
+integer  AIEvent = 0;
+
+HUMAN_SETAIMODE_Zombie();
+HUMAN_SETMODE_Walk();
+HUMAN_SETMODE_Stand();
+HUMAN_SetOptimized(1);
+
+ 
+HUMAN_Suspend(true);
+goto TheEnd;
+
+  
+Whenever start ( _PlayerInRange(25); )	
+{
+  HUMAN_Suspend(False);
+  SetAlarmType(1023, True);
+  SetAlarmType(128, False);
+}
+  HUMAN_SetAnim("%%vedeckontrola", 500, 500, true);
+  Goto TheEnd;
+
+
+OnAlarm()
+{
+  DisableWhenevers(True);
+  HUMAN_SetAnim("", 500, 500, False);
+  AIEvent =_GetAlarmType(); 
+  PrintfNumber("Static 12: ", AIEvent);
+  HUMAN_SETMODE_Run();
+  if ( (_SPGetGameType()==3) OR (_SPGetGameType()==7) ) 
+    {
+       EndScript();
+    }
+label KRVAK:  
+  HUMAN_SETMODE_Crouch();
+  Delay(150);
+  HUMAN_Move("S12_End");  
+  HUMAN_SETMODE_Crouch();
+  HUMAN_SetAnim("%%Panika", 250, 250, True);
+  DisableAlarms(true);
+  HUMAN_SetAlarm(False);  
+  Goto TheEnd;
+}
+
+OnAlarmDone()
+{
+  if ( (_SPGetGameType()==3) OR (_SPGetGameType()==7) ) 
+    {
+       goto KRVAK;
+    }
+  Goto TheEnd;
+}
+
+OnDeath()
+{
+  HUMAN_SetAnim("", 100, 100, False);
+  Printf("Oznamujeme vam, ze nahle SKONAL VEDEC ... STATIC - 12");
+  EndScript();
+}
+
+Label TheEND:

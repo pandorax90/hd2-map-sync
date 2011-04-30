@@ -1,0 +1,44 @@
+// svetlo a zariadenie majaku
+
+Block
+{
+Frame svetlo;
+	FRM_GetMyFrame(svetlo);
+Frame volumetrika;
+	FRM_FindFrame(volumetrika, "majak_volum01");
+Frame flare1;
+	FRM_FindFrame(flare1, "vol_majak01");
+Frame flare2;
+	FRM_FindFrame(flare2, "vol_majak02");
+
+FRM_SetOn(volumetrika, false);
+FRM_SetOn(flare1, false);
+FRM_SetOn(flare2, false);
+}
+
+OnCutscene(1)
+{
+}
+
+OnCutsceneDone(1)
+{
+}
+
+GoTo end;
+
+OnSignal(1)	// received from m_n1_switch_
+{
+Block
+{
+FRM_SetOn(volumetrika, true);
+FRM_SetOn(flare1, true);
+FRM_SetOn(flare2, true);
+}
+}
+Label rotate:
+FRM_RotateY(svetlo, 360, 9);
+Delay(30000);
+printf("rotate finished");
+GoTo rotate;
+
+Label end:

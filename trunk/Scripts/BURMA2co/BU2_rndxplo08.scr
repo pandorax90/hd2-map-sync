@@ -1,0 +1,21 @@
+// BU2_rndxplo08 - explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame rndxplo08;
+	FRM_FindFrame(rndxplo08, "rndxplo08");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from BU2_bomber
+{
+If(_PlayerInRange(50))
+{
+		PlaySound(6, 8);
+		Delay(700);
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(48, rndxplo08);
+		MakeExplosion(rndxplo08, 800000, 15000);
+	}
+}
+}

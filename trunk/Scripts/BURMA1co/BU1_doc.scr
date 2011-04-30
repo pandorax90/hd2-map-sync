@@ -1,0 +1,36 @@
+// BU1_doc - dokumenty - vypisy
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from BU1_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("objavil si nejake plany");
+	SUBTITLES_SetText(12992406);
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(2)	// received from BU1_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("stratil si nejake plany");
+	SUBTITLES_SetText(12992407);
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(3)	// received from BU1_dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("objavil si nejake plany");
+	SUBTITLES_SetText(12992406);
+	Delay(2000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

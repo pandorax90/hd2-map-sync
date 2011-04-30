@@ -1,0 +1,73 @@
+
+Block
+{
+Frame particle1;		FRM_GetMyFrame(particle1);
+Frame particle2;		FRM_FindFrame(particle2, "CUTparticle2");
+Frame particle3;		FRM_FindFrame(particle3, "CUTparticle3");
+Frame particle4;		FRM_FindFrame(particle4, "CUTparticle4");
+
+Frame light1;			FRM_FindFrame(light1, "CUTl1");
+Frame light2;			FRM_FindFrame(light2, "CUTl2");
+
+}
+
+Block
+{
+FRM_SetOn(light1,false);
+FRM_SetOn(light2,false);
+}
+
+
+OnCutscene(10)
+{
+integer bum1;
+integer bum2;
+integer bum3;
+integer bum4;
+
+
+Delay(19000);
+
+	Block
+	{
+	FRM_CreateIndexedParticle(106, particle1, bum1);
+	FRM_SetOn(light1,true);
+	}
+
+Delay(500);	
+
+	Block
+	{
+	FRM_CreateIndexedParticle(106, particle2, bum2);	
+	FRM_SetOn(light2,true);	
+	FRM_SetOn(light1,false);
+	}
+
+Delay(500);
+
+	Block
+	{
+	FRM_CreateIndexedParticle(106, particle3, bum3);
+	FRM_SetOn(light2,false);
+	}
+
+Delay(400);	
+	
+	FRM_CreateIndexedParticle(106, particle4, bum4);
+	
+
+}
+
+
+OnCutsceneDone(10)
+{
+
+	Block
+	{
+	FRM_DestroyIndexedParticle(bum1);
+	FRM_DestroyIndexedParticle(bum2);
+	FRM_DestroyIndexedParticle(bum3);
+	FRM_DestroyIndexedParticle(bum4);
+	}
+
+}

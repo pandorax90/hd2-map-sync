@@ -1,0 +1,34 @@
+Block
+{
+Frame OBJ;		FRM_FindFrame(OBJ,"objectives");
+Frame Codes;
+
+SetWhenever(ne, 0);
+}
+
+Whenever jo (_MP_IsItemInTeamInventory(1, 250, Codes))
+{
+SetWhenever(ne,1);
+SendSignal (obj,11);
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(11992213); 		
+Delay(4000);
+SUBTITLES_SetOn(0);
+}
+
+
+Whenever ne (!_MP_IsItemInTeamInventory(1, 250, Codes))
+{
+SetWhenever(jo,1);
+SendSignal (obj,12);
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(14992808); 		
+Delay(4000);
+SUBTITLES_SetOn(0);
+goto end;
+}
+
+
+
+
+label end:

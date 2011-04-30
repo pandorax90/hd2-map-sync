@@ -1,0 +1,329 @@
+// objectives for mission Norway
+Block
+{ 
+  integer counter;		counter = 0;
+  integer counter_5;		counter_5=0;
+  integer counter_10;		counter_10=0;
+  integer b;	b=0;
+  integer kody;			kody=0;
+  integer mapa;			mapa=0;
+  integer tiralarm;		tiralarm=0;
+  integer enigma;		enigma=0;
+integer plnum;
+
+
+// ZATIM JEN PRIPRAVENO 1 a 2 NEJDE a ENIGMA neni v itemech
+// mined Tirpic			- 1
+// mined thrawler		- 2
+// steal Enigma		- 3
+// don´t alarm Tirpic guards	- 4
+// return			- 5
+
+  SetObjectiveStatus(1, 0);	// initialization
+  SetObjectiveStatus(2, 0);	// initialization
+  SetObjectiveStatus(3, 0);	// initialization
+  SetObjectiveStatus(4, 0);	// initialization
+
+ SetWhenever(goback, false);
+
+}
+
+delay (3000);
+plnum=_GetNumMembersOfClientTeam()		//kolik je playeru
+
+
+
+// obj - 5
+Whenever goback (_MP_AllTeamMembersAreInRange(1,50))
+{
+
+Printf ("kokoti na konci");
+
+if (enigma==0)
+
+{
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(11992212); 		// zahodil enigmu
+    SetObjectiveStatus(3, 3);
+  Delay(5000);
+  SUBTITLES_SetOn(False);
+  goto end;
+
+}
+
+if(tiralarm==0)
+{
+  	SetObjectiveStatus(4, 1);	// Success
+  	SUBTITLES_SetOn(True);
+  	SUBTITLES_SetText(11992209); 		// OBJ 4 complete
+  	Delay(5000);
+}
+else
+{
+  	SetObjectiveStatus(4, 2);
+}
+
+
+
+Integer type;
+type=_SPGetGameType();
+
+if (type <> 2)
+
+{
+  If((_IsTeamMemberDead())==0)
+{
+
+//SetObjectiveStatus(8, 0);				//Nekdo z tymu chcipl
+SetObjectiveStatus(8, 1);
+}
+}
+
+SUBTITLES_SetOn(1);
+  SUBTITLES_SetText(11992210); 		// OBJ 5 complete
+
+AddDiaryText(31);
+if (plnum>1)
+{
+
+Printf("pridawam diary text pro tym");
+AddDiaryText(4192);
+}
+
+else
+
+{
+
+Printf("pridawam diary text pro jednoho");
+AddDiaryText(4193);
+}
+
+
+if (kody==1)
+{
+if (plnum>1)
+{
+
+Printf("pridawam diary text pro tym kniha kodu");
+AddDiaryText(4194);
+}
+
+else
+
+{
+
+Printf("pridawam diary text pro jednoho kniha kodu");
+AddDiaryText(4197);
+}
+}
+
+if (mapa==1)
+{
+if (plnum>1)
+{
+
+Printf("pridawam diary text pro tym mapa");
+AddDiaryText(4194);
+}
+
+else
+
+{
+
+Printf("pridawam diary text pro jednoho mapa");
+AddDiaryText(4197);
+}
+}
+
+CSC_RunCutscene(10);
+
+goto end;
+}
+
+
+OnCutscene(10)
+{
+PlayMusic(36);
+goto end;
+}
+
+OnCutsceneDone(10)
+{
+  SetObjectiveStatus(5, 1);	// Success
+  goto end;
+}
+
+
+//   1 - sendet from Tirpic
+Whenever tirpic(_SignalReceived(5))
+
+{
+block
+{
+  SetObjectiveStatus(1, 1);	// Success
+      counter = counter + 1;
+}
+      SUBTITLES_SetOn(True);
+      SUBTITLES_SetText(11992206); 		// OBJ 1 complete
+      Delay(5000);
+      SUBTITLES_SetOn(False);
+    
+   
+}
+
+
+Whenever tirpicno(_SignalReceived(15))
+
+{
+
+  SetObjectiveStatus(1, 3);	// Success
+   
+
+      SUBTITLES_SetOn(True);
+      SUBTITLES_SetText(11992216); 		// OBJ 1 incomplete
+      Delay(5000);
+      SUBTITLES_SetOn(False);
+    
+   
+}
+
+
+//   2 - sendet from throwler
+Whenever throw(_SignalReceived(6))
+
+{
+block
+{
+  SetObjectiveStatus(2, 1);	// Success
+      counter = counter + 1;
+}
+
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(11992207); 		// OBJ 2 complete
+  Delay(5000);
+  SUBTITLES_SetOn(False);
+}
+
+
+Whenever throwno(_SignalReceived(16))
+
+{
+
+  SetObjectiveStatus(2, 3);	// fail
+   
+
+
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(11992217); 		// OBJ 2 complete
+  Delay(5000);
+  SUBTITLES_SetOn(False);
+}
+
+
+// obj - 3
+OnSignal(7)
+{
+if (b==0)
+{
+b=1;
+  counter = counter + 1;
+}
+enigma=1;
+  SetObjectiveStatus(3, 1);	// Success
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(11992208); 		// OBJ 3 complete
+  Delay(5000);
+  SUBTITLES_SetOn(False);
+}
+
+OnSignal(8)
+
+{
+enigma=0;
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(11992212); 		// zahodil enigmu
+    SetObjectiveStatus(3, 2);
+  Delay(5000);
+  SUBTITLES_SetOn(False);
+
+}
+
+  If (counter == 3) 
+    {
+    block
+    {
+      SetObjectiveStatus(5, 0);	// initialization
+      SetWhenever(goback, true);
+    }
+      SUBTITLES_SetOn(True);
+      SUBTITLES_SetText(11992205); 		// OBJ 5 text
+      Delay(5000);
+      SUBTITLES_SetOn(False);
+     }
+
+Whenever poplach(_SignalReceived(10))
+
+
+{
+block
+{
+  tiralarm=1;
+ 
+  SetObjectiveStatus(4, 2);	// Fail
+}
+      SUBTITLES_SetOn(True);
+      SUBTITLES_SetText(11992211); 		// OBJ 4 fail
+      Delay(4000);
+  SetObjectiveStatus(4, 3);
+      SUBTITLES_SetOn(False);
+  
+
+
+}
+
+
+OnSignal(11)
+{
+//ma knihu kodu
+block
+{
+kody=1;
+//SetObjectiveStatus(6, 0);
+SetObjectiveStatus(6, 1);
+}
+}
+
+OnSignal(12)
+{
+//nema knihu kodu
+block
+{
+kody=0;
+SetObjectiveStatus(6, 4);
+}
+}
+
+OnSignal(13)
+{
+//ma mapu
+block
+{
+mapa=1;
+//SetObjectiveStatus(7, 0);
+SetObjectiveStatus(7, 1);
+}
+
+}
+
+OnSignal(14)
+{
+block
+{
+//nema mapu
+mapa=0;
+SetObjectiveStatus(7, 4);
+}
+}
+
+Label end:
+Label TheEnd:

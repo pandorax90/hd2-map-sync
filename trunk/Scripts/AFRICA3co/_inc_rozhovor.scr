@@ -1,0 +1,57 @@
+INTEGER rnd;
+
+OnSignal(10)
+{
+  HUMAN_Stop();
+  rnd = _RandomInt(7);
+  if(rnd == 0)
+  {
+    HUMAN_SetAnim("%%rozhovor2", 200, 200, true);
+  }
+  if(rnd == 1)
+  {
+    HUMAN_SetAnim("%%rozhovor3", 200, 200, true);
+  }
+  if(rnd == 2)
+  {
+    HUMAN_SetAnim("%%rozhovor4", 200, 200, true);
+  }
+  if(rnd == 3)
+  {
+    HUMAN_SetAnim("%%mluvi", 200, 200, true);
+  }
+  if(rnd == 4)
+  {
+    HUMAN_SetAnim("%%mluvi1", 200, 200, true);
+  }
+  if(rnd == 5)
+  {
+    HUMAN_SetAnim("%%mluvi4", 200, 200, true);
+  }
+  if(rnd == 6)
+  {
+    HUMAN_SetAnim("%%mluvi5", 200, 200, true);
+  }
+  goto END;
+}
+
+OnSignal(11)
+{
+  HUMAN_Stop();
+  HUMAN_SetAnim("", 200, 200, true);
+  goto END;
+}
+
+OnSignal(12)
+{
+  HUMAN_Stop();
+  HUMAN_SetAnim("", 200, 200, true);
+  goto ACTIVITY;
+}
+
+OnSignal(13)
+{
+  HUMAN_Stop();
+  HUMAN_SetAnim("", 200, 200, true);
+  goto ALERT;
+}

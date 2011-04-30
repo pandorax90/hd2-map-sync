@@ -1,0 +1,6 @@
+Frame player;
+
+OnUse()
+{
+	ScriptAssign(player, "X_N1_kamera-ya");
+}

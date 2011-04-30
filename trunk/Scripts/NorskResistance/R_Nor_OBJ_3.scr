@@ -1,0 +1,45 @@
+// stealk Enigma	OBJ  3
+block
+{
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+frame LMP1;		FRM_FindFrame(LMP1, "k_tstul6.Box04");
+frame LMP2;		FRM_FindFrame(LMP2, "m_docum_a66.doc");
+frame LMP3;		FRM_FindFrame(LMP3, "Mesh46");
+integer b;	b=0;
+ SetWhenever(enigmaven,0);
+}
+
+ whenever enigma (_IsInInventory(253);)  	// DOPLNIT ENIGMU /(zatim tam je walther)/
+
+{
+printf ("wuassa");
+If(b==0)
+{
+
+  Block
+  { 
+b=1;
+    FRM_SetLightMap(LMP1, 1);
+    FRM_SetLightMap(LMP2, 1);
+     //FRM_SetLightMap(LMP3, 1);
+  }
+}
+SendSignal(OBJ, 7);		//  == Success
+PlayMusic(36);
+   SetWhenever(enigmaven,1);
+goto end;
+}
+
+
+
+ whenever enigmaven (!_IsInInventory(253);)
+
+{
+SendSignal(OBJ, 8);
+PlayMusic(34);
+ SetWhenever(enigma,1);
+goto end;
+}
+
+label end:

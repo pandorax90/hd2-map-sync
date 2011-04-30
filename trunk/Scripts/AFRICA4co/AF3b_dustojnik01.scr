@@ -1,0 +1,50 @@
+// AF3b_01
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME organizer;		FRM_FindFrame(organizer, "dummy_organizer");
+FRAME minaret;			FRM_FindFrame(minaret, "minaret08");
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  SendSignal(organizer, 1);
+  EndScript();
+}
+  
+OnAlarm(){
+  EndScript();
+}
+
+OnAlarmDone(){
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  goto ACTIVITY;
+}
+
+OnSignal(2){
+  HUMAN_Suspend(false);
+}
+
+OnCutscene(1){
+  HUMAN_SetAnim("%%kecy3", 300, 300, true);
+  Delay(7000);
+  HUMAN_SetAnim("", 300, 300, false);
+  Delay(500);
+  HUMAN_TurnAt(minaret);
+  HUMAN_ACTIVITY_Point(minaret);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETMODE_Run();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Defensive();
+goto END;
+
+Label ACTIVITY:
+
+
+Label END:

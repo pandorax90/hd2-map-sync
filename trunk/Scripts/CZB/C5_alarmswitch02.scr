@@ -1,0 +1,31 @@
+// C5_alarmswitch02 - alarm switch
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Integer alarm;
+	alarm=0;
+Frame distro;
+	FRM_FindFrame(distro, "C5_alarmdistro");
+Frame button;
+	FRM_FindFrame(button, "m_alar_2.Cylinder01");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnUse()
+{
+	If(alarm==0)
+	{
+		SendSignal(distro, 1);		// signal na zapnutie alarmu
+		alarm=1;			// alarm sa zapol
+		FRM_SetOn(button, false);
+		GoTo end;
+	}
+
+	If(alarm==1)
+	{
+		SendSignal(distro, 2);		// signal na vypnutie alarmu
+		alarm=0;			// alarm sa vypol
+		FRM_SetOn(button, true);
+		GoTo end;
+	}
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

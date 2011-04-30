@@ -1,0 +1,291 @@
+// objectives info and chenging for mission Arctic3
+// !!! HODIT NA DUMAC K VYSILACCE
+
+// TED *    DRIV
+//   1    *     1     "Proved pruzkum"
+//   3    *     2     "Najdi vysilacku."
+//   6    *     3     "Odvysilej zpravu o situaci - do anglie"
+//   5    *     4     "Obsad ponorku."
+//   4    *     5     "Zabran ponorce v ponoreni."
+//   2    *     6     "Najdi dokumenty."
+//   7    *     7     "Vsichni z tymu prezily" - nepovinny
+//   8    *     8     "Nezustal nikdo, kdo by informoval Nemce otom co se tady stalo." - nepovinny
+//////////  !!!!!!!!!!! 8 presunut do SENDERU 8 --- mise nesla dohrat !!!!!!!!!!!!
+
+Block
+{
+  SetObjectiveStatus(1, 0);	// Initialization - pruzkum
+  SetObjectiveStatus(2, 0);	// Initialization - dokumenty
+  integer     counter1 = 0;
+  integer     counter2 = 0;
+  integer	    O2B4J = 0;
+  integer     What = 0; 
+  integer     OBJ_Doc = 0;
+  integer break_signal_7 = 0;
+  integer uvodni_kecy=0;
+  Frame MyFRM;		FRM_GetMyFrame(MyFRM);
+  Frame dabing;		FRM_Findframe(dabing, "dummy_dabing_radio");
+  Frame Radio;			FRM_Findframe(Radio, "m_AF5_prisj_2");
+  frame zvuk;			FRM_FindFrame(zvuk, "S_radio");
+  frame OBJ_K;		FRM_FindFrame(OBJ_K, "dummy_objectives_carnage");
+  integer CARNAGE = 0;
+
+  SetWhenever(OBJ_3, False);
+
+  SaveGameValue(2,0);
+  SaveGameValue(4,0);
+  SaveGameValue(5,0);
+}
+
+/////////////////////////////////////////////////////
+//		DElay(1000);						// pomocne
+//		    SetObjectiveStatus(2, 0);				// pomocne
+//		DElay(500);						// pomocne
+//		    What = _GetObjectiveStatus(1, 2, 4, 2);  		// pomocne
+//		    PrintfNumber("OBJ je 0?:", What);			// pomocne
+//		DElay(1000);						// pomocne
+//		    SetObjectiveStatus(2, 1);				// pomocne
+//		DElay(500);						// pomocne
+//		    What = _GetObjectiveStatus(1, 2, 4, 2);  		// pomocne
+//		    PrintfNumber("OBJ je 1?:", What);			// pomocne
+//		DElay(1000);						// pomocne
+//		    SetObjectiveStatus(2, 2);				// pomocne
+//		DElay(500);						// pomocne
+//		   What = _GetObjectiveStatus(1, 2, 4, 2);  		// pomocne
+//		    PrintfNumber("OBJ je 2?:", What);			// pomocne
+//		DElay(1000);						// pomocne
+//		   SetObjectiveStatus(2, 4);				// pomocne
+//		DElay(500);						// pomocne
+//		    What = _GetObjectiveStatus(1, 2, 4, 2);  		// pomocne
+//		    PrintfNumber("OBJ je 4?:", What);			// pomocne
+//		DElay(1000);						// pomocne
+////////////////////////////////////////////////////
+
+
+// exploration - 1  // !!!! nezmensovat nebo se nesplni pred vybehnutim oficira
+Whenever OBJ_1 (_PlayerInRange(82);)			
+  {
+    printf ("OBJECTIVE 1 - OK ");
+    SetObjectiveStatus(3, 0);	// Initialization - najdi vysilacku
+    SetActorState(Radio, 1);
+    SetObjectiveStatus(4, 0);	// Initialization - zabran v ponoreni
+    SetObjectiveStatus(1, 1);	// Succes - pruzkum
+    PlayMusic(36);
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990810); //ÚKOL SPLNÌN - LEDOVEC PROZKOUMÁN
+    Delay(2000);
+    SUBTITLES_SetText(04990802); //NOVÝ ÚKOL - NAJÍT VYSÍLAÈKU
+    Delay(2000);
+    SUBTITLES_SetText(04990805); //NOVÝ ÚKOL - ZABRÁNIT PONORCE V PONOØENÍ
+    Delay(4000);
+    SUBTITLES_SetOn(False);
+  }
+
+// find radio - 2
+Whenever OBJ_2 ( _ACTOR_GetState(Radio) == 2 )
+  {
+    SetObjectiveStatus(6, 0);	// Initialization - odvysilej zpravu
+    SetObjectiveStatus(3, 1);	// Succes - najdi vysilacku
+    printf ("OBJECTIVE 2 - OK ");
+    FRM_SetOn(zvuk, false);
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990811); //ÚKOL SPLNÌN - VYSÍLAÈKA NALEZEN
+    Delay(2000);
+// DOPLNIT send a receive jinak to asi bude dost nachylny na pruser z preruseni
+// 04990882	Blue 2 calling Fortress, we are in position!	
+// 04990883	There is a heavier enemy presence than we expected, a U-boat is waiting to evacuate the camp!	
+// 04990884	We will adapt our plans to deal with the situation!	
+// 04990885	Blue 2 over!	
+  SendSignal(dabing, 3);     	// !!!!!
+  Delay(15000)	;		// ! Delsi nez dabing !
+  OnSignal(0) {}		// !!!!!
+    If (O2B4J == 0) {O2B4J = 2}
+    If (O2B4J == 4)
+      { 
+    //     SUBTITLES_SetText(04990804); //NOVÝ ÚKOL - OBSADIT PONORKU  /// pry to je blbe zadat a hned splnit
+    //     Delay(4000);
+         SUBTITLES_SetText(04990813); //ÚKOL SPLNÌN - PONORKA OBSAZENA
+         SetObjectiveStatus(5, 1);	// Succes - obsad ponorku
+         SaveGameValue(5,99);
+         Delay(4000);
+         SetActorState(Radio, 1);
+         SetWhenever( OBJ_3 , true);    
+       } else { 
+         SetObjectiveStatus(5, 0);	// Initialization - obsad ponorku
+         SUBTITLES_SetText(04990804); //NOVÝ ÚKOL - OBSADIT PONORKU
+         Delay(4000);
+       }
+    SUBTITLES_SetText(04990803); //NOVÝ ÚKOL - NA KONCI MISE INFORMOVAT VELITELSTVÍ O SITUACI
+    Delay(2000);
+//    SetWhenever(OBJ_3, True);      SetActorState(Radio, 1);
+    SUBTITLES_SetOn(False);
+    goto TheEnd;
+  }
+
+// hold submarine (kill both -( zatim jednoho) marine offirers) - 5
+Whenever HOLD ( _SignalReceived(12); )
+  {
+     Block
+     {
+        SetObjectiveStatus(4, 1);	// Succes - zabran v ponoreni
+        SaveGameValue(4,99);
+        break_signal_7 = 1;
+        printf ("OBJECTIVE 5 - OK ");
+        SUBTITLES_SetOn(True);
+      }
+     SUBTITLES_SetText(04990814); //ÚKOL SPLNÌN - PONORKA NA HLADINÌ
+     Delay(4000);
+     SUBTITLES_SetOn(False);
+  }
+
+// send signal by radio - 3
+Whenever OBJ_3 ( _ACTOR_GetState(Radio) == 2 )
+  {
+    if ( (_SPGetGameType()==3) OR (_SPGetGameType()==7) )  
+       {
+          CARNAGE = _LoadGameValue(99);
+         } else {
+          CARNAGE = 1;
+       }
+    If ((OBJ_doc == 1) and (CARNAGE == 1))
+       {
+          Block 
+            {      
+               DisableSignals(True);
+	   DisableWhenevers(True);
+               printf ("OBJECTIVE 3 - OK ");
+               SUBTITLES_SetOn(True);
+               SendSignal(dabing, 1);     
+            }
+									//          CSC_NoTeamDamage(True);
+									//          SetPlayerInput(False);
+ // Tady modrá 2 ... operace Blizzard je úspìšnì dokonèena.
+ // Vracíme se domù.
+ // Konèím.   (8s)
+          Delay(15000);	///// !!!! delsi nez dabing !!!!
+          OnSignal(1) {}
+          // nepov. vsichni prezily
+          If (( !_IsTeamMemberDead()) and (_SPGetGameType() !=2 ))  
+            {
+               SetObjectiveStatus(7, 1);
+               Printf("NO LONEVOLF - ALL TEAM ALLIVE @@@@@@@@");
+            }
+          Delay(1500);
+									//          SetPlayerInput(true);
+									//          CSC_NoTeamDamage(False);
+          SetObjectiveStatus(6, 1);	// Succes - odvysilej zpravu
+          SUBTITLES_SetText(04990812); //ÚKOL SPLNÌN - ZPRÁVA ODVYSÍLÁNA
+          Delay(4000);
+          SUBTITLES_SetOn(False);
+          goto TheEnd;
+       } else { 
+          Delay(2500);
+          SetWhenever( OBJ_3 , true); 
+          SetActorState(Radio, 1);
+       }
+  }
+//OnSignal(4)		// momentalne vypnuto !!!!!!! - radio je neznicitelne
+//  {
+//    What = _GetObjectiveStatus(1, 1, 4, 3);
+//    If (What == 0) {  SetObjectiveStatus(6, 2); }		// Fail - odvysilej zpravu
+//    SUBTITLES_SetOn(True);
+//    SUBTITLES_SetText(04990822); //ÚKOL NESPLNÌN - VYSÍLAÈKA ZNIÈENA
+//    Delay(4000);
+//    SUBTITLES_SetOn(False);
+//  }
+
+// Ocupy submarine (kill all marines) - 4
+OnSignal(10)
+  {
+     If (O2B4J == 0) { O2B4J = 4}
+     If (O2B4J == 2) 
+      { 
+         SetObjectiveStatus(5, 1);	// Succes - obsad ponorku
+         SaveGameValue(5,99);
+         printf ("OBJECTIVE 4 - OK ");
+         SUBTITLES_SetOn(True); 
+         SUBTITLES_SetText(04990813); //ÚKOL SPLNÌN - PONORKA OBSAZENA
+         Delay(4000);
+         SetActorState(Radio, 1);
+         SetWhenever( OBJ_3 , true);
+         SUBTITLES_SetOn(False);
+      } else {
+         printf ("OBJECTIVE 4 - OK i kdyz jeste nebyl vubec zadanej");
+      }
+      SendSignal(MyFRM, 12);	// ponorka je prazdna a tak se nemuze potopit ... OBJ 5
+  }
+OnSignal(7)
+  {
+//    What = _GetObjectiveStatus(1, 2, 4, 5);
+//    PrintfNumber("OBJ  5 je:", What);
+    If ( break_signal_7 == 1 ) { goto TheEnd; }
+//    If (What == 0) {  SetObjectiveStatus(4, 3); }		// Fail - zabran v ponoreni
+    SetObjectiveStatus(4, 3);	// Fail - zabran v ponoreni
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990824); //ÚKOL NESPLNÌN - ZABRAÒ PONORCE V PONOØENÍ
+    Delay(4000);
+    SUBTITLES_SetOn(False);
+  }
+
+//  obj dokumenty
+OnSignal(24) 	// poprve sebral
+  {
+   Block
+    {
+    SetObjectiveStatus(2, 1);	// Succes - dokumenty
+    PlayMusic(36);
+    SaveGameValue(2,99);
+    printf ("OBJECTIVE 6 - OK ");
+    OBJ_Doc = 1;
+    }
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990815); //ÚKOL SPLNÌN - DOKUMENTY NALEZENY
+    Delay(4000);
+    SUBTITLES_SetOn(False);
+  }
+OnSignal(25) 	// ztratil
+  {
+   Block
+    {
+    SetObjectiveStatus(2, 0);	// in progres - dokumenty
+    SaveGameValue(2,0);
+    printf ("OBJECTIVE 6 - in progres ");
+    OBJ_Doc = 0;
+    }
+    If  (_SPGetGameType()==2) { goto TheEnd;}
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990880); //DOKUMENTY ZTRACENY 
+    Delay(4000);
+    SUBTITLES_SetOn(False);
+  }
+OnSignal(26) 	// znovu sebral
+  {
+   Block
+    {
+    SetObjectiveStatus(2, 1);	// Succes - dokumenty
+    SaveGameValue(2,99);
+    printf ("OBJECTIVE 6 - znova OK ");
+    OBJ_Doc = 1;
+    }
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990826); //DOKUMENTY ZNOVU NALEZENY
+    Delay(4000);
+    SUBTITLES_SetOn(False);
+  }
+OnSignal(30)
+{
+    SetObjectiveStatus(2, 3);	// fail - dokumenty
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(04990881); //DOKUMENTY DEFINITIVNE ZTRACENY 
+    Delay(4000);
+    SUBTITLES_SetOn(False);  
+}
+
+
+
+
+
+
+Label TheEnd:
+    If (uvodni_kecy !=0 ) { SUBTITLES_SetOn(False); }
+    uvodni_kecy = uvodni_kecy + 1; 

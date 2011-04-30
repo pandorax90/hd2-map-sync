@@ -1,0 +1,81 @@
+// BU2_22 - guard in the bunkers
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame shoot01;
+	FRM_FindFrame(shoot01, "BU2_22_shoot01");
+Frame obj;
+	FRM_FindFrame(obj, "BU2_objective");
+Frame me;
+	FRM_GetMyFrame(me);
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(28, false);	// vypnute 4, 8, 16
+
+OnAlarm()
+{
+	Block
+	{
+	DisableSignals(true);
+	DisableWhenevers(true);
+	}
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	Block
+	{
+	DisableSignals(false);
+	DisableWhenevers(false);
+	SetAlarmType(924, false);
+	}
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_SignalReceived(1))	// received from BU2_22_A1
+{
+	HUMAN_Suspend(false);
+	HUMAN_SETMODE_Crouch();
+	GoTo end;
+}
+
+Whenever shoot(_SignalReceived(2))	// received from BU2_22_A2
+{
+	HUMAN_SETMODE_Stand();
+//	HUMAN_Attack(shoot01, 2000);
+	SetAlarmType(35, true);
+	HUMAN_SETMODE_Crouch();
+	GoTo end;
+}
+
+OnDeath()
+{
+	SendSignal(obj, 2);
+	EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SetSniper(true, 2);
+FRM_SwitchFaceTexture(me, "e_f047");
+}
+HUMAN_Suspend(true);
+
+Label end:

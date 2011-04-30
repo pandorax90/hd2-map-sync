@@ -1,0 +1,67 @@
+// Brit 3 - posadka jeepu
+// --------------------------------------------
+
+Block
+{
+Frame obj4;		FRM_FindFrame(obj4,"obj4");
+Frame b2;		FRM_FindFrame(b2,"Brit02");
+Frame Jeep;		FRM_FindFrame(Jeep,"Jeep");
+Frame me;		FRM_GetMyFrame(me);
+
+FRM_SwitchFaceTexture(me, "e_f009");
+}
+
+// --------------------------------------------
+
+OnDeath(){
+SendSignal(obj4, 2);
+EndScript();
+}
+
+Whenever Jedem (_SignalReceived(1))
+{
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("Jeep",  1, 2);
+goto End;
+}
+
+Whenever Stojim (_SignalReceived(2))
+{
+HUMAN_BoardVehicle("Jeep",  0, 2);
+HUMAN_SETMODE_Walk();
+HUMAN_MoveToFrame(b2, 1);
+HUMAN_TurnAtNearestPlayer();
+goto Cum;
+}
+
+Whenever Jedem_Dal (_SignalReceived(4))
+{
+HUMAN_WeaponOnArm(1);
+HUMAN_TurnAt(Jeep);
+HUMAN_MoveToFrame(Jeep, 2);
+HUMAN_BoardVehicle("Jeep",  1, 2);
+goto End;
+}
+
+Whenever Vysedam (_SignalReceived(3))
+{
+HUMAN_BoardVehicle("Jeep",  0, 1);
+Delay(500);
+DisableSignals(1);
+HUMAN_Suspend(1);
+goto End;
+}
+
+// --------------------------------------------
+
+HUMAN_Suspend(1);
+goto End;
+
+
+Label Cum:
+HUMAN_TurnAtNearestPlayer();
+Delay(2000);
+goto Cum;
+
+
+Label End:

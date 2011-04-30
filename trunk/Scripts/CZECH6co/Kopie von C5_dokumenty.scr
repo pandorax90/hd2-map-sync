@@ -1,0 +1,34 @@
+// C5_dokumenty - objective dokumenty
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame obj;
+	FRM_FindFrame(obj, "C5_objective");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever doc(_IsInInventory(252))
+{
+	printf("dokumenty najdene prvykrat");
+	SetWhenever(lost, true);
+	SendSignal(obj, 2);
+	PlayMusic(36);
+	GoTo end;
+}
+Whenever lost(!_IsInInventory(252))
+{
+	printf("dokumenty stratene");
+	SetWhenever(found, true);
+	SendSignal(obj, 3);
+	GoTo end;
+}
+Whenever found(_IsInInventory(252))
+{
+	printf("dokumenty znovunalezene");
+	SetWhenever(lost, true);
+	SendSignal(obj, 4);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+SetWhenever(lost, false);
+SetWhenever(found, false);
+
+Label end:

@@ -1,0 +1,44 @@
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Run();
+HUMAN_WeaponOnArm(true);
+HUMAN_Suspend(true);
+
+OnAlarm()
+	{
+	DisableSignals(true);
+	HUMAN_TurnAtNearestPlayer();
+	HUMAN_Stop();
+	HUMAN_SETMODE_Crouch();
+	HUMAN_SETAIMODE_Aggressive();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	DisableSignals(false);
+	}
+
+OnCutscene(1)
+	{
+	}
+
+OnCutsceneDone(1)
+	{
+	HUMAN_Suspend(false);
+	}
+
+OnSignal(1)
+	{
+	HUMAN_SETMODE_Run();
+	HUMAN_SETMODE_Stand();
+	HUMAN_Move("GE_24_1");
+	}
+
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

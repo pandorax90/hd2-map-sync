@@ -1,0 +1,99 @@
+// AF3b_07
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME organizer;			FRM_FindFrame(organizer, "dummy_organizer");
+  FRAME dummy_turnat;		FRM_FindFrame(dummy_turnat, "m_palma");
+
+  INTEGER Atype			= 0;
+
+  SetAlarmType(1023, false);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(22){			// RETREAT SECTION
+  SetAlarmType(1023, false);
+  DisableSignals(true);
+  HUMAN_Stop();
+  HUMAN_SetMODE_Run();
+  HUMAN_Move("AF3b_retreat");
+  goto END;
+}
+
+OnDeath(){
+  SendSignal(organizer, 1);
+  EndScript();
+}
+  
+OnAlarm(){
+  block{
+    HUMAN_Stop();
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(0);
+    Atype = _GetAlarmType();
+//    printfnumber("07: ", Atype);
+  }
+
+  If(Atype == 2){
+    EndScript();
+  }
+
+  If(Atype == 256){
+    HUMAN_TurnAtNearestPlayer();
+    HUMAN_SetAlarm(false);
+    goto END;
+  }
+
+  if(((Atype != 32) AND (Atype != 64)) AND (Atype != 1)){
+    HUMAN_SetMODE_Run();
+    HUMAN_SetAlarm(false);
+    HUMAN_MoveToAlarm();
+    goto END;
+  }
+
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(1);
+  goto ACTIVITY;
+}
+
+OnSignal(2){
+  HUMAN_Suspend(false);
+  goto ESCAPEVEHICLE;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SetOptimized(1);
+  HUMAN_SetSightRange(300);
+  HUMAN_SETMODE_Run();
+  HUMAN_SETAIMODE_Aggressive();
+  HUMAN_BoardVehicle("Opel02", 1, 1);
+//  HUMAN_Suspend(true);
+//  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVITY:
+
+Label ESCAPEVEHICLE:
+  HUMAN_BoardVehicle("", 0, 1); 
+  SetAlarmType(1023, true);
+  SetAlarmType(768, false);
+  Delay(1000);
+  HUMAN_Move("AF3b_06_01");
+  HUMAN_SetMODE_Crouch();
+  Delay(100);
+  HUMAN_TurnAt(dummy_turnat);
+  HUMAN_LookAround(2);
+  HUMAN_SetOptimized(0);
+
+Label END:

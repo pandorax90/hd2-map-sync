@@ -1,0 +1,51 @@
+////-------------prepinani lightmap od dveri      m_d_po12    a      m_d_po13------------------------
+
+Block 
+  {
+     Frame p1s40;		FRM_GetMyFrame(p1s40);
+     Frame m_d_po12;		FRM_FindFrame(m_d_po12, "m_d_po12");
+     Frame m_d_po13; 		FRM_FindFrame(m_d_po13, "m_d_po13");
+     Integer podlaha;		podlaha=0;
+     Integer door_po12;		door_po12=0;
+     Integer door_po13;		door_po13=0;
+
+/////////////// INICIALIZACE ////////////////////////
+      FRM_SetLightMap(m_d_po12, 0);	
+      FRM_SetLightMap(m_d_po13, 0);	
+      FRM_SetGroupLightMap("1s_p1s40", 0);
+///////////////////////////////////////////
+  }
+
+OnSignal(1)
+{
+  If(door_po12==1) { door_po12=0; } Else { door_po12=1; }
+  If(door_po12==1) { podlaha=3; } Else { podlaha=0; }
+  Block
+   {
+      FRM_SetLightMap(m_d_po12, door_po12);	
+      FRM_SetLightMap(m_d_po13, door_po12);	
+      FRM_SetGroupLightMap("1s_p1s40",podlaha);
+   }
+}
+
+// OnSignal(2)
+// {
+//   Frame m_d_po13; 		FRM_FindFrame(m_d_po13, "m_d_po13");
+//   If(door_po13==1) { door_po13=0; } Else { door_po13=1; }
+//   FRM_SetLightMap(m_d_po13,door_po13);
+//   Goto Lightmap;
+// }
+// 
+// Label Lightmap:	
+//	If    ((door_po12==0) and (door_po13==0))		{podlaha=0}
+//	If     ((door_po12==1) and (door_po13==0))		{podlaha=1}
+//	If     ((door_po12==0) and (door_po13==1))		{podlaha=2}
+//	If     ((door_po12==1) and (door_po13==1))		{podlaha=3}
+//
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+// Tank 4 (La_tiger_4) Ridic
+// -------------------------------------
+
+Block
+{
+Frame Tank;	FRM_FIndFrame(Tank,"La_tiger_4");
+}
+
+// -------------------------------------
+
+Whenever Spawn (_SignalReceived(1))
+{
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("La_tiger_4", 1, 0);
+Delay(120000);
+HUMAN_Drive("tank01_02", 40);
+HUMAN_Drive("", 0);
+goto END;
+}
+
+// -------------------------------------
+
+HUMAN_Suspend(1);
+goto END;
+
+
+Label END:

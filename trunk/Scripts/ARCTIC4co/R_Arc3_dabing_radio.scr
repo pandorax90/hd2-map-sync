@@ -1,0 +1,84 @@
+Block
+  {
+      frame Player;	  	FRM_FindFrame(Player, "_PLAYER_ 0");
+      integer PlayerNum;	
+      frame OBJ;		FRM_FindFrame(OBJ, "dummy_objectives");
+
+      SetWhenever(NEZIJE1, False);
+      SetWhenever(NEZIJE2, False);
+  }
+
+// 04990830 	Tady modrá 2 ... operace Blizzard je úspìšnì dokonèena.	
+// 04990831	Vracíme se domù.	
+// 04990832	Konèím.	
+
+Delay(2500); // snad to bude stacit aby to kurv. uz fungovalo spravne a ne na pic.
+PlayerNum = _GetNumMembersOfClientTeam();
+
+OnSignal(1)
+{
+  If ( PlayerNum == 3 ) { Goto L3;}
+  If ( PlayerNum == 2 ) { Goto L2;}
+  If ( PlayerNum == 1 ) { Goto L1;}
+  FRM_FindFrame(player, "_PLAYER_ 3"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce;}
+Label L3:
+  FRM_FindFrame(player, "_PLAYER_ 2"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce;}
+Label L2:
+  FRM_FindFrame(player, "_PLAYER_ 1"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce;}
+Label L1:
+  FRM_FindFrame(player, "_PLAYER_ 0"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce;}
+ 
+Label akce:
+  SetWhenever(NEZIJE1, True);
+  FRM_MorphSpeechDelayed(player, 04990830, 0, 15);	 
+  FRM_MorphSpeechDelayed(player, 04990831, 0, 15);	 
+  FRM_MorphSpeechDelayed(player, 04990832, 0, 15);	 
+  SendSignal(OBJ, 1);
+  SetWhenever(NEZIJE1, False);
+}
+Whenever NEZIJE1 ( _ACTOR_GetState(player) != 1 )
+{
+  FRM_MorphSpeech(player, 0, 0, 0);	
+}
+
+
+// 04990882	Blue 2 calling Fortress, we are in position!	
+// 04990883	There is a heavier enemy presence than we expected, a U-boat is waiting to evacuate the camp!	
+// 04990884	We will adapt our plans to deal with the situation!	
+// 04990885	Blue 2 over!
+
+OnSignal(3)
+{
+  If ( PlayerNum == 3 ) { Goto L4;}
+  If ( PlayerNum == 2 ) { Goto L5;}
+  If ( PlayerNum == 1 ) { Goto L6;}
+  FRM_FindFrame(player, "_PLAYER_ 3"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce1;}
+Label L4:
+  FRM_FindFrame(player, "_PLAYER_ 2"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce1;}
+Label L5:
+  FRM_FindFrame(player, "_PLAYER_ 1"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce1;}
+Label L6:
+  FRM_FindFrame(player, "_PLAYER_ 0"); 
+  If ( _FrameInRange(Player) < 2 ) { Goto Akce1;}
+ 
+Label akce1:
+  SetWhenever(NEZIJE2, True);
+  FRM_MorphSpeechDelayed(player, 04990882, 0, 15);	
+  FRM_MorphSpeechDelayed(player, 04990883, 0, 15);	 
+  FRM_MorphSpeechDelayed(player, 04990884, 0, 15);	
+  FRM_MorphSpeechDelayed(player, 04990885, 0, 15);	
+  SendSignal(OBJ, 0);
+  SetWhenever(NEZIJE2, False);
+}
+Whenever NEZIJE2 ( _ACTOR_GetState(player) != 1 )
+{
+  FRM_MorphSpeech(player, 0, 0, 0);	
+}
+
