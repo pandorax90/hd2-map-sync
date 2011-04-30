@@ -1,0 +1,47 @@
+// rusi se cutscena
+  Delay(2000);
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(04010801);	// OBJECTIVE 1 -- prozkoumej ledovec
+  Delay(3000);
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(04010806);	// OBJECTIVE 6 -- dokumenty
+  Delay(3000);
+  SUBTITLES_SetOn(False);
+ENDSCRIPT();
+
+
+CSC_FadeOut(1); 
+Delay(250);
+
+frame K1;		FRM_FindFrame(K1, "K1");
+frame see;		FRM_FindFrame(see, "dummy_K1_see");
+frame null;		FRM_FindFrame(null, "");
+
+CSC_RunCutscene(1);
+
+OnCutscene(1) 
+{ 
+  FRM_SetActiveCamera(K1);
+  Delay(300); 
+  CSC_FadeIn(250); 
+  Delay(150); 
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(04010801);	// OBJECTIVE 1 -- prozkoumej ledovec
+  Delay(850);
+  FRM_SetCameraFrameSlide(see, 25);
+  Delay(5000);
+  FRM_FindFrame(see, "dummy_marine_activator");
+  FRM_SetCameraFrameSlide(see, 25);
+  SUBTITLES_SetText(04010806);	// OBJECTIVE 6 -- dokumenty
+  Delay(5000);
+  CSC_FadeOut(250); 
+  Delay(700); 
+  CSC_EndCutscene(); 
+}
+
+OnCutsceneDone(1) 
+{ 
+  FRM_SetCameraFrame(null);
+  SUBTITLES_SetOn(False);
+  CSC_FadeIn(250); 
+}

@@ -1,0 +1,76 @@
+Block
+{
+Frame player;				FRM_GetMyFrame(player);
+Frame duplicated_player;
+Frame start_jeep;			FRM_FindFrame( start_jeep, "CUTp4_jeep");
+Frame start_opel;			FRM_FindFrame( start_opel, "CUTp4_opel");
+}
+		
+///////////////////////////////////-----------------v jeepe------------------------------///////////////////////////////////////////////		
+
+OnCutscene(1)
+{
+	Block
+	{
+	HUMAN_BoardVehicle("la_Jeepsas_", 1,3);		/////////nastupenie do ingame jeepu
+	
+	CSC_DuplicateHuman(player, duplicated_player,"_PLAYER_cuts_sasik4");
+	FRM_TeleportNearFrame(duplicated_player, start_jeep, true);
+	CSC_FreeHands(duplicated_player);
+	CSC_FreeBackPack(duplicated_player);
+	
+	CSC_FrameSetShadow(duplicated_player, false);
+		
+	FRM_SetAnimation(duplicated_player, "%%A3_korba.I3D",true);
+	}
+}
+
+OnCutsceneDone(1)
+{
+	Block
+	{
+	FRM_SetAnimation(duplicated_player, "",true);
+	FRM_TeleportNearFrameBack(duplicated_player);	
+
+	CSC_ReleaseHuman(duplicated_player);
+	FRM_FindFrame(duplicated_player, "");
+
+	}
+EndScript();
+}
+
+///////////////////////////////////-----------------v nakladaku------------------------------///////////////////////////////////////////////	
+
+OnCutscene(2)
+{
+		Block
+		{
+		HUMAN_BoardVehicle("opelsflakem", 1, 3);		/////////nastupenie do ingame nakladaku
+			
+		CSC_DuplicateHuman(player, duplicated_player,"_PLAYER_cuts_sasik4");
+		FRM_TeleportNearFrame(duplicated_player, start_opel, true);
+		CSC_FreeHands(duplicated_player);
+		CSC_FreeBackPack(duplicated_player);
+
+		CSC_FrameSetShadow(duplicated_player, false);
+		
+		FRM_SetAnimation(duplicated_player, "%%american.I3D",true);
+		}
+
+}
+
+OnCutsceneDone(2)
+{
+	Block
+	{
+	FRM_SetAnimation(duplicated_player, "",true);
+	FRM_TeleportNearFrameBack(duplicated_player);	
+
+	CSC_ReleaseHuman(duplicated_player);
+	FRM_FindFrame(duplicated_player, "");
+
+	}
+
+EndScript();
+
+}

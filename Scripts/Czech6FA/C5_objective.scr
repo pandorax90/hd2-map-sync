@@ -1,0 +1,43 @@
+// C5_objective
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame deadcounter;
+	FRM_FindFrame(deadcounter, "C5_RU_deadcounter");
+Frame diary;
+	FRM_FindFrame(diary, "C5_diary");
+Frame teleporter;
+	FRM_FindFrame(teleporter, "C5_player_teleporter");
+Integer gametype;
+	gametype=0;
+}
+
+gametype=_SPGetGameType();
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+Whenever AED (_AllEnemiesDead())
+	{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(21990002);
+	SetObjectiveStatus(1, 1);
+      Delay(6000);
+	SUBTITLES_SetOn(false);
+      GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+SetObjectiveStatus(1, 0);	// kill the enemy
+
+}
+
+SUBTITLES_SetOn(true);
+printf("Kill the enemy");
+SUBTITLES_SetText(15538);
+Delay(7000);
+SUBTITLES_SetOn(false);
+
+Label end:

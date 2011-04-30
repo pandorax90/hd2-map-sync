@@ -1,0 +1,41 @@
+HUMAN_BoardVehicle("la_OpelE_5", 1, 5);
+SetAlarmType(1023, false);
+
+OnSignal(1)
+	{
+	Printf("GE_19 sig 1");
+	//HUMAN_SETMODE_Stand();
+	HUMAN_BoardVehicle("", 0, 5);
+	Delay(1500);
+	SetAlarmType(1023, true);
+	HUMAN_WeaponOnArm(true);
+	Delay(1000);
+	HUMAN_Move("GE_17_1");
+	HUMAN_Move("GE_17_2");
+	HUMAN_Move("GE_17_3");
+	HUMAN_SETMODE_Run();
+	}
+
+OnAlarm()
+	{
+	HUMAN_SETAIMODE_Aggressive();
+	HUMAN_SETMODE_Stand();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Run();
+	HUMAN_SETMODE_Stand();
+	HUMAN_Move("GE_17_3");
+	}
+
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

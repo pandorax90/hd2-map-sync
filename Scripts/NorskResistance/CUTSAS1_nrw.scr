@@ -1,0 +1,192 @@
+
+Block
+{
+Frame player1;			
+Frame duplicated_player1;
+Frame start1;			FRM_FindFrame(start1,"CUTsas1_start");
+Frame next1;			FRM_FindFrame(next1,"CUTsas1_next");
+
+Frame player2;			
+Frame duplicated_player2;
+Frame start2;			FRM_FindFrame(start2,"CUTsas2_start");
+Frame next2;			FRM_FindFrame(next2,"CUTsas2_next");
+
+Frame player3;			
+Frame duplicated_player3;
+Frame start3;			FRM_FindFrame(start3,"CUTsas3_start");
+Frame next3;			FRM_FindFrame(next3,"CUTsas3_next");
+
+Frame player4;			
+Frame duplicated_player4;
+Frame start4;			FRM_FindFrame(start4,"CUTsas4_start");
+Frame next4;			FRM_FindFrame(next4,"CUTsas4_next");
+
+
+
+}
+
+
+//EndScript();
+
+OnCutscene(10)
+{
+	
+Block
+{	
+
+integer num_players;
+Integer zivy_dva; 
+	
+
+	zivy_dva = 0;
+	num_players = _GetNumMembersOfClientTeam();
+
+		CSC_GetPlayerNum(0, player1);					////vybere 1.ziveho
+	
+		CSC_DuplicateHuman(player1, duplicated_player1,"_PLAYER_cuts_sasik1");
+		
+		CSC_FreeHands(duplicated_player1);
+		
+		FRM_TeleportNearFrame(duplicated_player1, start1, true);
+	
+		FRM_SetAnimation(duplicated_player1, "%%nor_vyleza.I3D",true);
+
+		FRM_SetOn(player1, false);
+	
+
+			if(num_players>1)	
+			
+			{
+			zivy_dva =1; 
+			CSC_GetPlayerNum(1, player2);		
+
+			CSC_DuplicateHuman(player2, duplicated_player2,"_PLAYER_end_sasik2");
+	
+			CSC_FreeHands(duplicated_player2);	
+		
+			FRM_TeleportNearFrame(duplicated_player2, start2, true);
+		
+			FRM_SetAnimation(duplicated_player2, "!plavani3.I3D",true);
+	
+			FRM_SetOn(player2, false);	
+	
+			}
+
+
+				if(num_players>2)
+				{
+				zivy_dva =2; 
+				CSC_GetPlayerNum(2, player3);	
+				
+				CSC_DuplicateHuman(player3, duplicated_player3,"_PLAYER_cuts_sasik3");
+		
+				CSC_FreeHands(duplicated_player3);
+		
+				FRM_TeleportNearFrame(duplicated_player3, start3, true);
+	
+				FRM_SetAnimation(duplicated_player3, "!plavST.I3D",true);	
+
+				FRM_SetOn(player3, false);
+				}
+					
+
+					if(num_players>3)
+					{
+					zivy_dva =3; 
+					CSC_GetPlayerNum(3, player4);	
+		
+					CSC_DuplicateHuman(player4, duplicated_player4,"_PLAYER_cuts_sasik4");
+		
+					CSC_FreeHands(duplicated_player4);
+		
+					FRM_TeleportNearFrame(duplicated_player4, start4, true);
+	
+					FRM_SetAnimation(duplicated_player4, "!plavani2.I3D",true);	
+		
+					FRM_SetOn(player4, false);
+					}
+
+}
+
+	
+
+Delay(21800);
+	
+	Block
+	{
+	
+	FRM_TeleportNearFrame(duplicated_player1, next1, true);
+	FRM_SetAnimation(duplicated_player1, "%%american.I3D",true);
+	
+		if(zivy_dva==1) 
+		{
+	
+		FRM_TeleportNearFrame(duplicated_player2, next2, true);
+		FRM_SetAnimation(duplicated_player2, "%%american1.I3D",true);
+		}
+
+			if(zivy_dva==2) 
+			{
+	
+			FRM_TeleportNearFrame(duplicated_player2, next2, true);
+			FRM_SetAnimation(duplicated_player2, "%%american1.I3D",true);
+	
+			FRM_TeleportNearFrame(duplicated_player3, next3, true);
+			FRM_SetAnimation(duplicated_player3, "%%nor_jde.I3D ",true);
+
+			}
+
+				if(zivy_dva==3) 
+				{
+	
+				FRM_TeleportNearFrame(duplicated_player2, next2, true);
+				FRM_SetAnimation(duplicated_player2, "%%american1.I3D",true);
+	
+				FRM_TeleportNearFrame(duplicated_player3, next3, true);
+				FRM_SetAnimation(duplicated_player3, "%%nor_jde.I3D ",true);
+
+				FRM_TeleportNearFrame(duplicated_player4, next4, true);
+				FRM_SetAnimation(duplicated_player4, "%%nor_sedi.I3D ",true);
+				
+				}
+
+	}
+	
+
+}
+	
+
+OnCutsceneDone(10)
+{
+
+	Block
+	{
+
+	FRM_SetAnimation(duplicated_player1, "",true);
+	CSC_ReleaseHuman(duplicated_player1);
+	FRM_FindFrame(duplicated_player1, "");
+	FRM_SetOn(player1, true);
+
+	FRM_SetAnimation(duplicated_player2, "",true);
+	CSC_ReleaseHuman(duplicated_player2);
+	FRM_FindFrame(duplicated_player2, "");
+	FRM_SetOn(player2, true);
+	
+	FRM_SetAnimation(duplicated_player3, "",true);
+	CSC_ReleaseHuman(duplicated_player3);
+	FRM_FindFrame(duplicated_player3, "");
+	FRM_SetOn(player3, true);
+
+	FRM_SetAnimation(duplicated_player4, "",true);
+	CSC_ReleaseHuman(duplicated_player4);
+	FRM_FindFrame(duplicated_player4, "");
+	FRM_SetOn(player4, true);
+	
+	}
+
+
+
+
+} 
+
+

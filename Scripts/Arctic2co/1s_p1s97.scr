@@ -1,0 +1,40 @@
+////-------------prepinani lightmap od dveri      m_d_po26    a      m_d_po27------------------------
+
+Block
+{
+  Integer X;			X=0;
+  Integer Y;			Y=0;
+
+  Frame p1s97;		FRM_GetMyFrame(p1s97);
+  Frame m_d_po26;		FRM_FindFrame(m_d_po26, "m_d_po26");
+  Frame m_d_po27;		FRM_FindFrame(m_d_po27, "m_d_po27");	
+}
+
+////////////// init.
+Block
+{
+  FRM_SetLightMap(m_d_po26, X);
+  FRM_SetLightMap(m_d_po27, X);
+  FRM_SetGroupLightMap("1s_p1s97", X);
+}
+
+  Delay(3000);
+
+OnSignal(1)
+{
+  If (X==1) { X=0; } Else { X=1; }
+  Y = X * 3;
+  Block 
+    {
+        FRM_SetLightMap(m_d_po26, X );
+        FRM_SetLightMap(m_d_po27, X );
+        FRM_SetGroupLightMap("1s_p1s97", Y );
+        Printf("NASTAVUJI PROBLEMATICKOU CAST U CERNYCH DVERI !!!!!! ");
+    }
+}
+
+
+
+
+
+

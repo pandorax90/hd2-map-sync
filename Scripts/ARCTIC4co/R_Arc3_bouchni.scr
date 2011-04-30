@@ -1,0 +1,10 @@
+frame FRM;		FRM_GetMyFrame(FRM);
+frame Ulomek;   	FRM_FindFrame(Ulomek, "ulomek_4");
+
+
+OnSignal(1)
+{
+  Printf("BUM u ulomku 1!");
+//  MakeExplosion(FRM , 5000000, 3500);
+  SetActorState(Ulomek, 1);
+}

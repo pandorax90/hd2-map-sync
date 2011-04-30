@@ -1,0 +1,68 @@
+// Hlidkuje u zavor u Budky vechtra
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+Frame sloup;    	FRM_FindFrame(sloup,"l_ndrlamp10");
+Frame vechtr;    	FRM_FindFrame(vechtr,"vechtr");
+
+SetAlarmType(1,1); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,1); //kroky
+SetAlarmType(8,1); //zvuky by use
+SetAlarmType(16,1); //exploze
+SetAlarmType(32,0); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,1); //zeskriptu
+SetAlarmType(256,1); //pratelska strelba
+SetAlarmType(512,1); //vidim flakotu
+
+Frame me;	FRM_GetMyFrame(me);
+FRM_SwitchFaceTexture(me,"e_f024");
+}
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+EndScript();
+}
+
+OnAlarm(){
+HUMAN_SetAnim("",200,200,1);
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Lie();
+HUMAN_TurnAtNearestPlayer();
+EndScript();
+}
+
+OnAlarmDone(){
+HUMAN_TurnAtNearestPlayer();
+goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+HUMAN_SETSIGHTRANGE(60);
+HUMAN_SETHEARRANGE(60);
+HUMAN_SetOptimized(1);
+goto move;
+
+Label move:
+HUMAN_SETMODE_Guard();
+HUMAN_Move("zavora");
+HUMAN_TurnAt(sloup);
+HUMAN_SetAnim("%%turnleft",200,200,1);
+Delay (2800);
+HUMAN_SetAnim("%%turnright",200,200,1);
+Delay(3700);
+HUMAN_SetAnim("",200,200,1);
+HUMAN_Move("sloup");
+HUMAN_TurnAt(vechtr);
+HUMAN_SetAnim("%%turnleft",200,200,1);
+Delay (2800);
+HUMAN_SetAnim("%%turnright",200,200,1);
+Delay(3700);
+HUMAN_SetAnim("",200,200,1);
+goto move;
+
+
+Label END:

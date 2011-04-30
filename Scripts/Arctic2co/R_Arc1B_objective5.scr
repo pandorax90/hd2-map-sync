@@ -1,0 +1,146 @@
+
+Integer counter1 = 0;	
+Integer counter2 = 0;	
+Integer counter3 = 0;	
+Integer counter4 = 0;	
+Integer counter5 = 0;	
+Integer Counter = 0 ;
+Integer status = 0;
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+frame BUM1;		FRM_FindFrame(BUM1, "BUM1");
+frame BUM2;		FRM_FindFrame(BUM2, "BUM2");
+frame BUM3;		FRM_FindFrame(BUM3, "BUM3");
+frame BUM4;		FRM_FindFrame(BUM4, "BUM4");
+frame BUM5;		FRM_FindFrame(BUM5, "BUM5");
+frame PLAYER;	FRM_FindFrame(PLAYER, "_PLAYER_ 0");
+
+
+OnSignal(1) {  counter1= 1; }
+OnSignal(2) 
+{  
+  counter1 =0; 
+  If ( _ACTOR_GetState(BUM1) != 2) { Goto SKIPER; }
+Block
+  {
+    FRM_CreateParticle(48, PLAYER);
+    FRM_CreateParticle(53, PLAYER);
+    HUMAN_Kill(PLAYER);
+  }
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(02990500);  	//ZAAAAVVVAAALLLLL 
+  Printf("EXPLOZE ########################## 111111111");
+  Delay(3000);
+  SetObjectiveStatus(3, 3);		// KO  
+  Delay(2000);
+  SUBTITLES_SetOn(False);
+}
+
+OnSignal(3) {  counter2 = 1; }
+OnSignal(4) 
+{ 
+  counter2 = 0; 
+  If ( _ACTOR_GetState(BUM2) != 2) { Goto SKIPER; }
+Block
+  {
+    FRM_CreateParticle(48, PLAYER);
+    FRM_CreateParticle(53, PLAYER);
+    HUMAN_Kill(PLAYER);
+  }
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(02990500);  	//ZAAAAVVVAAALLLLL 
+  Printf("EXPLOZE ########################## 222222222");
+  Delay(3000);
+  SetObjectiveStatus(3, 3);		// KO  
+  Delay(2000);
+  SUBTITLES_SetOn(False);
+}
+
+OnSignal(5) {  counter3 = 1; }
+OnSignal(6) 
+{
+  counter3 = 0; 
+  If ( _ACTOR_GetState(BUM3) != 2) { Goto SKIPER; }
+Block
+  {
+    FRM_CreateParticle(48, PLAYER);
+    FRM_CreateParticle(53, PLAYER);
+    HUMAN_Kill(PLAYER);
+  }
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(02990500);  	//ZAAAAVVVAAALLLLL 
+  Printf("EXPLOZE ########################## 33333333333");
+  Delay(3000);
+  SetObjectiveStatus(3, 3);		// KO  
+  Delay(2000);
+  SUBTITLES_SetOn(False);
+}
+
+OnSignal(7) {  counter4 = 1; }
+OnSignal(8) 
+{
+  counter4 = 0; 
+  If ( _ACTOR_GetState(BUM4) != 2) { Goto SKIPER; }
+Block
+  {
+    FRM_CreateParticle(48, PLAYER);
+    FRM_CreateParticle(53, PLAYER);
+    HUMAN_Kill(PLAYER);
+  }
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(02990500);  	//ZAAAAVVVAAALLLLL 
+  Printf("EXPLOZE ########################## 44444444444");
+  Delay(3000);
+  SetObjectiveStatus(3, 3);		// KO  
+  Delay(2000);
+  SUBTITLES_SetOn(False);
+}
+
+OnSignal(9)   {  counter5 = 1; }
+OnSignal(10) 
+{
+  counter5 = 0; 
+  If ( _ACTOR_GetState(BUM5) != 2) { Goto SKIPER; }
+Block
+  {
+    FRM_CreateParticle(48, PLAYER);
+    FRM_CreateParticle(53, PLAYER);
+    HUMAN_Kill(PLAYER);
+  }
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(02990500);  	//ZAAAAVVVAAALLLLL 
+  Printf("EXPLOZE ########################## 5555555555555");
+  Delay(3000);
+  SetObjectiveStatus(3, 3);		// KO  
+  Delay(2000);
+  SUBTITLES_SetOn(False);
+}
+
+Label SKIPER:
+
+Counter = counter1 + counter2 + counter3 + counter4 + counter5;
+PrintfNumber("DYNAMITU JE", Counter);
+
+  If ( (counter < 4)  AND (status == 1) )    
+   {
+       SendSignal(OBJ, 13); 	// obj nastav na inprogres
+    }
+
+  If (counter == 4)     
+   { 
+//       Delay(1000);
+       SendSignal(OBJ, 12); 	// obj OK
+       status = 1; 
+   }	
+
+  If (counter == 5)     
+   {
+       SaveGameValue(5, 99); 
+   }
+
+// !!!!!!!!!!!! vypnout FAIL aby nemoh nastat po SUCCESU mise
+Whenever SUCCESFUL ( _SignalReceived(17) )
+{
+  EndScript();
+}
+
+

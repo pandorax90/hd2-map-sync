@@ -1,0 +1,22 @@
+// AF3a_axiscar02 - detects whether car is damaged or not
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME this;			FRM_GetMyFrame(this);
+FRAME af07;			FRM_FindFrame(af07, "AF3b_07");
+FRAME af08;			FRM_FindFrame(af08, "AF3b_08");
+FRAME af09;			FRM_FindFrame(af09, "AF3b_09");
+FRAME af10;			FRM_FindFrame(af10, "AF3b_10");
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){				// if car is destroyed
+  SaveGameValue(52, 0);
+  SendSignal(af07, 2);
+  SendSignal(af08, 2);
+  SendSignal(af09, 2);
+  SendSignal(af10, 2);
+  FRM_CreateParticle(53, this);
+  EndScript();
+}
+
+// -------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,60 @@
+// BU1_obj_01 - at airplane parts
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+Frame obj2;
+	FRM_FindFrame(obj2, "BU1_dokumenty");
+Frame barelx;
+	FRM_FindFrame(barelx, "BU1_bar03");
+Frame me;
+	FRM_GetMyFrame(me);
+Integer discovered;
+	discovered=0;
+Integer cratesdamaged;
+	cratesdamaged=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_PlayerInRange(6))
+{
+	SendSignal(obj, 1);
+	SendSignal(obj2, 1);
+	PlayMusic(36);
+	discovered=1;
+	GoTo end;
+}
+
+Whenever explosive(_ItemInRange(67, 10))
+{
+	SetWhenever(explosive2, false);
+	SendSignal(barelx, 1);
+	GoTo end;
+}
+
+Whenever explosive2(_SignalReceived(1))	// received from BU1_16
+{
+	SetWhenever(explosive, false);
+	FRM_CreateParticle(43, me);
+	PlaySound(6, 6);
+	MakeExplosion(me, 10000000, 10000);
+	SendSignal(obj, 7);
+	PlayMusic(34);
+	GoTo end;
+}
+
+OnSignal(2)	// received from crates ondeath
+{
+	cratesdamaged=cratesdamaged+1;
+
+	If(cratesdamaged>4)
+	{
+	EnableSignal(2, false);
+	SendSignal(obj, 7);
+	PlayMusic(34);
+	}
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

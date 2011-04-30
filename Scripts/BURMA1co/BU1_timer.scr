@@ -1,0 +1,30 @@
+// BU1_timer - timer for mission failed
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame bu1_16;
+	FRM_FindFrame(bu1_16, "BU1_16");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever timer(_SignalReceived(1))		// received from BU1_objectives
+{
+	SetInterfaceTimer(900000);
+	printf("15 minutes to go");
+	Delay(300000);
+	printf("10 minutes to go");
+	Delay(300000);
+	printf("5 minutes to go");
+	Delay(240000);
+	printf("1 minute to go");
+	Delay(45000);
+	printf("15 seconds to go");
+	Delay(15000);
+	printf("officer is going to destroy the evidence");
+	SendSignal(bu1_16, 1);
+}
+
+Whenever signal(_SignalReceived(2))	// received from BU1_objectives
+{
+	SetInterfaceTimer(0);
+	EnableSignal(1, false);
+}
+// -------------------------------------------------------------------------------------------------------------

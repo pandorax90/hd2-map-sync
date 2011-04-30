@@ -1,0 +1,60 @@
+// AF3b_tankista02
+// -------------------------------------------------------------------------------------------------------------
+
+block
+{
+  FRAME organizer;		FRM_FindFrame(organizer, "dummy_organizer");
+  INTEGER Atype;		
+  INTEGER gt			= _SPGetGameDifficulty();
+  INTEGER see_val		= 60 + (gt * (30));
+  INTEGER hear_val		= 40 + (gt * (30));
+  HUMAN_SETSIGHTRANGE(see_val);
+  HUMAN_SETHEARRANGE(hear_val);
+  SetAlarmType(1023, true);
+  if(gt == 0)
+  {
+    SetAlarmType(4, false);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  SendSignal(organizer, 1);
+  EndScript();
+}
+  
+OnAlarm(){
+  Atype = _GetAlarmType();
+  printfnumber("tankista03: ", Atype);
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  SetAlarmType(1023, true);
+  if(gt == 0)
+  {
+    SetAlarmType(4, false);
+  }
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  goto ACTIVITY;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_BoardVehicle("tiger01", true, 2);
+//  EndScript();
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+
+Label ACTIVITY:
+
+Label END:

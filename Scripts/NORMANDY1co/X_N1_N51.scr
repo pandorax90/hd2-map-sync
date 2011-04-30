@@ -1,0 +1,99 @@
+// N51 - soldier going to another soldier and check explosives
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame me;
+	FRM_GetMyFrame(me);
+Frame ruka;
+	FRM_FindFrame(ruka, "N51.hw1");
+Frame sit;
+	FRM_FindFrame(sit, "N51_sit");
+Frame slozka;
+	FRM_FindFrame(slozka, "slozkaneseni");
+Frame slozka_v;
+	FRM_FindFrame(slozka_v, "slozkaneseni.Box01");
+Frame slozkalink;
+	FRM_FindFrame(slozkalink, "slozkaneseni_link");
+Integer slozkadropped;
+	slozkadropped=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(144, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	Block
+	{
+	FRM_CreatePhysicalObject(slozka_v, 3, true, false);
+	FRM_SetOn(slozka, false);
+	slozkadropped=1;
+	}
+	HUMAN_SetAnim("", 200, 200, false);
+	HUMAN_SETMODE_StandFast();
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	GoTo end;
+}
+
+OnDeath()
+{
+	If(slozkadropped==0)
+	{
+	FRM_CreatePhysicalObject(slozka_v, 3, true, false);
+	FRM_SetOn(slozka, false);
+	}
+	EndScript();
+}
+
+Whenever player(_SignalReceived(1))	// received from
+{
+	HUMAN_Suspend(false);
+	GoTo path;
+}
+// -------------------------------------------------------------------------------------------------------------
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f027");
+HUMAN_Suspend(true);
+GoTo end;
+
+Label path:
+	FRM_TeleportNearFrame(slozka, ruka, true);
+	FRM_FindFrame(ruka, "");
+	HUMAN_Move("N51_2");
+	HUMAN_Move("N51_3");
+	HUMAN_Move("N51_4");
+	HUMAN_Move("N51_5");
+	HUMAN_Move("N51_6");
+	HUMAN_Move("N51_7");
+	FRM_TeleportNearFrame(slozka, slozkalink, true);
+	Delay(1000);
+	HUMAN_Move("N51_6");
+	HUMAN_Move("N51_5");
+	HUMAN_Move("N51_4");
+	HUMAN_Move("N51_3");
+	HUMAN_Move("N51_2");
+	HUMAN_Move("N51_1");
+	HUMAN_ACTIVITY_Sit(sit);
+	HUMAN_SetAnim("%%ctuneco", 300, 300, true);
+	HUMAN_SetOptimized(2);
+	GoTo end;
+
+Label end:

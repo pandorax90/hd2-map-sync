@@ -1,0 +1,25 @@
+// Obj 4 - find the ally and Find out your orders
+//--------------------------------------------------
+
+Whenever Contacted (_SignalReceived(1))
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(15993010);
+Delay(4000);
+SUBTITLES_SetOn(0);
+SetObjectiveStatus(8, 0);
+Delay(1000);
+SetObjectiveStatus(4, 1);
+goto end;
+}
+
+OnSignal(2)
+{ 
+SetObjectiveStatus(8, 4);
+Delay(4000);
+SetObjectiveStatus(4, 2);
+goto end;
+}
+
+
+Label END:

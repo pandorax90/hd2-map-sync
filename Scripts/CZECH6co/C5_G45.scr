@@ -1,0 +1,45 @@
+// C5_G45 - soldier in the bunker
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	GoTo end;
+}
+
+OnSignal(1)	// received from C5_G45_activator01
+{
+	HUMAN_Suspend(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+FRM_SwitchFaceTexture(me, "e_f016");
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Run();
+}
+HUMAN_Suspend(true);
+
+Label end:

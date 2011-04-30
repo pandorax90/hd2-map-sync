@@ -1,0 +1,15 @@
+// Bomb 4
+//-------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame MyFRM;		FRM_GetMyFrame(MyFRM);
+}
+//---------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+Whenever Stav ( _ACTOR_GetState(MyFRM) == 0 )
+{
+  SetActorState(MyFRM, 3);
+  EndScript();
+}

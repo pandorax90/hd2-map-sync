@@ -1,0 +1,23 @@
+integer a;	a=0;
+
+OnSignal(1)
+{
+a=a+1;
+if (a==2)
+{
+PlayMusic(36);
+}
+goto end;
+}
+
+
+
+
+
+
+
+
+
+
+
+label end:

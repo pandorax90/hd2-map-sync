@@ -1,0 +1,10 @@
+integer ted;
+integer last;
+
+label loop:
+  ted = _LoadGameValue(73);
+  last = _LoadGameValue(72);
+  PrintfNumber("PLAYER PROSEL ZACHYTKOU: ", ted);
+  PrintfNumber("MINULA ZACHYTKA: ", last);
+  Delay(1000);
+goto loop;

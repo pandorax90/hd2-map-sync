@@ -1,0 +1,14 @@
+
+
+Frame FRM;		FRM_GetMyFrame(FRM);
+
+HUMAN_SetOptimized(2);
+delay(6000);		
+HUMAN_Move("Teleport_Ally");
+delay(2000);
+HUMAN_Kill(FRM);
+
+///////////////////////// ???
+// po unsuspendnuti se budou alarmovat na mrtvolu - pokud to bude delat problem, tak vyradim alarm
+
+

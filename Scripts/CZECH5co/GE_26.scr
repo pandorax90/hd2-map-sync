@@ -1,0 +1,45 @@
+Frame see;			FRM_FindFrame(see, "stairs05");
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Run();
+HUMAN_WeaponOnArm(true);
+HUMAN_Suspend(true);
+OnCutscene(1)
+	{
+	}
+
+OnCutsceneDone(1)
+	{
+	HUMAN_Suspend(false);
+	}
+
+OnAlarm()
+	{
+	HUMAN_TurnAtNearestPlayer();
+	HUMAN_Stop();
+	DisableSignals(true);
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	DisableSignals(false);
+	HUMAN_SETMODE_Stand();
+	HUMAN_SETMODE_Run();
+	HUMAN_Move("GE_26_x");
+	HUMAN_TurnAt(see);
+	}
+
+OnSignal(1)
+	{
+	HUMAN_Move("GE_26_x");
+	HUMAN_TurnAt(see);
+	}
+
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

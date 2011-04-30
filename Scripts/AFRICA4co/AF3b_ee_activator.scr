@@ -1,0 +1,20 @@
+// AF1_ee
+// -------------------------------------------------------------------------------------------------------------
+
+SaveGameValue(60, 0);
+
+Whenever iir ((_ItemInRange(240, 3) AND _ItemInRange(241, 3)) AND _ItemInRange(242, 3))
+{
+  goto ACTIVATED;
+}
+
+goto END;
+
+Label ACTIVATED:
+  printf("ee_activated");
+  PlaySound(12, 8); 
+  SaveGameValue(60, 1);
+
+Label END:
+
+

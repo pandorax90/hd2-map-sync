@@ -1,0 +1,132 @@
+// Tirpic guard number 8
+// Walk on stupid guard way and sometime do some action 
+
+block
+{
+    SetAlarmType(1023,0);
+  SetAlarmType(1,1);
+  integer counter=1;
+  frame bottle; 	FRM_FindFrame(bottle, "");  	// OPRAVIT na default flasku
+  frame see_pause;	FRM_FindFrame(see_pause, "dummy_see1"); 
+  integer pause;
+  integer AIEvent;
+  frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Guard();
+HUMAN_WeaponOnArm(true);
+HUMAN_SetOptimized(2);
+Frame me;	FRM_GetMyFrame(me);
+integer mrd;	mrd=(_SPGetGameType());
+}
+HUMAN_Suspend(true);
+
+
+
+
+
+	
+if ((mrd==3) or (mrd==7))
+{
+block
+{
+DisableSignals(1);
+DisableWhenevers(1);
+HUMAN_Kill(me);
+}
+goto end;
+}
+
+OnDeath()
+{
+DisableSignals(1);
+EndScript();
+}
+
+
+label wait:
+  delay(100000);
+goto wait;
+Whenever a (_PlayerInRange(170) )
+{
+  HUMAN_Suspend(false);
+}
+
+
+
+
+label impish_way:
+  label back1:
+    counter=1;
+    HUMAN_Move("T8_1");
+  label back2:
+    counter=2;
+    HUMAN_Move("T8_2");
+  label back3:
+    counter=3;
+    HUMAN_Move("T8_3");
+goto impish_way;
+
+OnSignal(1)
+{
+  delay(500);
+  HUMAN_ACTIVITY_Hat();
+  delay(1500);
+  goto go_back;
+}
+
+OnSignal(2)
+{
+  delay(500);
+  HUMAN_ACTIVITY_DrinkBottle(bottle);
+  delay(2000);
+  goto go_back;
+}
+
+OnSignal(3)
+{
+  delay(500);
+  HUMAN_ACTIVITY_Cold();
+  delay(500);
+  goto go_back;
+}
+
+OnSignal(4)
+{
+  HUMAN_TurnAt(see_pause);
+  pause = _RandomInt(10000) + 20000;
+  delay(pause);
+}
+
+Whenever alarm(_SignalReceived(10))
+{
+DisableSignals(1);
+HUMAN_Stop();
+HUMAN_WeaponOnArm(1);
+Frame maly;
+FRM_FindFrame(maly, "Mesh09");
+HUMAN_TurnAt(maly);
+goto end;
+}
+
+label go_back:
+  If (counter==1) {goto back1;}
+  If (counter==2) {goto back2;}
+  If (counter==3) {goto back3;}
+goto back1;
+
+OnAlarm()
+{
+  AIEvent =_GetAlarmType(); 
+  PrintfNumber("Tirpic 8 : ", AIEvent);
+  SendSignal(OBJ, 10);
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  goto go_back;
+}
+
+label end:

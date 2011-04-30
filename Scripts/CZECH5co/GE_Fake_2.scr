@@ -1,0 +1,22 @@
+HUMAN_Suspend(true);
+SetAlarmType(1023, false);
+
+
+OnCutscene(2)
+	{
+	Delay(1000);
+	HUMAN_Suspend(false);
+	HUMAN_SETMODE_Run();
+	HUMAN_SETMODE_Crouch();
+	HUMAN_Move("GE_129h");
+	HUMAN_Move("GE_129k");
+	CSC_EndCutscene();
+	}
+
+OnAlarm()
+	{
+	}
+
+OnAlarmDone()
+	{
+	}

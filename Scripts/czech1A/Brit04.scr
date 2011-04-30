@@ -1,0 +1,71 @@
+// Brit 4 - posadka jeepu
+// --------------------------------------------
+
+Block
+{
+Frame obj4;		FRM_FindFrame(obj4,"obj4");
+Frame b2;		FRM_FindFrame(b2,"Brit02");
+Frame Jeep;		FRM_FindFrame(Jeep,"Jeep");
+Frame me;		FRM_GetMyFrame(me);
+
+FRM_SwitchFaceTexture(me, "e_f016");
+}
+
+// --------------------------------------------
+
+OnDeath(){
+SendSignal(obj4, 2);
+EndScript();
+}
+
+Whenever Jedem (_SignalReceived(1))
+{
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("Jeep",  1, 3);
+goto End;
+}
+
+Whenever Stojim (_SignalReceived(2))
+{
+HUMAN_BoardVehicle("Jeep",  0, 3);
+HUMAN_SETMODE_Run();
+HUMAN_MoveFromFrame(Jeep, 8);
+HUMAN_SetAnim("%%poklopec", 800,800,1);
+Delay(1000);
+HUMAN_SetAnim("%%chcije", 800,800,1);
+Delay(8000);
+HUMAN_SetAnim("%%poklopec", 800,800,1);
+Delay(1000);
+HUMAN_SetAnim("", 800,800,1);
+HUMAN_TurnAt(Jeep);
+HUMAN_SETMODE_Walk();
+HUMAN_MoveToFrame(Jeep, 3);
+HUMAN_TurnAt(Jeep);
+HUMAN_SetAnim("%%nuda1", 800,800,1);
+goto End;
+}
+
+Whenever Jedem_Dal (_SignalReceived(4))
+{
+HUMAN_SetAnim("", 800,800,1);
+HUMAN_MoveFromFrame(Jeep, 2);
+HUMAN_BoardVehicle("Jeep",  1, 3);
+goto End;
+}
+
+Whenever Vysedam (_SignalReceived(3))
+{
+HUMAN_BoardVehicle("Jeep",  0, 3);
+Delay(500);
+DisableSignals(1);
+HUMAN_Suspend(1);
+goto End;
+}
+
+// --------------------------------------------
+
+HUMAN_Suspend(1);
+goto End;
+
+
+Label End:

@@ -1,0 +1,18 @@
+// Opel with gold - must find the gold / opel must not be destroyed
+// -------------------------------------------------------------------------------------------------------------
+block
+{
+  Frame obj1;	FRM_FindFrame(obj1,"obj1");
+  Frame me;		FRM_GetMyFrame(me);
+}
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever player (_PlayerInRange(4)){
+SendSignal(obj1, 1);
+EndScript();
+}
+
+Car_SetFuel(me, 0);
+goto end;
+
+Label end:

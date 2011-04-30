@@ -1,0 +1,21 @@
+//detect_player1
+block
+{
+frame small7;
+FRM_FindFrame(small7,"small7");
+frame detectplay2;
+FRM_FindFrame(detectplay2,"detect_player1");
+}
+
+
+
+
+Whenever heleho(_PlayerInRange(1))
+{
+SaveGameValue(1, 1);
+SendSignal(small7,10);
+ Sendsignal(detectplay2,2); 
+}
+OnSignal(1)
+{SetWhenever(heleho,false);
+}

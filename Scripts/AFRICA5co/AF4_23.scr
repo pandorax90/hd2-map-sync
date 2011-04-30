@@ -1,0 +1,100 @@
+// AF4_23 - Hans Schumann
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME obj;				FRM_FindFrame(obj, "dummy_gigant");
+//  FRAME af31;				FRM_FindFrame(af31, "AF4_31");
+Frame Ju88;		FRM_FindFrame(Ju88,"la_Ju_88");
+  FRAME this;				FRM_GetMyFrame(this);
+  FRAME runway;			FRM_FindFrame(runway, "dummy_runway");
+  SetAlarmType(1023, false);
+  FRAME pl;				FRM_GetNearestPlayer(this, pl);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  printf("HansSchumman: dead");
+  EndScript();
+}
+
+Whenever player(_PlayerInRange(20)){
+  goto ACTIVATE;
+}
+
+Whenever detector(_PlayerInRange(2))
+{
+	SetAlarmType(1023, false);
+	SetWhenever(player, false);
+	HUMAN_SetAnim("", 100, 100, false);
+	SendSignal(obj, 1);
+	HUMAN_SetOptimized(0);
+	SUBTITLES_SetOn(true);
+
+	HUMAN_TurnAtNearestPlayer();
+	FRM_GetNearestPlayer(this, pl);
+	FRM_MorphSpeechDelayed(pl, 09991951, 3, 9);
+	HUMAN_SetAnim("", 200, 200, false);
+
+	HUMAN_SetAnim("%%kecy1", 200, 200, false);
+	FRM_MorphSpeechDelayed(this, 09991952, 3, 9);
+	HUMAN_SetAnim("", 200, 200, false);
+
+	FRM_MorphSpeechDelayed(pl, 09991953, 3, 9);
+	FRM_MorphSpeechDelayed(pl, 09991954, 3, 9);
+	FRM_MorphSpeechDelayed(pl, 09991955, 3, 9);
+
+	HUMAN_SetAnim("%%kecy1", 200, 200, false);
+	FRM_MorphSpeechDelayed(this, 09991956, 3, 9);
+	HUMAN_SetAnim("", 200, 200, false);
+
+	FRM_MorphSpeechDelayed(pl, 09991957, 3, 9);
+
+	SetObjectiveStatus(1, 1);
+	SetObjectiveStatus(2, 1);
+	SetObjectiveStatus(5, 0);
+	SendSignal(runway, 1);
+	SUBTITLES_SetOn(false);
+
+	SetNPCTeamStatus(this, false);
+	HUMAN_MoveToFrame(Ju88, 10);
+	HUMAN_SETMODE_Crouch();
+	Delay(1000);
+	
+	goto END;
+}
+
+OnAlarm(){
+  EndScript();
+}
+
+OnAlarmDone(){
+  goto ACTIVATE;
+}
+
+//OnCutscene(20){
+//  HUMAN_Stop();
+//  HUMAN_Move("AF4_blesz_end");
+//  HUMAN_SetMODE_Crouch();
+//  goto END;
+//}
+
+//OnCutsceneDone(20){
+//  EndScript();
+//}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_SetOptimized(1);
+  HUMAN_Suspend(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(1);
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SetAnim("%%nuda1", 200, 200, true);
+
+Label END:

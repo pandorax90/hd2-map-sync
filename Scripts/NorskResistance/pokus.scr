@@ -1,0 +1,4 @@
+OnSignal(666)
+{Printf("bleblebleble");
+
+}

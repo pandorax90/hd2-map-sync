@@ -1,0 +1,43 @@
+Block
+{
+Frame dvere_ingame;		FRM_GetMyFrame(dvere_ingame);
+Frame dvere_cutscene;	FRM_FindFrame(dvere_cutscene, "CUTdor_ar1b00");
+Frame dvere_ENDcut;		FRM_FindFrame(dvere_ENDcut, "CUTdorEND01");
+Frame vybuch;		FRM_FindFrame(vybuch, "Particle-vyslah");
+}
+
+
+
+
+}
+
+OnCutscene(2)
+{	
+integer bum;
+
+Block
+{
+FRM_SetOn(dvere_cutscene, false);
+FRM_SetOn(dvere_ingame,false);
+FRM_SetOn(dvere_ENDcut, true);
+}	
+
+FRM_SetAnimation(dvere_ENDcut, "#Af2exdoor.I3D",true);
+delay(3500);
+FRM_CreateIndexedParticle(96, vybuch, bum);
+
+}
+
+OnCutsceneDone(2)
+{
+
+	Block
+	{
+	FRM_DestroyIndexedParticle(bum);
+	FRM_SetAnimation(dvere_ENDcut, "",true);
+	FRM_ResetAnimation(dvere_ENDcut, true);
+	}
+	FRM_SetOn(dvere_ingame, false);
+	FRM_SetOn(dvere_ENDcut, false);
+
+}

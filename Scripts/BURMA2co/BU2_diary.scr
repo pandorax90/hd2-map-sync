@@ -1,0 +1,24 @@
+// BU2_diary - diary
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Integer players;
+	players=0;
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from BU2_objective
+{
+	If(players==1)
+	{
+		AddDiaryText(33);
+		AddDiaryText(4232);
+		GoTo end;
+	}
+	AddDiaryText(33);
+	AddDiaryText(4231);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Delay(1000);
+players=_GetNumMembersOfClientTeam();
+
+Label end:

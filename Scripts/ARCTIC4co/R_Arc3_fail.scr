@@ -1,0 +1,6 @@
+Frame OBJ;		FRM_FindFrame(OBJ, "dummy_objectives");
+
+OnHit()
+{
+//  SendSignal(OBJ, 4); //zatim vypnuto
+}

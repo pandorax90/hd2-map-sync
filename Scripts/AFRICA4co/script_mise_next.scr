@@ -1,0 +1,337 @@
+
+
+// tahle cast kodu by se mela provest pri nahrati nasledujici mise
+
+integer iNumPlayersNEW;
+integer iMenuHumanIDPlayer0NEW;
+integer iMenuHumanIDPlayer1NEW;
+integer iMenuHumanIDPlayer2NEW;
+integer iMenuHumanIDPlayer3NEW;
+
+integer iMenuHumanIDPlayer0OLD;
+integer iMenuHumanIDPlayer1OLD;
+integer iMenuHumanIDPlayer2OLD;
+integer iMenuHumanIDPlayer3OLD;
+
+// vybrat pozice na ktere se maji ukladat ID playeru; musi byt shodne v obou skriptech
+integer SaveGamePosition0 = 200;
+integer SaveGamePosition1 = 201;
+integer SaveGamePosition2 = 202;
+integer SaveGamePosition3 = 203;
+integer SaveGamePositionCampaignTest = 204;
+frame player_frame;
+
+frame jeden_player_z_tymu_ze_stare_mise;
+frame jeden_player_z_pridanych;
+integer test_na_pridani_playera;
+integer no_value;
+
+//cutscena
+Frame duplicated_player1;
+Frame duplicated_player2;
+
+Frame start1;
+Frame start2;
+Frame next1;
+Frame next2;
+
+Frame padak;
+Frame padak_batoh;
+Frame joint_padak;
+Frame pochoden;
+Frame ruka;
+
+Frame particle;
+Frame light;
+
+Delay(2000);
+// zkusebne
+//Goto cekej;
+
+// tento signal obdrzi skript pri ukoncovani mise
+//OnSignal(1)
+//{
+//}
+
+integer ctest;
+
+ctest = _LoadGameValue(SaveGamePositionCampaignTest);
+if(ctest == 0)
+{
+	Printf("Neprobehla predchazejici mise ( mozna editor, nebo single-mission ?), zadna cutscena nebude ;-P");
+	goto Cekej;
+}
+
+
+PrintfNumber("Loading players info ... ", iNumPlayersNEW);
+
+Block
+{
+	iMenuHumanIDPlayer0NEW = -1;
+	iMenuHumanIDPlayer1NEW = -1;
+	iMenuHumanIDPlayer2NEW = -1;
+	iMenuHumanIDPlayer3NEW = -1;
+	no_value = -1;
+	iNumPlayersNEW = _GetNumMembersOfClientTeam();
+	test_na_pridani_playera = 0;
+
+	PrintfNumber("pocet playeru : ", iNumPlayersNEW);
+
+	// player 0
+	if(iNumPlayersNEW > 0)
+	{
+		Printf("pocet playeru > 0");
+		CSC_GetPlayerNum(0, player_frame);
+		iMenuHumanIDPlayer0NEW = _GetHumanStoreID(player_frame);
+	}
+	// player 1
+	if(iNumPlayersNEW > 1)
+	{
+		Printf("pocet playeru > 1");	
+		CSC_GetPlayerNum(1, player_frame);
+		iMenuHumanIDPlayer1NEW = _GetHumanStoreID(player_frame);
+	}
+	// player 2
+	if(iNumPlayersNEW > 2)
+	{
+		Printf("pocet playeru > 2");
+		CSC_GetPlayerNum(2, player_frame);
+		iMenuHumanIDPlayer2NEW = _GetHumanStoreID(player_frame);
+	}
+	// player 3
+	if(iNumPlayersNEW > 3)
+	{
+		Printf("pocet playeru > 3");
+		CSC_GetPlayerNum(3, player_frame);
+		iMenuHumanIDPlayer3NEW = _GetHumanStoreID(player_frame);
+	}
+
+	// nacteni hodnot z gamevalues
+	iMenuHumanIDPlayer0OLD =	_LoadGameValue(SaveGamePosition0);
+	iMenuHumanIDPlayer1OLD =	_LoadGameValue(SaveGamePosition1);
+	iMenuHumanIDPlayer2OLD =	_LoadGameValue(SaveGamePosition2);
+	iMenuHumanIDPlayer3OLD =	_LoadGameValue(SaveGamePosition3);
+
+	// test player 0
+	if( 	(iMenuHumanIDPlayer0NEW != no_value) AND
+		 (iMenuHumanIDPlayer0NEW != iMenuHumanIDPlayer0OLD) AND
+		 (iMenuHumanIDPlayer0NEW != iMenuHumanIDPlayer1OLD) AND
+		 (iMenuHumanIDPlayer0NEW != iMenuHumanIDPlayer2OLD) AND
+		 (iMenuHumanIDPlayer0NEW != iMenuHumanIDPlayer3OLD)
+		)
+	{
+		test_na_pridani_playera = 1;
+		CSC_GetPlayerNum(0,  jeden_player_z_pridanych);
+		PrintfNumber("Novy player nalezen na pozici 0, jeho MenuID je",  iMenuHumanIDPlayer0NEW);
+	}
+	else
+	{
+		if(iMenuHumanIDPlayer0NEW != no_value)
+		{
+			CSC_GetPlayerNum(0,  jeden_player_z_tymu_ze_stare_mise);
+			Printf("Stary player nalezen na pozici 0");
+		}
+	}
+
+	// test player 1
+	if( 	(iMenuHumanIDPlayer1NEW != no_value) AND
+		 (iMenuHumanIDPlayer1NEW != iMenuHumanIDPlayer0OLD) AND
+		 (iMenuHumanIDPlayer1NEW != iMenuHumanIDPlayer1OLD) AND
+		 (iMenuHumanIDPlayer1NEW != iMenuHumanIDPlayer2OLD) AND
+		 (iMenuHumanIDPlayer1NEW != iMenuHumanIDPlayer3OLD)
+		)
+	{
+		test_na_pridani_playera = 1;
+		CSC_GetPlayerNum(1,  jeden_player_z_pridanych);
+		PrintfNumber("Novy player nalezen na pozici 1, jeho MenuID je",  iMenuHumanIDPlayer1NEW);
+	}
+	else
+	{
+		if(iMenuHumanIDPlayer1NEW != no_value)
+		{
+			CSC_GetPlayerNum(1,  jeden_player_z_tymu_ze_stare_mise);
+			Printf("Stary player nalezen na pozici 1");
+		}
+	}
+
+	// test player 2
+	if( 	(iMenuHumanIDPlayer2NEW != no_value) AND
+		 (iMenuHumanIDPlayer2NEW != iMenuHumanIDPlayer0OLD) AND
+		 (iMenuHumanIDPlayer2NEW != iMenuHumanIDPlayer1OLD) AND
+		 (iMenuHumanIDPlayer2NEW != iMenuHumanIDPlayer2OLD) AND
+		 (iMenuHumanIDPlayer2NEW != iMenuHumanIDPlayer3OLD)
+		)
+	{
+		test_na_pridani_playera = 1;
+		CSC_GetPlayerNum(2,  jeden_player_z_pridanych);
+		PrintfNumber("Novy player nalezen na pozici 2, jeho MenuID je",  iMenuHumanIDPlayer2NEW);
+	}
+	else
+	{
+		if(iMenuHumanIDPlayer2NEW != no_value)
+		{
+			CSC_GetPlayerNum(2,  jeden_player_z_tymu_ze_stare_mise);
+			Printf("Stary player nalezen na pozici 2");
+		}
+	}
+
+
+	// test player 3
+	if( 	(iMenuHumanIDPlayer3NEW != no_value) AND
+		 (iMenuHumanIDPlayer3NEW != iMenuHumanIDPlayer0OLD) AND
+		 (iMenuHumanIDPlayer3NEW != iMenuHumanIDPlayer1OLD) AND
+		 (iMenuHumanIDPlayer3NEW != iMenuHumanIDPlayer2OLD) AND
+		 (iMenuHumanIDPlayer3NEW != iMenuHumanIDPlayer3OLD)
+		)
+	{
+		test_na_pridani_playera = 1;
+		CSC_GetPlayerNum(3,  jeden_player_z_pridanych);
+		PrintfNumber("Novy player nalezen na pozici 3, jeho MenuID je",  iMenuHumanIDPlayer3NEW);
+	}
+	else
+	{
+		if(iMenuHumanIDPlayer3NEW != no_value)
+		{
+			CSC_GetPlayerNum(3,  jeden_player_z_tymu_ze_stare_mise);
+			Printf("Stary player nalezen na pozici 3");
+		}
+	}	
+	
+}
+
+if(test_na_pridani_playera)
+{
+	Printf("Cutsena jede!!! (3 sec delay ...)");
+	// SPUSTIT CUTSCENU
+	// promenne "jeden_player_z_pridanych" a "jeden_player_z_tymu_ze_stare_mise"
+	// by mely byt naplneny, takze jim poslat signaly ze budou vystupovat v cutsene 
+	// a spustit cutscenu
+	Delay(1500);
+	CSC_RunCutscene(1);
+}
+else
+{
+	Printf("Zadna cutscena nebude!!!");
+	CSC_FadeIn(100);
+}
+
+
+OnCutscene(1)
+{
+	
+	Block
+	{
+	FRM_FindFrame(start1, "CUTdummy1");
+	FRM_FindFrame(start2, "CUTdummy2b");
+	FRM_FindFrame(next1, "CUTdummy1b");
+	FRM_FindFrame(next2, "CUTdummy2");
+	FRM_FindFrame(padak, "CUT_padakotv");
+	FRM_FindFrame(padak_batoh, "CUTpadak_batoh.padak");
+	FRM_FindFrame(pochoden, "CUTpochoden.CUTpoch");
+	FRM_FindFrame(particle, "CUTpochoden.particle");
+	FRM_FindFrame(light, "CUTlight");
+	
+	Integer dymovnica;
+	
+	CSC_DuplicateHuman(jeden_player_z_tymu_ze_stare_mise, duplicated_player1,"_PLAYER_cuts_sasik1");
+	CSC_DuplicateHuman(jeden_player_z_pridanych, duplicated_player2,"_PLAYER_cuts_sasik2");
+
+	FRM_FindChildFrame(joint_padak, "d", duplicated_player2);
+	FRM_TeleportNearFrame(padak, joint_padak, true);			////linknutie padaku
+	FRM_TeleportNearFrame(padak_batoh, joint_padak, true);		///linknutie batohu padaku
+	
+
+	FRM_TeleportNearFrame(duplicated_player1, start1, true);
+	FRM_TeleportNearFrame(duplicated_player2, start2, true);
+
+	CSC_FreeHands(duplicated_player1);
+	CSC_FreeHands(duplicated_player2);
+	CSC_FreeBackPack(duplicated_player2);
+
+	FRM_FindChildFrame(ruka, "hw1", duplicated_player1);
+	FRM_TeleportNearFrame(pochoden, ruka, true);			//////////link pochodne
+
+	FRM_CreateIndexedParticle(23, particle,dymovnica);				//////////spustam particle
+	FRM_SetOn(light, true);
+	FRM_SetOn(pochoden, true);
+
+	FRM_SetAnimation(duplicated_player1, "%%A3B_mava.I3D",true);
+	
+	}
+	
+	
+	Delay(3000);
+
+Block
+{
+FRM_SetAnimation(duplicated_player2, "%%padak.I3D",true);
+FRM_SetOn(duplicated_player2, false);				////hide panacka na padaku..animacka bezi
+}
+
+Delay(9000);
+
+Block
+{
+FRM_SetOn(padak, true);	
+FRM_SetOn(padak_batoh, true);
+FRM_SetOn(duplicated_player2, true);			////unhide panacka na padaku...panacek sa dostal do zaberu
+
+}
+
+Delay(5500);
+	
+		Block
+		{
+		FRM_SetAnimation(duplicated_player1, "",true);
+		FRM_SetAnimation(duplicated_player2, "",true);
+			
+		FRM_TeleportNearFrame(duplicated_player1, next1, true);
+		FRM_TeleportNearFrame(duplicated_player2, next2, true);
+
+		FRM_SetOn(padak, false);
+		FRM_SetOn(padak_batoh, false);
+		
+		FRM_SetOn(pochoden, false);
+		FRM_SetOn(light, false);
+		FRM_DestroyIndexedParticle(dymovnica);
+
+		FRM_SetAnimation(duplicated_player1, "%%A3B_velitel2.I3D",true);
+		FRM_SetAnimation(duplicated_player2, "%%A3B_velitel1.I3D",true);
+		}
+
+
+
+
+
+}
+
+OnCutsceneDone(1)
+{
+	FRM_SetOn(padak, false);
+	FRM_SetOn(padak_batoh, false);	
+	FRM_SetOn(pochoden, false);
+	FRM_SetOn(light, false);
+	Block
+	{
+	
+	FRM_DestroyIndexedParticle(dymovnica);
+	
+
+	FRM_SetAnimation(duplicated_player1, "",true);
+	FRM_SetAnimation(duplicated_player2, "",true);
+	
+	CSC_ReleaseHuman(duplicated_player1);
+	FRM_FindFrame(ruka, "");
+	FRM_FindFrame(joint_padak, "");	
+
+	FRM_FindFrame(duplicated_player1, "");
+	CSC_ReleaseHuman(duplicated_player2);
+	FRM_FindFrame(duplicated_player2, "");
+	
+	}
+
+}
+
+label cekej:
+CSC_FadeIn(100);
+//

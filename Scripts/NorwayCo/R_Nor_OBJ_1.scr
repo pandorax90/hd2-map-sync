@@ -1,0 +1,26 @@
+// mined Tirpic		OBJ  1
+
+frame OBJ;		FRM_FindFrame(OBJ, "tirpicmined");
+
+Frame min;		FRM_FindFrame(min,"d_magmineicon_2");
+
+
+label test:
+
+if (_ACTOR_GetState(min)==1)
+{
+  SendSignal(OBJ, 1);		//  == Success
+goto end;
+}
+
+delay (500);
+goto test;
+
+
+Whenever te(_PlayerInRange(9))
+{
+goto test;
+}
+
+
+label end:

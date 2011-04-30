@@ -1,0 +1,127 @@
+// AF2_rozhovor_02 - rozhovor mezi trema vojakama v hangaru
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME af05;			FRM_FindFrame(af05, "AF3a_05");
+FRAME af06;			FRM_FindFrame(af06, "AF3a_06");
+
+//	AF3a_05	07991568	NOSUB Pro Krista, to byl ale nápad, vožrat se noc pøed hlídkou.	
+//	AF3a_05	07991569	NOSUB Tohle neudìlám už nikdy! Fakt nikdy!	
+//	AF3a_05	07991570	NOSUB U nás doma by mi to nevadilo, ale v tomhle vedru se to nedá vydržet.	
+//	AF3a_06	07991571	NOSUB A neøíkal jsem ti to v noci?	
+//	AF3a_05	07991572	NOSUB Ale já vím, že øíkal, no a co ... 	
+//	AF3a_05	07991573	NOSUB Mùžu snad za to, že mi to nesedlo?	
+//	AF3a_06	07991574	NOSUB Samozøejmì, že nemùžeš ... ale kdybys mìl rozum, tak nechlastáš v takovém vedru.	
+//	AF3a_05	07991575	NOSUB Kdybys nekecal a radši mi donesl nìco k pití.	
+//	AF3a_06	07991576	NOSUB Dáš si panáka?	
+//	AF3a_05	07991577	NOSUB Bìž do háje.	
+//	AF3a_06	07991578	NOSUB Snad sis vzal sebou vodu nebo ne?	
+//	AF3a_05	07991579	NOSUB Zapomnìl jsem.	
+//	AF3a_06	07991580	NOSUB Tak to ti bude za chvíli ještì hùø.	
+//	AF3a_05	07991581	NOSUB Nìjakou dobrou zprávu nemáš?	
+//	AF3a_06	07991582	NOSUB Poèkej ... ne, nemám.	
+//	AF3a_05	07991583	NOSUB Kdybys radši držel hubu, chlape.	
+//	AF3a_05	07991584	NOSUB Jak já se tìším, až jednou bude blbì tobì a já ti to budu moct oplatit.	
+//	AF3a_06	07991585	NOSUB To tìžko, já nechlastám jako dobytek a když už, tak ne pøed hlídkou.	
+//	AF3a_05	07991586	NOSUB Víš co, už se o tom nebudeme bavit, dobøe?	
+//	AF3a_06	07991587	NOSUB Tak jo ... a pùjdem veèer na panáka?	
+//	AF3a_05	07991588	NOSUB Proboha, zavøi už tu hubu ... moje hlava, aaau ...	
+
+OnSignal(1){
+  if(!_LoadGameValue(31))
+  {
+    EndScript();
+  }
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR between 05 & 06");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991568, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af05, 07991569, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af05, 07991570, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991571, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991572, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af05, 07991573, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991574, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeech(af05, 07991575, 8, 20);
+  Delay(2000);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991576, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991577, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991578, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991579, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991580, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991581, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991582, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991583, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af05, 07991584, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991585, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991586, 8, 20);
+  SendSignal(af05, 11);
+
+  SendSignal(af06, 10);
+  FRM_MorphSpeechDelayed(af06, 07991587, 8, 20);
+  SendSignal(af06, 11);
+
+  SendSignal(af05, 10);
+  FRM_MorphSpeechDelayed(af05, 07991588, 8, 20);
+  SendSignal(af05, 11);
+
+  SUBTITLES_SetOn(false);
+}
+
+OnSignal(2){
+  block
+  {
+    FRM_MorphSpeech(af05, 0, 0, 0);
+    FRM_MorphSpeech(af06, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+Label END:

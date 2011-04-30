@@ -1,0 +1,42 @@
+// Pako 7
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+Frame p2;		FRM_FindFrame(p2,"SW_G21");
+Frame cil;		FRM_FindFrame(cil,"CZD_LJ");
+}
+
+//--------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+Delay(43000);
+SendSignal(p2, 1);
+EndScript();
+}
+
+OnAlarm(){
+EndScript();
+}
+
+OnAlarmDone(){
+goto Palim;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+HUMAN_Suspend(1);
+Delay(78000);
+HUMAN_Suspend(0);
+HUMAN_SetOptimized(1);
+HUMAN_SETSIGHTRANGE(300);
+HUMAN_BoardVehicle("Pak_04" , 1, 0);
+HUMAN_TurnAtNearestPlayer();
+goto Palim;
+
+Label Palim:
+HUMAN_Attack(cil, 2000);
+Delay(6500);
+goto Palim;
+
+Label END:

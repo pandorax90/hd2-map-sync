@@ -1,0 +1,92 @@
+// N24 - guarding at the inner cannons
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer aievent;
+	aievent=0;
+Frame me;
+	FRM_GetMyFrame(me);
+Integer gametype;
+	gametype=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(272, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	Block
+	{
+		aievent=_GetAlarmType();
+	HUMAN_SETSIGHTRANGE(80);
+	}
+
+	If((aievent==1) OR (aievent==64) OR (aievent==512))
+	{
+		HUMAN_SETMODE_Crouch();
+		EndScript();
+	}
+
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Stand();
+	GoTo end;
+}
+
+Whenever activate(_SignalReceived(1))
+{
+	HUMAN_Suspend(false);
+//	printf("N24: activating");
+	GoTo alarmed;
+}
+
+Whenever player(_PlayerInRange(30))
+{
+	HUMAN_Suspend(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+gametype=_SPGetGameType();
+If((gametype==3) OR (gametype==7))
+{
+	SetWhenever(player, true);
+	GoTo dalej;
+}
+SetWhenever(player, false);
+
+Label dalej:
+Block
+{
+HUMAN_SETMODE_Run();
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETEVENTS(false);
+FRM_SwitchFaceTexture(me, "e_f052");
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label alarmed:
+	HUMAN_Move("N24_1");
+	HUMAN_SETEVENTS(true);
+	HUMAN_TurnAtNearestPlayer();
+	HUMAN_SetOptimized(2);
+	GoTo end;
+
+Label end:

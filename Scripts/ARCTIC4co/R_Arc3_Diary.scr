@@ -1,0 +1,18 @@
+Delay(1000);		// at to se dokonci init a vraci to spravne hodnoty
+
+integer number;		number = _GetNumMembersOfClientTeam();
+integer diary;			diary = 0;
+
+if ( number > 1 ) {Diary = 4061} else {Diary = 4062}
+
+OnExit()
+{
+  AddDiaryText(24); 
+  AddDiaryText(Diary);
+}
+
+PrintfNumber("***ACTUAL DIARY STATE ***", Diary);
+
+//  MORE PLAYERS 	4061 
+//  LONE WOLF 	4062
+

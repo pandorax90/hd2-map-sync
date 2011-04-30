@@ -1,0 +1,19 @@
+// BU1_obj_07 - optional - radio communication
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+Frame diary;
+	FRM_FindFrame(diary, "BU1_diary");
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnDeath()
+{
+	SendSignal(obj, 10);
+	SendSignal(diary, 2);
+	PlayMusic(36);
+}
+// -------------------------------------------------------------------------------------------------------------

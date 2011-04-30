@@ -1,0 +1,62 @@
+// C5_G43 - guard watching radio operator
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer aievent;
+	aievent=0;
+Frame me;
+	FRM_GetMyFrame(me);
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+		aievent=_GetAlarmType();
+	HUMAN_SetAnim("", 200, 200, false);
+	HUMAN_SETMODE_Run();
+
+	If((aievent==16) OR (aievent==256) OR (aievent==512))
+	{
+		HUMAN_Move("C5_G43_01");
+		EndScript();
+	}
+	HUMAN_Move("C5_G43_01");
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	GoTo end;
+}
+
+Whenever player(_PlayerInRange(50))
+{
+	HUMAN_Suspend(false);
+	HUMAN_SetAnim("%%cumvoda", 200, 200, true);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+FRM_SwitchFaceTexture(me, "e_f056");
+HUMAN_SetOptimized(2);
+HUMAN_SETAIMODE_Defensive();
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label end:

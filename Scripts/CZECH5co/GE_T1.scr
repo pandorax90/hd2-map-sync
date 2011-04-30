@@ -1,0 +1,12 @@
+Frame tiger;				FRM_FindFrame(tiger, "La_TigerEv_1");
+HUMAN_BoardVehicle("La_TigerEv_1", 1, 1);
+OnAlarm()
+	{
+	HUMAN_SETAIMODE_Aggressive();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	HUMAN_SetAlarm(false);
+	}

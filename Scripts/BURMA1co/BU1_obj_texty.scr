@@ -1,0 +1,139 @@
+// BU1_obj_texty - objective texts
+
+OnSignal(1)	// objavene letecke suciastky
+{
+	SUBTITLES_SetOn(true);
+	printf("You found out that Japanese are transporting airplane parts");
+	SUBTITLES_SetText(12992408);
+	Delay(3000);
+	printf("Try to get some technical documentation to these parts");
+	SUBTITLES_SetText(12992409);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(2)	// failed suciastky
+{
+	SUBTITLES_SetOn(true);
+	printf("You have failed to find out what is going on");
+	SUBTITLES_SetText(12992410);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(3)	// nalezene dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("You have found technical documentation");
+	SUBTITLES_SetText(12992411);
+	Delay(3000);
+	printf("Now that we have the documentation, we can destroy the parts");
+	SUBTITLES_SetText(12992412);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(4)	// stratene dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("You have lost the documentation, get it back");
+	SUBTITLES_SetText(12992413);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(5)	// znovunalezene dokumenty
+{
+	SUBTITLES_SetOn(true);
+	printf("You have found the documentation again");
+	SUBTITLES_SetText(12992414);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(6)	// suciastky znicene bez dokumentov
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(12992423);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	// you don't have the documentation yet
+	GoTo end;
+}
+
+OnSignal(7)	// suciastky znicene
+{
+	SUBTITLES_SetOn(true);
+	printf("You have destroyed airplane parts");
+	SUBTITLES_SetText(12992415);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(8)	// most zniceny
+{
+	SUBTITLES_SetOn(true);
+	printf("You have destroyed the transport bridge");
+	SUBTITLES_SetText(12992417);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(9)	// squad in xtraction zone
+{
+	SUBTITLES_SetOn(true);
+	printf("You have successfully completed mission");
+	SUBTITLES_SetText(12992418);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(10)	// katana
+{
+	SUBTITLES_SetOn(true);
+	printf("You have taken officer's katana");
+	SUBTITLES_SetText(12992419);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(11)	// radio
+{	SUBTITLES_SetOn(true);
+	printf("You have destroyed the radio communication");
+	SUBTITLES_SetText(12992420);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(12)	// soldier's papers
+{
+	SUBTITLES_SetOn(true);
+	printf("You have taken soldier's papers");
+	SUBTITLES_SetText(12992421);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+OnSignal(13)	// gather
+{
+	Delay(3000);
+	SUBTITLES_SetOn(true);
+	printf("Gather your soldiers at exit point");
+	SUBTITLES_SetText(12992416);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+Label end:

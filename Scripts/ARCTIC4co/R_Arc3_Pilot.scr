@@ -1,0 +1,63 @@
+
+  frame Pilot; 		FRM_FindFrame(Pilot, "Pilot");		FRM_SwitchFaceTexture(Pilot, "e_f077"); 
+  frame Player;		FRM_FindFrame(Player,  "_PLAYER_ 0");
+  frame Turn;		FRM_FindFrame(Turn,  "Static_Guard_4");
+  frame Target;		FRM_FindFrame(Target, "dummy_target");
+
+HUMAN_BoardVehicle("la_BoatGun_", True, 0);
+HUMAN_SetOptimized(2);
+
+Delay(8800);
+
+
+// 04990877 Mám jít taky nebo budu užiteènìjší tady na lodi?			# pilot	
+// 04990878 Zùstaò tady a kdyby se Nìmci o nìco pokusili, tak se o nì postarej.	# sas	
+// 04990879 Jasnì, hodnì štìstí.							# pilot	
+
+
+
+  SUBTITLES_SetOn(True);
+  If (_Actor_GetState(Pilot)==1 ) 
+     { 
+        FRM_MorphSpeechDelayed(Pilot, 04990877, 15, 50);   
+      } else { 
+        Goto TheEnd; 
+     } 
+  If ( _FrameInRange(Player) < 40  ) 
+     { 
+        FRM_MorphSpeechDelayed(Player, 04990878, 15, 50);
+      } else { 
+        Goto TheEnd; 
+     } 
+  If (_Actor_GetState(Pilot)==1 ) 
+     { 
+        FRM_MorphSpeechDelayed(Pilot, 04990879, 15, 50);   
+      } else { 
+        Goto TheEnd; 
+     } 
+
+
+OnDeath()
+{
+// Asi MISSION FAILED ???
+  FRM_MorphSpeech(Pilot, 0, 0, 0);   
+  Delay(400);
+  FRM_MorphSpeech(Player, 0, 0, 0);   
+  EndScript();
+}
+
+OnSignal(1)
+{
+  FRM_FindFrame(Target, "AntiSniper_1");
+  Printf("Start - tak strilej z toho kulaku za kterym sedis!!!!!!!!");
+  HUMAN_Attack(Target, 3500);
+  Printf("End - tak strilej z toho kulaku za kterym sedis!!!!!!!!");
+}
+
+Label TheEnd:
+  Delay(1000);
+  SUBTITLES_SetOn(False);
+  HUMAN_TurnAt(Turn);   
+  Delay(500);
+
+

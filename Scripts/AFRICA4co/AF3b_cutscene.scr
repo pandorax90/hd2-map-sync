@@ -1,0 +1,81 @@
+// AF3b_cutscene - cutscenescript
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME camera01;			FRM_FindFrame(camera01, "camera_cut01");
+  FRAME camera02;			FRM_FindFrame(camera02, "camera_cut02");
+  FRAME camera03;			FRM_FindFrame(camera03, "camera_cut03");
+  FRAME camera04;			FRM_FindFrame(camera04, "camera_cut04");
+  FRAME rozhlizeni;			FRM_FindFrame(rozhlizeni, "camera_rozhlizeni01");
+  FRAME pohled01;			FRM_FindFrame(pohled01, "dummy_rozhlizeni01");
+  FRAME pohled02;			FRM_FindFrame(pohled02, "dummy_rozhlizeni02");
+  FRAME pohled03;			FRM_FindFrame(pohled03, "Opel02");
+  FRAME null;				FRM_FindFrame(null, "");
+
+  FRAME tiger01;			FRM_FindFrame(tiger01, "tiger01");
+  FRAME tiger02;			FRM_FindFrame(tiger02, "tiger02");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  CSC_FadeOut(100);
+//  FRM_SetOn(tiger01, false);		// hide tank
+//  FRM_SetOn(tiger02, false);		// hide tank
+  CSC_RunCutscene(1);
+goto END;
+
+OnCutscene(1){
+  SUBTITLES_SetOn(true);
+  CSC_FadeIn(500);
+  SUBTITLES_SetText(08011601);
+  CSC_FadeOut(100);
+  FRM_SetActiveCamera(camera01);
+  CSC_FadeIn(100);
+  Delay(2000);
+  CSC_FadeOut(100);
+
+//  FRM_SetActiveCamera(rozhlizeni);
+//  FRM_SetCameraFrame(pohled01);
+//  FRM_SetCameraFrame(null);
+//  CSC_FadeIN(100);
+//  FRM_SetCameraFrameSlide(pohled02, 30);
+//  Delay(3000);
+//  FRM_SetCameraFrameSlide(pohled03, 50);
+//  Delay(1000);
+  FRM_SetCameraFrame(null);
+  CSC_FadeOut(100);
+
+  FRM_SetActiveCamera(camera02);
+  CSC_FadeIN(100);
+  Delay(2000);
+  CSC_FadeOut(100);
+  FRM_SetActiveCamera(camera03);
+  CSC_FadeIN(100);
+  Delay(2000);
+//  CSC_FadeOut(100);
+//  FRM_SetActiveCamera(camera04);
+//  CSC_FadeIn(100);
+//  Delay(2000);
+  CSC_EndCutscene();
+}
+
+OnCutscene(2){
+  FRM_SetActiveCamera(camera04);
+}
+
+OnCutsceneDone(1){
+  FRM_SetCameraFrame(null);
+//  CSC_RunCutscene(2);
+  SUBTITLES_SetOn(false);
+  CSC_FadeIn(100);
+  EndScript();
+}
+
+OnCutsceneDone(2){
+  FRM_SetCameraFrame(null);
+  EndScript(); 
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Label END:

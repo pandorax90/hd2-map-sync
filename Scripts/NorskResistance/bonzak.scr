@@ -1,0 +1,83 @@
+// Tirpic guard number 3
+// Walk on stupid guard way and sometime do some action 
+
+block
+{
+  integer counter=1;
+    frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+integer end;	end=(_RandomInt(4));
+end=(end+3);
+SetAlarmType(1,0); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,0); //exploze
+SetAlarmType(32,0); //vidi
+SetAlarmType(64,0); //jsem zranen
+SetAlarmType(128,0); //zeskriptu
+SetAlarmType(256,1); //pratelska strelba
+SetAlarmType(512,0); //vidim flakotu
+
+HUMAN_SETSIGHTRANGE(400);
+HUMAN_SETHEARRANGE(100);
+
+frame alarmer;		FRM_FindFrame(alarmer, "alarmer");
+HUMAN_SETMODE_Stand();
+HUMAN_SetOptimized(2);
+
+integer mrd;	mrd=(_SPGetGameType());
+}
+
+
+
+OnDeath()
+{
+DisableSignals(1);
+EndScript();
+goto end;
+}
+
+HUMAN_Suspend(true);
+HUMAN_SETEVENTS(1);
+SetAlarmType(258,1);
+goto end;
+
+
+
+
+
+OnAlarm()
+{
+block
+{
+ 
+  PrintfNumber("Tirpic bonzak : ",end);
+SetAlarmType(258,0); //pratelska strelba
+
+end=(end-1);
+}
+If(end==0)
+{
+
+  SendSignal(alarmer,2);
+Printf("Allaaarm");
+goto end;
+}
+delay (200);
+block
+{
+
+SetAlarmType(256,1); //pratelska strelba
+SetAlarmType(2,1); //slysim strelbu
+HUMAN_SetAlarm(0);
+goto end;
+}
+}
+
+OnAlarmDone()
+{
+  goto end;
+}
+
+label end:

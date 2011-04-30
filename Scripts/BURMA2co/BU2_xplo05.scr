@@ -1,0 +1,31 @@
+// BU2_xplo05 - explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame me;
+	FRM_GetMyFrame(me);
+Frame xplo05;
+	FRM_FindFrame(xplo05, "x_vybuch_05");
+Integer rnd;
+	rnd=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever alarm(_SignalReceived(1))	// received from BU2_xploset01
+{
+		rnd=_RandomInt(2000);
+	Delay(rnd);
+
+		PlaySound(6, 8);
+		Delay(700);
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(48, me);
+		FRM_SetOn(xplo05, false);
+		MakeExplosion(xplo05, 200000, 15000);
+		MakeExplosion(xplo05, 1, 20000);
+	}
+}
+// -------------------------------------------------------------------------------------------------------------

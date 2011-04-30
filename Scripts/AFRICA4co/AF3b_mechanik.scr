@@ -1,0 +1,9 @@
+FRAME this;			FRM_GetMyFrame(this);
+Frame chrr;			FRM_FindFrame(chrr, "S_chrr");
+
+HUMAN_SetAnim("%%spac", 0, 0, true);
+
+OnDeath()
+{
+  FRM_SetOn(chrr, false);
+}

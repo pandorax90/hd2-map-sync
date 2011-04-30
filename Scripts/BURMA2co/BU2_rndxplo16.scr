@@ -1,0 +1,21 @@
+// BU2_rndxplo16 - explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame rndxplo16;
+	FRM_FindFrame(rndxplo16, "rndxplo16");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)
+{
+If(_PlayerInRange(50))
+{
+		PlaySound(6, 8);
+		Delay(700);
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(48, rndxplo16);
+		MakeExplosion(rndxplo16, 800000, 15000);
+	}
+}
+}

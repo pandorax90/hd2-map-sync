@@ -1,0 +1,97 @@
+// Tirpic guard number 12
+// Walk on stupid guard way and sometime do some action 
+
+block
+{
+  integer counter=1;
+  frame bottle; 	FRM_FindFrame(bottle, "");  	// OPRAVIT na default flasku
+  frame see_pause;	FRM_FindFrame(see_pause, "dummy_see1");   
+  integer pause;
+  frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+  integer AIEvent;
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Guard();
+HUMAN_WeaponOnArm(true);
+HUMAN_SetOptimized(true);
+
+
+}
+HUMAN_Suspend(true);
+
+label wait:
+  delay(100000);
+goto wait;
+Whenever a (_PlayerInRange(140);)
+{
+  HUMAN_Suspend(false);
+}
+
+label impish_way:
+  label back1:
+    counter=1;
+    HUMAN_Move("T12_1");
+If((_RandomInt(3))==1)
+{
+   HUMAN_Move("T12_3");
+HUMAN_WeaponOnArm(false);
+HUMAN_ACTIVITY_Smoke(1);
+delay(15000);
+HUMAN_ACTIVITY_Smoke(0);
+HUMAN_WeaponOnArm(true);
+}
+
+  label back2:
+    counter=2;
+    HUMAN_Move("T12_2");
+goto impish_way;
+
+OnSignal(1)
+{
+  delay(500);
+  HUMAN_ACTIVITY_Hat();
+  delay(1500);
+  goto go_back;
+}
+
+//OnSignal(2)
+{
+  delay(500);
+  HUMAN_ACTIVITY_DrinkBottle(bottle);
+  delay(2000);
+  goto go_back;
+}
+
+OnSignal(3)
+{
+  delay(500);
+  HUMAN_ACTIVITY_Cold();
+  delay(500);
+  goto go_back;
+}
+
+OnSignal(4)
+{
+  HUMAN_TurnAt(see_pause);
+  pause = _RandomInt(10000) + 20000;
+  delay(pause);
+}
+
+label go_back:
+  If (counter==1) {goto back1;}
+  If (counter==2) {goto back2;}
+goto back1;
+
+OnAlarm()
+{
+  AIEvent =_GetAlarmType(); 
+  PrintfNumber("Tirpic 12 : ", AIEvent);
+  SendSignal(OBJ, 10);
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  goto go_back;
+}

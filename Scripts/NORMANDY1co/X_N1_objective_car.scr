@@ -1,0 +1,214 @@
+// objective - carnage objectives
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame diary;
+	FRM_FindFrame(diary, "N1_diary");
+Integer cannons;		// q=3
+	cannons=0;
+Integer cannonsb;		// q=4
+	cannonsb=0;
+Integer allobjectivesdone;	// q=4
+	allobjectivesdone=0;
+Integer setalldead;		// q=4
+	setalldead=0;
+Frame N42;
+	FRM_FindFrame(N42, "N42");
+}
+
+SetWhenever(alldead, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)	// received from 3 shooting cannons on death
+{
+		cannons=cannons+1;
+
+	If(cannons==3)
+	{
+		SUBTITLES_SetOn(true);
+		SUBTITLES_SetText(16993206);
+		Delay(3000);
+		printf("Shooting cannons destroyed - objective complete");
+		SUBTITLES_SetOn(false);
+		SendSignal(diary, 1);
+
+			allobjectivesdone=allobjectivesdone+1;
+		If(allobjectivesdone==5)
+		{
+		SUBTITLES_SetOn(true);
+		SUBTITLES_SetText(16993213);
+		printf("Gather your troops at the underground entrance");
+		SetObjectiveStatus(6, 0);
+		Delay(3000);
+		SUBTITLES_SetOn(false);
+		EnableSignal(6, true);
+		}
+		SetObjectiveStatus(1, 1);	// 3 shooting cannons destroyed
+		PlayMusic(36);
+		GoTo testalldead;
+	}
+	GoTo end;
+}
+
+OnSignal(2)	// received from 4 non-shooting cannons on death
+{
+		cannonsb=cannonsb+1;
+
+	If(cannonsb==4)
+	{
+		SUBTITLES_SetOn(true);
+		SUBTITLES_SetText(16993207);
+		Delay(3000);
+		printf("Other cannons destroyed - objective complete");
+		SUBTITLES_SetOn(false);
+
+			allobjectivesdone=allobjectivesdone+1;
+		If(allobjectivesdone==5)
+		{
+		SUBTITLES_SetOn(true);
+		SUBTITLES_SetText(16993213);
+		printf("Gather your troops at the underground entrance");
+		SetObjectiveStatus(6, 0);
+		Delay(3000);
+		SUBTITLES_SetOn(false);
+		EnableSignal(6, true);
+		}
+		SetObjectiveStatus(2, 1);	// 4 non-shooting cannons destroyed
+		PlayMusic(36);
+		GoTo testalldead;
+	}
+	GoTo end;
+}
+
+Whenever objective3(_SignalReceived(3))	// generator switched on
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993208);
+	printf("Generator switched on - objective complete");
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+
+		allobjectivesdone=allobjectivesdone+1;
+	If(allobjectivesdone==5)
+	{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993213);
+	printf("Gather your troops at the underground entrance");
+	SetObjectiveStatus(6, 0);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	EnableSignal(6, true);
+	}
+	SetObjectiveStatus(3, 1);
+	GoTo testalldead;
+}
+
+Whenever objective4(_SignalReceived(4))	// lighthouse switched on
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993209);
+	printf("Lighthouse switched on - objective complete");
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	SendSignal(diary, 2);
+
+		allobjectivesdone=allobjectivesdone+1;
+	If(allobjectivesdone==5)
+	{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993213);
+	printf("Gather your troops at the underground entrance");
+	SetObjectiveStatus(6, 0);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	EnableSignal(6, true);
+	}
+	SetObjectiveStatus(4, 1);
+	GoTo testalldead;
+}
+
+Whenever objective5(_SignalReceived(5))	// flak soldiers killed
+{
+	SetWhenever(alldead, false);
+	SetObjectiveStatus(5, 1);
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993212);
+	printf("Flak guards killed - optional objective complete");
+	Delay(3000);
+	SetWhenever(alldead, true);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+Whenever objective6(_SignalReceived(6))	// received from objective_gather
+{
+	If(!_IsTeamMemberDead())
+	{
+		SetObjectiveStatus(7, 1);
+	}
+	SetObjectiveStatus(6, 1);
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993214);
+	printf("Gather troops at exit point - objective complete");
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+}
+
+Whenever alldead(_GetCountOfCarnageEnemies()==0)
+{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(21990002);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+
+		allobjectivesdone=allobjectivesdone+1;
+	If(allobjectivesdone==5)
+	{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(16993213);
+	printf("Gather your troops at the underground entrance");
+	SetObjectiveStatus(6, 0);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	EnableSignal(6, true);
+	}
+
+	SetObjectiveStatus(8, 1);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+EnableSignal(6, false);
+SetupTacticalMode(false);
+
+Block
+{
+SetObjectiveStatus(1, 0);	// destroy cannons shooting on boat convoy
+SetObjectiveStatus(2, 0);	// destroy rest of cannons
+SetObjectiveStatus(3, 0);	// switch on the generator
+SetObjectiveStatus(4, 0);	// switch on the lighthouse
+//SetObjectiveStatus(5, 4);	// optional - kill flak guards
+//SetObjectiveStatus(6, 4);	// gather your troops at the exit point
+//SetObjectiveStatus(7, 4);	// optional - all soldiers must survive
+SetObjectiveStatus(8, 0);	// carnage - kill all enemies
+}
+SUBTITLES_SetOn(true);
+printf("Destroy the cannons and switch on the generator");
+SUBTITLES_SetText(16993205);
+Delay(4000);
+SUBTITLES_SetText(20994001);
+Delay(3000);
+SUBTITLES_SetOn(false);
+GoTo end;
+
+Label testalldead:
+	setalldead=setalldead+1;
+	If(setalldead==4)
+	{
+		SendSignal(N42, 1);
+		SetWhenever(alldead, true);
+	}
+	GoTo end;
+
+Label end:

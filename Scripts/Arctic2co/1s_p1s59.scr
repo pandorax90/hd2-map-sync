@@ -1,0 +1,46 @@
+////-------------prepinani lightmap od dveri      m_d_po10    a      m_d_po11------------------------
+
+Block
+  {
+     Frame m_d_po11;		FRM_FindFrame(m_d_po11, "m_d_po11");
+     Frame m_d_po10;		FRM_FindFrame(m_d_po10, "m_d_po10");
+     Frame p1s59;		FRM_GetMyFrame(p1s59);
+     Integer  door_p1s59 = 0;
+     Integer  door_po10 = 0;
+     Integer  door_po11 = 0;
+//////////////////////////////// INIT.
+       FRM_SetLightMap(m_d_po10, 0);
+       FRM_SetLightMap(m_d_po11, 0);
+       FRM_SetGroupLightMap("1s_p1s59", 0);
+//////////////////////////////
+  }
+
+OnSignal(1)
+{
+  If (door_po10==1) { door_po10=0; } Else { door_po10=1; }
+  If (door_po10==1) { door_p1s59=3 } Else { door_p1s59=0 }
+  Block
+    {
+       FRM_SetLightMap(m_d_po10,door_po10);
+       FRM_SetLightMap(m_d_po11,door_po10);
+       FRM_SetGroupLightMap("1s_p1s59",door_p1s59);
+    }
+}
+
+// POZN. : Bylo to pro 2 dvere, ale ted jsou sojeny a zaviraji portaly
+// OnSignal(2)
+// {
+//   Frame m_d_po11;	FRM_FindFrame(m_d_po11, "m_d_po11");
+//   Delay(800);
+//   If(door_po11==0) { door_po11=1; } Else { door_po11=0; }
+//   FRM_SetLightMap(m_d_po11,door_po11);
+//   Goto Lightmap;
+// }
+//
+// Label Lightmap:	
+// 	door_p1s59 = 0;
+// 	If     ((door_po10==0) and (door_po11==0))		{door_p1s59=0}
+//	If     ((door_po10==1) and (door_po11==0))		{door_p1s59=1}
+//	If     ((door_po10==0) and (door_po11==1))		{door_p1s59=2}
+//	If     ((door_po10==1) and (door_po11==1))		{door_p1s59=3}
+

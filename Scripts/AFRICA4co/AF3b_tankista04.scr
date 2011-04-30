@@ -1,0 +1,63 @@
+__SetupAutoLogging(true, "AF3b_Tankista_02.txt");
+
+// AF3b_tankista04
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME organizer;		FRM_FindFrame(organizer, "dummy_organizer");
+SetAlarmType(1023, true);
+INTEGER atpos		= 0;
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  EndScript();
+}
+  
+OnAlarm(){
+  printf("TANKISTA 02: On ALARM");
+  if(!atpos)
+  {
+   HUMAN_Drive("", 0);
+    printf("TANKISTA 02: Before DRIVE");
+    HUMAN_Drive("tank02_al01", 40);
+    atpos = 1;
+  }
+  printf("TANKISTA 02: After DRIVE");
+  goto END;
+}
+
+OnAlarmDone(){
+  goto END;
+}
+
+OnSignal(1){
+  printf("TANKISTA04 at OnSignal(1)");
+  HUMAN_Suspend(false);
+  goto ACTIVITY1;
+}
+
+OnSignal(2){
+  printf("TANKISTA04 at OnSignal(2)");
+  HUMAN_Suspend(false);
+  goto ACTIVITY2;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_BoardVehicle("Tiger02", true, 0);
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVITY1:
+  printf("tank01: driving... act 01");
+  HUMAN_Drive("tank02_01", 30);
+goto END;
+
+Label ACTIVITY2:
+  printf("tank01: driving... act 02");
+  HUMAN_Drive("tank02_01", 10);
+goto END;
+
+Label END:

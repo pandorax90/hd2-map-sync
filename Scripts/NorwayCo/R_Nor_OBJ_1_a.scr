@@ -1,0 +1,73 @@
+// mined Tirpic		OBJ  1
+block
+{
+
+SetWhenever(nemine1,0);
+SetWhenever(nemine2,0);
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+
+Frame music;		FRM_FindFrame (music,"minedmusic");
+Frame min;		FRM_FindFrame(min,"d_magmineicon_");
+Frame min2;		FRM_FindFrame(min2,"d_magmineicon_2");
+integer ted;		ted=0;
+
+}
+
+
+
+
+
+
+Whenever mine1(_ACTOR_GetState(min)==1) 
+{
+printf ("MINED");
+SetWhenever(nemine1,1);
+ted = ted+1;
+
+goto test;
+}
+
+Whenever mine2(_ACTOR_GetState(min2)==1)
+{
+printf ("MINED");
+SetWhenever(nemine2,1);
+ted = ted+1;
+
+goto test;
+}
+
+
+
+Whenever nemine1(_ACTOR_GetState(min)==0)
+{
+printf ("UNMINED");
+
+  SendSignal(OBJ, 15);	
+goto end;
+}
+
+Whenever nemine2(_ACTOR_GetState(min2)==0)
+{
+printf ("UNMINED");
+
+  SendSignal(OBJ, 15);	
+goto end;
+}
+
+
+
+
+SetWheneverTime(mine1, 1500);
+SetWheneverTime(mine2, 1500);
+SetWheneverTime(nemine1, 1500);
+SetWheneverTime(nemine2, 1500);
+
+
+label test:
+if (ted==2)
+{
+ SendSignal(OBJ, 5);		//  == Success
+ SendSignal (music,1);
+}
+
+label end:

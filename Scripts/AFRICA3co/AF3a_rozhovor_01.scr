@@ -1,0 +1,66 @@
+block
+{
+  FRAME doktor;				FRM_FindFrame(doktor, "AF3a_doktor");
+  FRAME pl01;					FRM_FindFrame(pl01, "_PLAYER_ 0");
+  FRAME pl02;					FRM_FindFrame(pl02, "_PLAYER_ 1");
+  FRAME pl03;					FRM_FindFrame(pl03, "_PLAYER_ 2");
+  FRAME pl04;					FRM_FindFrame(pl04, "_PLAYER_ 3");
+  FRAME active_player;
+}
+
+Label ROZHOVOR:
+
+//09991818	Jaktože jste nedoruèil Herr Schumannovi ty dokumenty?
+//09991819	Pane, dokumenty mel u sebe Herr Krammer
+//...
+
+Whenever player_in_range (_PlayerInRange(2))
+{
+  FRM_MorphSpeech(doktor, 07991507, 5, 10);
+  goto END;
+}
+
+OnSignal(1)
+{
+printf("signal received");
+if(_FrameInRange(pl01) < 2)
+{
+  FRM_FindFrame(active_player, "_PLAYER_ 0");
+}
+else
+{
+  if(_FrameInRange(pl02) < 2)
+  {
+    FRM_FindFrame(active_player, "_PLAYER_ 1");
+  }
+  else
+  {
+    if(_FrameInRange(pl03) < 2)
+    {
+      FRM_FindFrame(active_player, "_PLAYER_ 2");
+    }
+    else
+    {
+      if(_FrameInRange(pl04) < 2)
+      {
+        FRM_FindFrame(active_player, "_PLAYER_ 3");
+      }
+      else
+      {
+        printf("semka by se to uz nemelo dostat");
+      }
+    }
+  }
+}
+  Delay(2000);
+}
+
+OnSignal(2){
+  block
+  {
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+Label END:

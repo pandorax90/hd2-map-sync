@@ -1,0 +1,211 @@
+// Guard
+
+Block
+  {
+HUMAN_SETSIGHTRANGE(16);
+
+integer AIEvent;
+frame cuc2;	FRM_FindFrame(cuc2,"cum2");
+frame alarm;	FRM_findframe(alarm,"alarmer_2");
+frame cum;	FRM_FindFrame(cum, "small4cum");
+SetAlarmType(1,0); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,1); //exploze
+SetAlarmType(32,1); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,0); //zeskriptu
+SetAlarmType(256,1); //pratelska strelba
+SetAlarmType(512,1); //vidim flakotu
+
+frame small4r;		FRM_FindFrame(small4r,"small4r");
+
+    HUMAN_SETMODE_Stand();
+    HUMAN_SETMODE_Guard();
+	HUMAN_SETAIMODE_Aggressive();
+HUMAN_SetOptimized(2);
+  }
+
+
+
+Delay(5000);
+
+OnCutscene(1)		{  HUMAN_Suspend(True); }
+OnCutsceneDone(1)	{  HUMAN_Suspend(False); }
+
+integer way_predictor;
+way_predictor = 5;
+
+label guard:
+  HUMAN_Move("man4_1");
+  delay(200);
+  way_predictor = _RandomInt(4) + 2;
+  if (way_predictor == 2) 
+     { 
+        HUMAN_Move("man4_2");
+        delay(1000);
+if((_RandomInt(2))==1)
+    {
+   HUMAN_Move("man4_3");
+goto guard;
+     }
+
+     }
+  if (way_predictor == 3) 
+     {  
+        HUMAN_Move("man4_3");
+        delay(1000);
+if((_RandomInt(2))==1)
+    {
+	HUMAN_SetAnim("%%turnleft",200,200,0);
+	Delay(2800);
+	HUMAN_SetAnim("%%turnright",200,200,0);
+	Delay(3700);
+     }
+if((_RandomInt(2))==1)
+    {
+   HUMAN_Move("man4_4");
+goto guard;
+     }
+     }
+  if (way_predictor == 4) 
+     {  
+        HUMAN_Move("man4_4");
+        delay(1000);
+if((_RandomInt(2))==1)
+    {
+	HUMAN_SetAnim("%%turnleft",200,200,0);
+	Delay(2800);
+	HUMAN_SetAnim("%%turnright",200,200,0);
+	Delay(3700);
+     }
+
+     }
+  if (way_predictor == 5) 
+    { 
+       HUMAN_Move("man4_5");
+if((_RandomInt(2))==1)
+{ 
+	 HUMAN_Move("man4_6");
+	HUMAN_TurnAt(cuc2);	
+	delay(500);
+	HUMAN_SetAnim("%%nudazed2",200,200,0);
+	        delay(11285);
+}
+
+else
+
+{ 
+	 HUMAN_Move("man4_6");
+	HUMAN_TurnAt(cuc2);	
+	delay(500);
+	HUMAN_ACTIVITY_Smoke(1);
+	        delay(20000);
+	HUMAN_ACTIVITY_Smoke(0);
+}
+        delay(1000);
+    }
+goto guard;
+
+label guard3:
+
+HUMAN_SETMODE_Silence();
+HUMAN_Move("man4_8");
+HUMAN_LookAround(1);
+//anim cumeni hlawou
+delay (5000);
+HUMAN_Move("man4_7");
+HUMAN_LookAround(1);
+//anim cumeni hlawou
+delay (5000);
+goto guard3;
+//--------------------------------------------------------------------------------------------------------
+OnAlarm()
+{
+block
+{
+	DisableSignals(1);
+	HUMAN_SetAnim("",100,100,0);
+ 	 AIEvent =_GetAlarmType(); 
+	PrintfNumber("Thrawler guard 4: ", AIEvent);
+}
+
+If(AIEvent==32)
+{
+
+
+ 	 EndScript();
+
+}
+
+If(((AIEvent==2) or (AIEvent==256)) or (AIEvent==16))
+{
+	HUMAN_Stop();
+	HUMAN_SETMODE_Walk();
+	SetAlarmType(274,0); 
+	HUMAN_SetAlarm(0);
+	HUMAN_WeaponOnArm(1);
+	HUMAN_TurnAtNearestPlayer();
+	HUMAN_LookAround(2);
+	delay(4000);
+		
+
+	goto guard3;
+}
+
+
+
+If( AIEvent ==512)
+{
+	HUMAN_Stop();
+	HUMAN_SETMODE_Walk();
+	SetAlarmType(512,0); //vidim flakotu
+	HUMAN_WeaponOnArm(1);
+	HUMAN_SetAlarm(0);
+	HUMAN_LookAround(2);
+	delay(5000);
+goto guard3;
+}
+
+
+  HUMAN_SETMODE_Crouch();
+  HUMAN_SETAIMODE_Defensive();
+  EndScript();
+}
+
+OnAlarmDone()
+{
+block
+{
+DisableSignals(0);
+SetAlarmType(1023,0);
+SetAlarmType(882,1);	
+SendSignal(small4r,23);
+}
+
+}
+
+
+//------------------------------------------------------------------------------------------------------
+
+OnSignal(22)		//Sirena on
+		
+{
+
+	SetAlarmType(512,0); //vidim flakotu
+label 23:
+	HUMAN_SetAlarm(0);
+	HUMAN_SetAnim("",50,50,0);
+	HUMAN_SETMODE_Walk();
+	HUMAN_WeaponOnArm(1);
+	HUMAN_SETSIGHTRANGE(30);
+	goto guard;
+}
+
+OnSignal(23)
+{
+goto 23;
+}
+//-------------------------------------------------------------------------------------------------------------------------
+label end:

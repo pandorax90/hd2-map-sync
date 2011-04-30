@@ -1,0 +1,105 @@
+
+  integer  AIEvent;
+  integer counter = 1;
+  Frame OBJ;		FRM_FindFrame(OBJ, "dummy_objectives");
+  Frame vykricnik;	FRM_FindFrame(vykricnik, "vykricnik_man");
+  Frame dabing;	FRM_FindFrame(dabing, "dummy_officer_dabing");
+  Frame MyFRM;	FRM_GetMyFrame(MyFRM);
+
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SetOptimized(true);
+HUMAN_SETMODE_Walk();
+HUMAN_SETMODE_Stand();
+
+SetAlarmType(1023, False);	// zapnu jenom 1+64 at se jak debil furt nezastavuje
+SetAlarmType(65, True);
+
+HUMAN_Suspend(True);
+FRM_SetOn(vykricnik, False);
+goto TheEnd;				
+
+Whenever GO ( _PlayerInRange(30); )
+{				
+  Printf("Officer 1 GO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");		
+  HUMAN_Suspend(False);	
+  SendSignal(dabing, 1);
+  PlayMusic(35);
+//  FRM_SetOn(vykricnik, True);	// Musim to VYHODIT
+}						
+
+label Akce1:
+  HUMAN_SetAlarm(False);
+  HUMAN_Move("MO_1");	
+label Akce2:
+  counter = 2;
+  HUMAN_SetAlarm(False);
+  HUMAN_Move("MO_2");	
+label Akce3:
+  counter = 3;
+  HUMAN_SetAlarm(False);
+  HUMAN_Move("MO_3");	
+label Akce4:
+  counter = 4;
+  HUMAN_SetAlarm(False);
+  HUMAN_Move("MO_4");	
+label Akce5:
+  counter = 5;
+  HUMAN_SetAlarm(False);
+  HUMAN_Move("MO_END");	
+  FRM_MorphSpeech(MyFRM, 0, 0, 0);
+  SendSignal(dabing, 2);
+  SendSignal(OBJ, 7);
+  counter = 6;
+
+// Zajistit prusvih  v OBJ a zavreni dveri
+
+OnAlarm()
+{
+  Block
+    {
+      AIEvent =_GetAlarmType();
+      PrintfNumber("---- MARINE Officer 1--- : ", AIEvent);
+      HUMAN_SetOptimized(false);
+      HUMAN_SETMODE_Run();
+      HUMAN_SETSIGHTRANGE(100);
+      HUMAN_SETHEARRANGE(120);
+    }
+       If ( ((AIEvent == 1) OR (AIEvent == 64)) AND ( _PlayerInRange(20)) )  
+          {
+             FRM_MorphSpeech(MyFRM, 0, 0, 0);
+             EndScript();
+          }
+       If ( counter == 1 )  { goto akce1; }
+       If ( counter == 2 )  { goto akce2; }
+       If ( counter == 3 )  { goto akce3; }
+       If ( counter == 4 )  { goto akce4; }
+       If ( counter == 5 )  { goto akce5; }
+    FRM_MorphSpeech(MyFRM, 0, 0, 0);
+    SendSignal(dabing, 2);
+    EndScript();
+}
+
+OnAlarmDone()
+{
+  HUMAN_SetAlarm(False);
+  If ( counter == 1 )  { goto akce1; }
+  If ( counter == 2 )  { goto akce2; }
+  If ( counter == 3 )  { goto akce3; }
+  If ( counter == 4 )  { goto akce4; }
+  If ( counter == 5 )  { goto akce5; }
+  HUMAN_SETMODE_Run();
+  HUMAN_SetOptimized(true);
+  HUMAN_SETMODE_Stand();
+  goto TheEnd;
+}
+
+OnDeath()
+{
+  FRM_MorphSpeech(MyFRM, 0, 0, 0);
+  SendSignal(dabing, 2);
+  SendSignal(OBJ, 12);
+  FRM_SetOn(vykricnik, False);
+  EndScript();
+}
+
+Label TheEnd:

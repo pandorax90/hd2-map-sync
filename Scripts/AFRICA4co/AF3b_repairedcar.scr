@@ -1,0 +1,14 @@
+// AF3a_repairedcar - detects whether car is damaged or not
+// -------------------------------------------------------------------------------------------------------------
+
+if(_SPGetGameDifficulty() == 0)
+{
+  HINT_ClearAll();
+  HINT_Add(11100);
+}
+
+OnDeath(){				// if car is destroyed
+  printf("auto v oaze bylo zniceno");
+  SaveGameValue(50, 0);
+  EndScript();
+}

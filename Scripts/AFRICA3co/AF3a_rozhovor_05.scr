@@ -1,0 +1,104 @@
+// AF2_rozhovor_05 - rozhovor mezi 2 vojakama
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME af02;			FRM_FindFrame(af02, "AF3a_02");
+FRAME af03;			FRM_FindFrame(af03, "AF3a_03");
+
+//	AF3a_02	07991589	NOSUB Dneska je celkem klid, brzy se m·me p¯esunout.	
+//	AF3a_03	07991590	NOSUB äkoda, uû jsem si zaËÌnal zvykat.	
+//	AF3a_02	07991591	NOSUB MnÏ to teda chybÏt nebude. R·d zas budu mezi lidma.	
+//	AF3a_03	07991592	NOSUB Co tÌm chceö ¯Ìct?	
+//	AF3a_02	07991593	NOSUB No prostÏ ... je n·s tady p·r, po¯·d vidÌö ty sam˝ ksichty, û·dn˝ ûensk˝,	
+//	AF3a_02	07991594	NOSUB vÌö jak to myslÌm?	
+//	AF3a_03	07991595	NOSUB Tak tobÏ chybÌ ûensk˝? Tak to dÏlej jako Max.	
+//	AF3a_02	07991596	NOSUB A jak to dÏl· Max?	
+//	AF3a_03	07991597	NOSUB No jde ven a vybere si nejhezËÌho velblouda a ...	
+//	AF3a_02	07991598	NOSUB PoËkej ... to mi chceö naznaËit, ûe Max jako ... on a velbloud ... ?	
+//	AF3a_03	07991599	NOSUB No jasnÏ, vûdyù to ¯Ìk·m. Vybere si toho nejhezËÌho velblouda,	
+//	AF3a_03	07991600	NOSUB skoËÌ na nÏj a zajede si do mÏsta.	
+//	AF3a_02	07991601	NOSUB Uff, uû jsem myslel.	
+//	AF3a_03	07991602	NOSUB A cos myslel?	
+//	AF3a_03	07991603	NOSUB Jo takhle, to nÈ, zbl·znil ses? Haha, Max a velbloud, haha ...	
+//	AF3a_02	07991604	NOSUB Taky jsem si ¯Ìkal, ûe to je blbost, no fuj.	
+
+OnSignal(1){
+  if(!_LoadGameValue(31))
+  {
+    EndScript();
+  }
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR between 02 & 03");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 07991589, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991590, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 07991591, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991592, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 07991593, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af02, 07991594, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991595, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 07991596, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991597, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 07991598, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991599, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af03, 07991600, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 079915601, 8, 20);
+  SendSignal(af02, 11);
+
+  SendSignal(af03, 10);
+  FRM_MorphSpeechDelayed(af03, 07991602, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af03, 07991603, 8, 20);
+  SendSignal(af03, 11);
+
+  SendSignal(af02, 10);
+  FRM_MorphSpeechDelayed(af02, 079915604, 8, 20);
+  SendSignal(af02, 11);
+
+  SUBTITLES_SetOn(false);
+}
+
+OnSignal(2){
+  block
+  {
+    FRM_MorphSpeech(af02, 0, 0, 0);
+    FRM_MorphSpeech(af03, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+Label END:

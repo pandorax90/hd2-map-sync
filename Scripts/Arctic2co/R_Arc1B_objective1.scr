@@ -1,0 +1,18 @@
+
+frame FRM;		FRM_FindFrame(FRM, "objectives");
+frame PLANY;		FRM_FindFrame(PLANY, "g_A1_pl01");
+
+// mistnost s nakresy 
+
+Whenever OBJ (_ACTOR_GetState(PLANY) == 1)
+  {
+    printf ("OBJECTIVE PART OK 	( photo place 1 - plans)");
+    SendSignal(FRM, 7);
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(02990401); 
+    Delay(3000);
+    SUBTITLES_SetOn(False);
+  }
+
+
+

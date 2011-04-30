@@ -1,0 +1,110 @@
+// AF2_rozhovor_03 - chat between 2 soldiers
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME af28;			FRM_FindFrame(af28, "AF3a_28");
+FRAME af29;			FRM_FindFrame(af29, "AF3a_29");
+
+//	AF3s_28	07991536	NOSUB ... tak to už máš pár akcí za sebou, co ...	
+//	AF3s_29	07991537	NOSUB Pár? Chlapèe, se mnou vymetli každej kout od chvíle, co zaèala válka.	
+//	AF3s_29	07991538	NOSUB Šel jsem s jednotkou pøes Polsko na východní frontu, strávil jsem v Rusku jednu zimu	
+//	AF3s_29	07991539	NOSUB a mùžu ti øíct, že máš zatracený štìstí, žes nemusel prožít to, co já,	
+//	AF3s_29	07991540	NOSUB protože pobyt tady a vùbec všechno, co je mimo východní frontu,	
+//	AF3s_29	07991541	NOSUB je naprostá pohoda.	
+//	AF3s_28	07991542	NOSUB Tomu nerozumím, co mùže být v Evropì horšího než tady, i když to bylo v Rusku?	
+//	AF3s_29	07991543	NOSUB Jaká Evropa, prosím Tì? Rusko je prostì Rusko. Vobrovský, studený a drsný.	
+//	AF3s_29	07991544	NOSUB Mìli jsme tam nìkolik armád. Ale vždycky jsme tam mìli pocit, že na každého našeho vojáka	
+//	AF3s_29	07991545	NOSUB mají oni svjech deset. Vždycky už to vypadalo, že postoupíme dál, Rusové se drželi 	
+//	AF3s_29	07991546	NOSUB z posledních sil a prásk ho! Stalin na nás povolal Sibiøské divize, Kozáky, Kazašské divize 	
+//	AF3s_29	07991547	NOSUB a my mìli co dìlat, abysme se stahovali rychleji, než oni staèili postupovat.	
+//	AF3s_28	07991548	NOSUB Kazašské divize? O tìch jsem ještì neslyšel.	
+//	AF3s_29	07991549	NOSUB Hele byls tam? Nebyl! Tak vidíš. 	
+//	AF3s_29	07991550	NOSUB A stejnì jsem to øíkal jen tak, pro pøíklad, chápeš.	
+//	AF3s_29	07991551	NOSUB Prostì jich bylo moc.	
+//	AF3s_29	07991552	NOSUB A k tomu ta zatracená zima, vážnì zatracená.	
+//	AF3s_28	07991553	NOSUB V Nìmecku je pøeci v zimì taky zima.	
+//	AF3s_29	07991554	NOSUB Pche! Zima? Tomu øíkáš zima?!	
+//	AF3s_29	07991555	NOSUB Èlovìèe, my když jsme se mìli nìkde zakopat, tak jsme na to místo museli napøed naházet granáty,	
+//	AF3s_29	07991556	NOSUB aby odstranily tu svinskou vrstvu ledu, na který bysme si jinak vylámali lopaty.	
+//	AF3s_29	07991557	NOSUB A nejhorší bylo, když se náhodou oteplilo, všechno roztálo a v noci zaèalo zase mrznout.	
+//	AF3s_29	07991558	NOSUB Museli jsme kolikrát nechat stát celý kolony v poli, protože jsme je nemohli vyprostit.	
+//	AF3s_29	07991559	NOSUB Tady to taky není jednoduché. Myslím to poèasí a písek a vùbec ...	
+//	AF3s_29	07991560	NOSUB Øíkám ti, že je to nic proti tomu, co jsme zažili v Rusku.	
+//	AF3s_28	07991561	NOSUB No když myslíš. Taky jsem nemohl být všude.	
+
+OnSignal(1){
+  if(!_LoadGameValue(32))
+  {
+    EndScript();
+  }
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR between 28 & 29");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(af28, 10);
+  FRM_MorphSpeechDelayed(af28, 07991536, 8, 20);
+  Delay(2000);
+  SendSignal(af28, 11);
+
+  SendSignal(af29, 10);
+  FRM_MorphSpeechDelayed(af29, 07991537, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991538, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991539, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991540, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991541, 8, 20);
+  SendSignal(af29, 11);
+
+  SendSignal(af28, 10);
+  FRM_MorphSpeechDelayed(af28, 07991542, 8, 20);
+  SendSignal(af28, 11);
+
+  SendSignal(af29, 10);
+  FRM_MorphSpeechDelayed(af29, 07991543, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991544, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991545, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991546, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991547, 8, 20);
+  SendSignal(af29, 11);
+
+  SendSignal(af28, 10);
+  FRM_MorphSpeechDelayed(af28, 07991548, 8, 20);
+  SendSignal(af28, 11);
+
+  SendSignal(af29, 10);
+  FRM_MorphSpeechDelayed(af29, 07991549, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991550, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991551, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991552, 8, 20);
+  SendSignal(af29, 11);
+
+  SendSignal(af28, 10);
+  FRM_MorphSpeechDelayed(af28, 07991553, 8, 20);
+  SendSignal(af28, 11);
+
+  SendSignal(af29, 10);
+  FRM_MorphSpeechDelayed(af29, 07991554, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991555, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991556, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991557, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991558, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991559, 8, 20);
+  FRM_MorphSpeechDelayed(af29, 07991560, 8, 20);
+  SendSignal(af29, 11);
+
+  SendSignal(af28, 10);
+  FRM_MorphSpeechDelayed(af28, 07991561, 8, 20);
+  SendSignal(af28, 11);
+
+  SUBTITLES_SetOn(false);
+}
+
+OnSignal(2){
+  block
+  {
+    FRM_MorphSpeech(af28, 0, 0, 0);
+    FRM_MorphSpeech(af29, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+  }
+  EndScript();
+}
+
+Label END:

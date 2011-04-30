@@ -1,0 +1,37 @@
+// Czech 4 objective
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer gametype;
+	gametype=0;
+}
+
+gametype=_SPGetGameType();
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+Whenever AED (_AllEnemiesDead())
+	{
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(21990002);
+	SetObjectiveStatus(1, 1);
+      Delay(6000);
+	SUBTITLES_SetOn(false);
+      GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+SetObjectiveStatus(1, 0);	// kill the enemy
+
+}
+
+SUBTITLES_SetOn(true);
+printf("Kill the enemy");
+SUBTITLES_SetText(15538);
+Delay(7000);
+SUBTITLES_SetOn(false);
+
+Label end:

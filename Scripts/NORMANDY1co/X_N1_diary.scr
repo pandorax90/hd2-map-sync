@@ -1,0 +1,83 @@
+// N1_diary - diary
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Integer playersbegin;
+	playersbegin=0;
+Integer playersend;
+	playersend=0;
+Integer players;
+	players=0;
+// -------------------------------------------------------------------------------------------------------------
+Delay(1000);
+playersbegin=_GetNumMembersOfClientTeam();
+
+// Whenever keywords and signals
+OnSignal(1)	// received from objective - cannons
+{
+//	EnableSignal(2, false);
+//	If(players==1)
+//	{
+//		AddDiaryText(34);
+//		AddDiaryText(4393);
+//		GoTo end;
+//	}
+//	AddDiaryText(34);
+//	AddDiaryText(4391);
+//	GoTo end;
+}
+
+OnSignal(2)	// received from objective - lighthouse
+{
+//	EnableSignal(1, false);
+//	If(players==1)
+//	{
+//		AddDiaryText(34);
+//		AddDiaryText(4394);
+//		GoTo end;
+//	}
+//	AddDiaryText(34);
+//	AddDiaryText(4393);
+//	GoTo end;
+}
+
+OnExit()
+{
+	If(!_IsTeamMemberDead())
+	{
+		AddDiaryText(34);
+		AddDiaryText(4424);
+	}
+	playersend=_GetNumMembersOfClientTeam();
+	If((playersbegin==4) AND (playersend==3))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4421);
+	}
+	If((playersbegin==4) AND (playersend==2))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4422);
+	}
+	If((playersbegin==4) AND (playersend==1))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4423);
+	}
+	If((playersbegin==3) AND (playersend==2))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4421);
+	}
+	If((playersbegin==3) AND (playersend==1))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4422);
+	}
+	If((playersbegin==2) AND (playersend==1))
+	{
+		AddDiaryText(34);
+		AddDiaryText(4421);
+	}
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

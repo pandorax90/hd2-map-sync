@@ -1,0 +1,50 @@
+// AF1_tank01_01 - tank01 driver
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  INTEGER rnd			= 0;
+
+  INTEGER lastpos		= 0;
+  SetAlarmType(1023, true);
+  SetAlarmType(768, false);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  EndScript();
+}
+  
+OnAlarm(){
+  printf("tank2_driver: ALARMED");
+  HUMAN_Stop();  
+  Delay(100);
+  HUMAN_DriveNearPlayer(12);
+  Delay(100);
+  SetAlarmType(1023, true);
+  SetAlarmType(768, false);
+  HUMAN_SetAlarm(false);
+  goto END;
+}
+
+OnAlarmDone(){
+  goto END;
+}
+
+Whenever nadosah (_PlayerInRange(200)){
+  printf("tank1_01 ACTIVATED");
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(2);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+//  SetAlarmType(511, false);
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_BoardVehicle("Panzer01", true, 0);
+goto END;
+
+Label END:

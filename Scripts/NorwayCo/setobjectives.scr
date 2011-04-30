@@ -1,0 +1,36 @@
+block
+{
+SetupTacticalMode(0);
+Frame obj;	FRM_FindFrame(obj, "objectives");
+Frame Small4;		FRM_FindFrame(Small4, "Small4");
+Frame Small1;		FRM_FindFrame(Small1, "Small1");
+Frame Small7;		FRM_FindFrame(Small7, "Small7");
+integer mrd;	mrd=(_SPGetGameType());
+		// mrd=3;
+
+}
+
+
+if ((mrd==3) or (mrd==7))
+{
+
+ScriptAssign(Small4, "");
+ScriptAssign(Small4, "R_nor_man4_carn.scr");
+ScriptAssign(Small1, "");
+ScriptAssign(Small1, "R_nor_man1_carn.scr");
+ScriptAssign(Small7, "");
+ScriptAssign(Small7, "R_nor_man7_carn.scr");
+ScriptAssign(obj,"objectives_carn.scr");
+
+
+
+goto end;
+}
+
+ScriptAssign(obj,"R_Nor_objectives.scr");
+
+
+
+
+
+label end:

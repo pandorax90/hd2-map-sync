@@ -1,0 +1,484 @@
+// BU1_deadcounter - debug
+Integer counter;
+	counter=0;
+Integer remaining;
+	remaining=39;
+Integer b01;	b01=1;
+Integer b02;	b02=1;
+Integer b03;	b03=1;
+Integer b04;	b04=1;
+Integer b05;	b05=1;
+Integer b06;	b06=1;
+Integer b07;	b07=1;
+Integer b08;	b08=1;
+Integer b09;	b09=1;
+Integer b10;	b10=1;
+Integer b11;	b11=1;
+Integer b12;	b12=1;
+Integer b13;	b13=1;
+Integer b14;	b14=1;
+Integer b15;	b15=1;
+Integer b16;	b16=1;
+Integer b17;	b17=1;
+Integer b18;	b18=1;
+Integer b19;	b19=1;
+Integer b20;	b20=1;
+Integer b21;	b21=1;
+Integer b22;	b22=1;
+Integer b23;	b23=1;
+Integer b24;	b24=1;
+Integer b25;	b25=1;
+Integer b26;	b26=1;
+Integer b27;	b27=1;
+Integer b28;	b28=1;
+Integer b29;	b29=1;
+Integer b30;	b30=1;
+Integer b31;	b31=1;
+Integer b32;	b32=1;
+Integer b33;	b33=1;
+Integer b34;	b34=1;
+Integer b35;	b35=1;
+Integer b36;	b36=1;
+Integer b37;	b37=1;
+Integer b38;	b38=1;
+Integer b39;	b39=1;
+
+Frame bu01;
+	FRM_FindFrame(bu01, "BU1_01");
+Frame bu02;
+	FRM_FindFrame(bu02, "BU1_02");
+Frame bu03;
+	FRM_FindFrame(bu03, "BU1_03");
+Frame bu04;
+	FRM_FindFrame(bu04, "BU1_04");
+Frame bu05;
+	FRM_FindFrame(bu05, "BU1_05");
+Frame bu06;
+	FRM_FindFrame(bu06, "BU1_06");
+Frame bu07;
+	FRM_FindFrame(bu07, "BU1_07");
+Frame bu08;
+	FRM_FindFrame(bu08, "BU1_08");
+Frame bu09;
+	FRM_FindFrame(bu09, "BU1_09");
+Frame bu10;
+	FRM_FindFrame(bu10, "BU1_10");
+Frame bu11;
+	FRM_FindFrame(bu11, "BU1_11");
+Frame bu12;
+	FRM_FindFrame(bu12, "BU1_12");
+Frame bu13;
+	FRM_FindFrame(bu13, "BU1_13");
+Frame bu14;
+	FRM_FindFrame(bu14, "BU1_14");
+Frame bu15;
+	FRM_FindFrame(bu15, "BU1_15");
+Frame bu16;
+	FRM_FindFrame(bu16, "BU1_16");
+Frame bu17;
+	FRM_FindFrame(bu17, "BU1_17");
+Frame bu18;
+	FRM_FindFrame(bu18, "BU1_18");
+Frame bu19;
+	FRM_FindFrame(bu19, "BU1_19");
+Frame bu20;
+	FRM_FindFrame(bu20, "BU1_20");
+Frame bu21;
+	FRM_FindFrame(bu21, "BU1_21");
+Frame bu22;
+	FRM_FindFrame(bu22, "BU1_22");
+Frame bu23;
+	FRM_FindFrame(bu23, "BU1_23");
+Frame bu24;
+	FRM_FindFrame(bu24, "BU1_24");
+Frame bu25;
+	FRM_FindFrame(bu25, "BU1_25");
+Frame bu26;
+	FRM_FindFrame(bu26, "BU1_26");
+Frame bu27;
+	FRM_FindFrame(bu27, "BU1_27");
+Frame bu28;
+	FRM_FindFrame(bu28, "BU1_28");
+Frame bu29;
+	FRM_FindFrame(bu29, "BU1_29");
+Frame bu30;
+	FRM_FindFrame(bu30, "BU1_30");
+Frame bu31;
+	FRM_FindFrame(bu31, "BU1_31");
+Frame bu32;
+	FRM_FindFrame(bu32, "BU1_32");
+Frame bu33;
+	FRM_FindFrame(bu33, "BU1_33");
+Frame bu34;
+	FRM_FindFrame(bu34, "BU1_34");
+Frame bu35;
+	FRM_FindFrame(bu35, "BU1_35");
+Frame bu36;
+	FRM_FindFrame(bu36, "BU1_36");
+Frame bu37;
+	FRM_FindFrame(bu37, "BU1_37");
+Frame bu38;
+	FRM_FindFrame(bu38, "BU1_38");
+Frame bu39;
+	FRM_FindFrame(bu39, "BU1_39");
+
+printfnumber("Killed enemies: ", counter);
+printfnumber("Living enemies remaining: ", remaining);
+
+Label cykl:
+If(b01==1)
+{
+	If(_ACTOR_GetState(bu01)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b01=0;
+	}
+}
+If(b02==1)
+{
+	If(_ACTOR_GetState(bu02)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b02=0;
+	}
+}
+If(b03==1)
+{
+	If(_ACTOR_GetState(bu03)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b03=0;
+	}
+}
+If(b04==1)
+{
+	If(_ACTOR_GetState(bu04)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b04=0;
+	}
+}
+If(b05==1)
+{
+	If(_ACTOR_GetState(bu05)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b05=0;
+	}
+}
+If(b06==1)
+{
+	If(_ACTOR_GetState(bu06)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b06=0;
+	}
+}
+If(b07==1)
+{
+	If(_ACTOR_GetState(bu07)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b07=0;
+	}
+}
+If(b08==1)
+{
+	If(_ACTOR_GetState(bu08)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b08=0;
+	}
+}
+If(b09==1)
+{
+	If(_ACTOR_GetState(bu09)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b09=0;
+	}
+}
+If(b10==1)
+{
+	If(_ACTOR_GetState(bu10)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b10=0;
+	}
+}
+If(b11==1)
+{
+	If(_ACTOR_GetState(bu11)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b11=0;
+	}
+}
+If(b12==1)
+{
+	If(_ACTOR_GetState(bu12)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b12=0;
+	}
+}
+If(b13==1)
+{
+	If(_ACTOR_GetState(bu13)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b13=0;
+	}
+}
+If(b14==1)
+{
+	If(_ACTOR_GetState(bu14)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b14=0;
+	}
+}
+If(b15==1)
+{
+	If(_ACTOR_GetState(bu15)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b15=0;
+	}
+}
+If(b16==1)
+{
+	If(_ACTOR_GetState(bu16)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b16=0;
+	}
+}
+If(b17==1)
+{
+	If(_ACTOR_GetState(bu17)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b17=0;
+	}
+}
+If(b18==1)
+{
+	If(_ACTOR_GetState(bu18)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b18=0;
+	}
+}
+If(b19==1)
+{
+	If(_ACTOR_GetState(bu19)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b19=0;
+	}
+}
+If(b20==1)
+{
+	If(_ACTOR_GetState(bu20)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b20=0;
+	}
+}
+If(b21==1)
+{
+	If(_ACTOR_GetState(bu21)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b21=0;
+	}
+}
+If(b22==1)
+{
+	If(_ACTOR_GetState(bu22)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b22=0;
+	}
+}
+If(b23==1)
+{
+	If(_ACTOR_GetState(bu23)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b23=0;
+	}
+}
+If(b24==1)
+{
+	If(_ACTOR_GetState(bu24)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b24=0;
+	}
+}
+If(b25==1)
+{
+	If(_ACTOR_GetState(bu25)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b25=0;
+	}
+}
+If(b26==1)
+{
+	If(_ACTOR_GetState(bu26)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b26=0;
+	}
+}
+If(b27==1)
+{
+	If(_ACTOR_GetState(bu27)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b27=0;
+	}
+}
+If(b28==1)
+{
+	If(_ACTOR_GetState(bu28)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b28=0;
+	}
+}
+If(b29==1)
+{
+	If(_ACTOR_GetState(bu29)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b29=0;
+	}
+}
+If(b30==1)
+{
+	If(_ACTOR_GetState(bu30)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b30=0;
+	}
+}
+If(b31==1)
+{
+	If(_ACTOR_GetState(bu31)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b31=0;
+	}
+}
+If(b32==1)
+{
+	If(_ACTOR_GetState(bu32)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b32=0;
+	}
+}
+If(b33==1)
+{
+	If(_ACTOR_GetState(bu33)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b33=0;
+	}
+}
+If(b34==1)
+{
+	If(_ACTOR_GetState(bu34)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b34=0;
+	}
+}
+If(b35==1)
+{
+	If(_ACTOR_GetState(bu35)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b35=0;
+	}
+}
+If(b36==1)
+{
+	If(_ACTOR_GetState(bu36)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b36=0;
+	}
+}
+If(b37==1)
+{
+	If(_ACTOR_GetState(bu37)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b37=0;
+	}
+}
+If(b38==1)
+{
+	If(_ACTOR_GetState(bu38)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b38=0;
+	}
+}
+If(b39==1)
+{
+	If(_ACTOR_GetState(bu39)==0)
+	{
+		counter=counter+1;
+		remaining=remaining-1;
+		b39=0;
+	}
+}
+
+printfnumber("Killed enemies: ", counter);
+printfnumber("Living enemies remaining: ", remaining);
+Delay(10000);
+GoTo cykl;

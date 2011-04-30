@@ -1,0 +1,38 @@
+Block
+	{
+	Frame see;		FRM_FindFrame(see, "GE_2");
+	HUMAN_SETMODE_Stand();
+	HUMAN_SETMODE_Walk();
+	}
+
+HUMAN_TurnAt(see);
+HUMAN_WeaponOnArm(false);
+
+OnAlarm()
+	{
+	HUMAN_SETMODE_Run();
+	HUMAN_SETMODE_Lie();
+	HUMAN_WeaponOnArm(true);
+	HUMAN_Move("GE_3");
+	HUMAN_SetSniper(1, 5);
+	HUMAN_TurnAtNearestPlayer();
+	HUMAN_SETAIMODE_Defensive();
+	EndScript();
+	}
+
+OnAlarmDone()
+	{
+	HUMAN_WeaponOnArm(false);
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Stand();
+	HUMAN_WeaponOnArm(false);
+	}
+
+OnCutscene(2)
+	{
+	HUMAN_Suspend(true);
+	}
+
+OnCutsceneDone(2)
+	{
+	}

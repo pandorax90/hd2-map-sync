@@ -1,0 +1,34 @@
+// AF3b_spawn04	- player at spawn 04
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME me;				FRM_GetMyFrame(me);
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnCutscene(1){
+  HUMAN_SetMODE_Stand();
+}
+
+OnCutsceneDone(1){
+  HUMAN_SetMode_Guard();
+  EndScript();
+}
+
+//OnCutscene(2){  
+//  CSC_FadeIn(100);
+//  HUMAN_Move("AF3b_pl04_01");
+//  HUMAN_SetMODE_Crouch();
+//  HUMAN_WeaponOnArm(true);
+//  Delay(1000);
+//  CSC_EndCutscene();
+//}
+
+//OnCutsceneDone(2){
+//  HUMAN_Stop();
+//  FRM_TeleportNearCheckpoint(me,  "AF3b_pl04_01", "");
+//  SUBTITLES_SetOn(false);
+//  CSC_FadeIn(100);
+//  EndScript();  
+//}
+
+// -------------------------------------------------------------------------------------------------------------

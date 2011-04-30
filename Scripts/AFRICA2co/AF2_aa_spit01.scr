@@ -1,0 +1,113 @@
+// AF2_aa_spit01 - spitfire attacking german convoy
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME null; 			FRM_FindFrame(null, "");
+  FRAME this;			FRM_GetMyFrame(this);
+
+  INTEGER rnd;
+
+  FRAME opelsflakem;				FRM_FindFrame(opelsflakem, "opelsflakem");
+  FRAME pl01;					FRM_FindFrame(pl01, "_PLAYER_ 0");
+  FRAME pl02;					FRM_FindFrame(pl02, "_PLAYER_ 1");
+  FRAME pl03;					FRM_FindFrame(pl03, "_PLAYER_ 2");
+  FRAME pl04;					FRM_FindFrame(pl04, "_PLAYER_ 3");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever playerinrange (_PlayerInRange(100)){
+  goto ATTACK;
+}
+
+OnHit(){
+  printf("mes 03 hit");
+  goto END;
+}
+
+OnDeath(){
+  printf("mes 03 death");
+  goto END;
+}
+
+OnSignal(20){
+  AirAttack_SetTarget(null, false);
+  goto ATTACK;
+}
+
+OnSignal(1){
+  goto ACTIVATE;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  AirAttack_SetTarget(null, false);
+  FRM_SetOn(this, false);
+goto END;
+
+Label ACTIVATE:
+  FRM_SetOn(this, true);
+  Delay(1000);
+  goto ATTACK;
+  Delay(120000);
+//  AirAttack_SetTarget(dummy, true);
+  Delay(30000);
+  FRM_SetOn(this, false);
+EndScript();
+
+Label ATTACK:
+  SetWhenever(playerinrange, false);
+  printf("mes03 now at attack");
+  gosub CHOOSETARGET;
+//  Delay(10000);
+  goto END;
+goto ATTACK;
+
+Label CHOOSETARGET:
+  rnd = _RandomInt(5);
+
+  if(rnd == 0){
+//    if(_ACTOR_GetState(opelsflakem) == 1){
+      AirAttack_SetTarget(opelsflakem, true);
+      printf("mes03 -> attack opelsflakem");
+      return;
+//    }
+  }
+
+  if(rnd == 1){
+    if(_ACTOR_GetState(pl01) == 1){
+      AirAttack_SetTarget(pl01, true);
+      printf("mes03 -> pl01");
+      return;
+    }
+  }
+
+  if(rnd == 2){
+    if(_ACTOR_GetState(pl02) == 1){
+      printf("now checking actor 02");
+      AirAttack_SetTarget(pl02, true);
+      printf("mes03 -> pl02");
+    return;
+    }
+  }
+
+  if(rnd == 3){
+    if(_ACTOR_GetState(pl03) == 1){
+      printf("now checking actor 03");
+      AirAttack_SetTarget(pl03, true);
+      printf("mes03 -> pl03");
+      return;
+    }
+  }
+
+  if(rnd == 4){
+    if(_ACTOR_GetState(pl04) == 1){
+      printf("now checking actor 04");
+      AirAttack_SetTarget(pl04, true);
+      printf("mes03 -> pl04");
+      return;
+    }
+  }
+goto CHOOSETARGET;
+
+Label END:

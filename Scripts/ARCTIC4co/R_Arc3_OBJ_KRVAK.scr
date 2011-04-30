@@ -1,0 +1,19 @@
+Block
+  {
+    SetObjectiveStatus(9, 0);
+    SaveGameValue(99, 0);
+    integer OBJ9 = 0;
+  }
+//   GameValue 99  --- posledni obj, dodatecna podminka
+
+Whenever XXX ( _GetCountOfCarnageEnemies() == 0 )
+{
+  SetObjectiveStatus(9, 1);
+  SaveGameValue(99, 1);
+  SUBTITLES_SetOn(True);
+  SUBTITLES_SetText(01990204);
+  Delay(3500);
+  SUBTITLES_SetOn(False);
+}
+SetWheneverTime(XXX, 1500);
+

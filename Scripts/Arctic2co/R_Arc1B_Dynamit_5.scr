@@ -1,0 +1,84 @@
+////////////////// PROZATIMNI UMISTNENI
+// 1dummy = 5 - velky komply (nahore)	1 ..ON		2  ... OFF
+// 2dummy = 4 - maly komply (nahore)	3 ..ON		4  . . OFF
+// 3dummy = 3 - nadrze (nahore)		5 ..ON		6  . . OFF
+// 4dummy = 1 - motor  (dole)			7 ..ON		8  . . OFF
+// 5dummy = 2 - sklad (dole)			9 ..ON		10 .. OFF
+
+Frame MyFRM;	FRM_FindFrame(MyFRM, "BUM5");		// ne muj, ale aktora expl.pl.
+Frame BUM;		FRM_FindFrame(BUM, "dummy_obj4_Fail");
+Frame BUM5;		FRM_FindFrame(BUM5, "dummy_Bum5_timer");
+Frame OBJ5;		FRM_FindFrame(OBJ5, "dummy_objective5");
+Frame dabing;		FRM_FindFrame(dabing, "dummy_dabing");
+integer STAV = 0;	
+integer ZPOZDENI = 0;
+
+//////////// FRM_SetOn(MyFRM, False);
+SetActorState(MyFRM, 3);
+SetWhenever(NoPresent, False);
+
+Whenever Near (_PlayerInRange(5);)
+{
+//    SUBTITLES_SetOn(True);
+    If (STAV == 0)
+      {
+         Printf("Hmm, ..  tady by se mohl taky dat dynamit! --- 1");
+         STAV = 1; 
+         SendSignal(dabing, 9);		 //Hmm, ..  tady by se mohl taky dat dynamit!
+///////////         FRM_SetOn(MyFRM, True);
+         SetActorState(MyFRM, 0);
+      } else {
+         Printf("Zde je misto pro vybusninu.");
+         SendSignal(dabing, 10);		 //Zde je místo pro výbušninu.
+      }
+    Delay(3000);
+//    SUBTITLES_SetOn(False);
+    Delay(20000);
+    SetWhenever(Present, True);
+}
+
+// Whenever Present (_ItemInRange(68, 3);)
+Whenever Present ( _ACTOR_GetState(MyFRM) == 1 )
+{
+  Block
+    {
+       SUBTITLES_SetOn(True);
+       If ( _LoadGameValue(83) == 0) 
+         { 
+           SUBTITLES_SetText(02990501);
+            } else {	 
+           SUBTITLES_SetText(02990460);  
+          }
+// zbejvá 5minut  // else //Nálož úspìšnì umístnìna! 
+       SaveGameValue(83, 1);
+       Printf("PORAD SE NECO DEJE - zjistena vybusnina");
+       STAV = 2;
+       SendSignal(OBJ5, 9);
+       SendSignal(BUM5, 1);
+       SetWhenever(NoPresent, True);
+       SetWhenever(Near, False);
+       ZPOZDENI = 1;
+    }
+  If ( ZPOZDENI ) {Delay(1500);}
+  Delay(1500);
+  SUBTITLES_SetOn(False);
+  goto TheEnd;
+}
+
+// Whenever NoPresent ( !_ItemInRange(68, 3); )
+Whenever NoPresent ( _ACTOR_GetState(MyFRM) != 1 )
+{
+  If (STAV == 2) 
+      {  Printf("PORAD SE NECO DEJE -  vybusnina odstranena"); }
+  SendSignal(OBJ5, 10);
+  SendSignal(BUM5, 2);
+  SetWhenever(Present, True);
+  Delay(5000);
+  SetWhenever(Near, True);
+  goto TheEnd;
+}
+
+SetWheneverTime(Present, 400);
+SetWheneverTime(NoPresent, 400);
+
+Label TheEnd:

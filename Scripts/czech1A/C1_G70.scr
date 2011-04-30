@@ -1,0 +1,59 @@
+// Hlidkuje Sklad
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+SetAlarmType(1,1); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,1); //kroky
+SetAlarmType(8,1); //zvuky by use
+SetAlarmType(16,1); //exploze
+SetAlarmType(32,1); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,1); //zeskriptu
+SetAlarmType(256,1); //pratelska strelba
+SetAlarmType(512,1); //vidim flakotu
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+EndScript();
+}
+
+OnAlarm(){
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Crouch();
+EndScript();
+}
+
+OnAlarmDone(){
+HUMAN_SetAlarm(0);
+goto hlidka;
+}
+
+Whenever player (_PlayerInRange(70))
+{
+HUMAN_Suspend(0);
+HUMAN_SetOptimized(1);
+HUMAN_SETMODE_Guard();
+goto hlidka;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+HUMAN_SETSIGHTRANGE(60);
+HUMAN_SETHEARRANGE(60);
+HUMAN_SetOptimized(1);
+HUMAN_Suspend(1);
+goto END;
+
+Label hlidka:
+HUMAN_Move("skladnik1_01");
+HUMAN_Move("skladnik1_02");
+HUMAN_Move("skladnik1_03");
+HUMAN_Move("skladnik1_04");
+HUMAN_Move("skladnik1_05");
+GoTo hlidka;
+
+Label END:

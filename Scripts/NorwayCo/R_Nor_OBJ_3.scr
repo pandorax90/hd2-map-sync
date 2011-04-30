@@ -1,0 +1,31 @@
+// Obj 3 - Steal the enigma
+// -----------------------------------------------
+
+Block
+{
+Frame OBJ;		FRM_FindFrame(OBJ,"objectives");
+Frame Enigma;
+
+SetWhenever(Lost, 0);
+}
+
+
+
+Whenever Found (_MP_IsItemInTeamInventory(1, 253, Enigma))
+{
+SendSignal(OBJ, 7);
+SetWhenever(Lost, 1);
+goto end;
+}
+
+
+Whenever Lost (!_MP_IsItemInTeamInventory(1, 253, Enigma))
+{
+SendSignal(OBJ, 8);
+SetWhenever(Found, 1);
+goto end;
+}
+
+
+Label end:
+

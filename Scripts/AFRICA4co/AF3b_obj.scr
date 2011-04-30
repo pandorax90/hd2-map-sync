@@ -1,0 +1,68 @@
+// AF3a_obj - objectives detector
+// -------------------------------------------------------------------------------------------------------------
+
+block
+{
+  SetObjectiveStatus(1, 0);		// enemies defeated
+  SetObjectiveStatus(2, 0);		// protect car
+  SetObjectiveStatus(3, 4);		// all enemies are dead
+  SetObjectiveStatus(4, 4);		// all team members must survive
+}
+
+INTEGER game_type 		= _SPGetGameType();
+INTEGER crng			= 0;
+
+if((game_type == 3) OR (game_type == 7))
+{
+  crng = 1;
+}
+
+printfnumber("carnage? = ", crng);
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever objective1 ((_GetNumLiveEnemies() == 0) AND (!crng)){
+  DisableSignals(true);
+  SUBTITLES_SetOn(true);
+//  SUBTITLES_SetText(08991607);			// zabil jsi všechny
+  Delay(2000);
+  SUBTITLES_SetOn(false);
+  Delay(2000);
+  SetObjectiveStatus(3, 1);
+  goto obj1complete;
+}
+
+OnSignal(1){
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(08991607);
+  Delay(2000);
+  SUBTITLES_SetOn(false);
+  Delay(2000);
+  goto obj1complete;
+}
+
+OnSignal(2)
+{
+  goto obj1complete;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+goto END;
+
+Label obj1complete:
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(08991602);
+  Delay(2000);
+  SUBTITLES_SetText(08991605);
+  Delay(2000);
+  SUBTITLES_SetOn(false);
+  if((!_IsTeamMemberDead()) AND (_SPGetGameType() != 2))
+  {
+    SetObjectiveStatus(4, 1);
+  }
+  SetObjectiveStatus(1, 1);
+  SetObjectiveStatus(2, 1);
+goto END;
+
+Label END:

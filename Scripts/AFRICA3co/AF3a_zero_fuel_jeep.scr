@@ -1,0 +1,12 @@
+FRAME this;		FRM_GetMyFrame(this);
+
+if(_LoadGameValue(51)  < 2)
+{
+  FRM_SetOn(this, true);
+  Car_SetFuel(this, 0);
+}
+else
+{
+//  FRM_SetOn(this, false);
+  FRM_TeleportNearCheckpoint(this, "odjeb_jeep", "");
+}

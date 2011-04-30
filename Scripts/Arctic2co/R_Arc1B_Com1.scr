@@ -1,0 +1,94 @@
+	
+	Block
+	{
+	Frame player;
+	Frame duplicated_player;
+	Frame start;
+	Frame end;			FRM_FindFrame(end, "CUTsas_end");
+	Frame ruka;
+	Frame target;
+	Frame zbran;			FRM_FindFrame(zbran, "CUTdelisle");
+	}
+
+OnCutscene(1)
+{
+	Block
+	{
+	FRM_FindFrame(start, "CUTsas1dummy");
+	FRM_GetMyFrame(player);
+	CSC_DuplicateHuman(player, duplicated_player,"cuts_sasik1");
+	CSC_FreeHands(duplicated_player);
+	FRM_FindChildFrame(ruka, "hw1", duplicated_player);
+	FRM_FindChildFrame(target, "wt", duplicated_player);
+
+	FRM_TeleportNearFrame(zbran,ruka,true);
+	FRM_SetTarget(zbran,target,true);
+
+	FRM_TeleportNearFrame(duplicated_player, start, true);	
+	FRM_SetAnimation(duplicated_player, "%%sasjde.i3d",true);
+	FRM_SetOn(player, false);
+
+	}
+
+Delay(9000);
+
+}
+
+
+OnCutsceneDone(1)
+{
+	Block
+	{
+
+	FRM_SetAnimation(duplicated_player, "",true);
+	FRM_FindFrame(ruka, "");
+	FRM_FindFrame(target, "");
+	CSC_ReleaseHuman(duplicated_player);
+	FRM_FindFrame(duplicated_player, "");
+	FRM_SetOn(player, true);
+
+	}
+
+EndScript();
+}
+
+OnCutscene(2)
+{
+
+Block
+	{
+	FRM_GetMyFrame(player);
+	CSC_DuplicateHuman(player, duplicated_player,"cuts_sasik1");
+	
+	CSC_FreeHands(duplicated_player);	
+
+	FRM_FindChildFrame(ruka, "hw1", duplicated_player);
+	FRM_TeleportNearFrame(zbran,ruka,true);	
+
+	FRM_TeleportNearFrame(duplicated_player, end, true);	
+	FRM_SetOn(player, false);
+	FRM_SetAnimation(duplicated_player, "%%behskok.I3D",true);
+	}
+
+	
+
+}
+
+
+OnCutsceneDone(2)
+{
+	Block
+	{
+
+
+	FRM_SetAnimation(duplicated_player, "",true);
+	FRM_FindFrame(ruka, "");
+
+	CSC_ReleaseHuman(duplicated_player);
+	FRM_FindFrame(duplicated_player, "");
+	FRM_SetOn(player, true);
+	CSC_SetTimer(1000, 1000);
+	}
+
+
+}

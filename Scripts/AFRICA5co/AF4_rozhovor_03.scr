@@ -1,0 +1,102 @@
+// AF2_rozhovor_03 - rozhovor mezi trema vojakama ve skladu
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME s02;			FRM_FindFrame(s02, "AF4_sklad02");
+FRAME s03;			FRM_FindFrame(s03, "AF4_sklad03");
+FRAME s05;			FRM_FindFrame(s05, "AF4_sklad05");
+
+//	s02	09991937	Poslouchej Koepke, prý máš docela hezkou sestru.
+//	s03	09991938	Hezkou...já nevím, prostì je to sestra no, na ni se nedíváš, jestli je hezká nebo ne, pokud seš normální.
+//	s02	09991939	Ale no tak, nedìlej drahoty, urèitì tady máš nìjakou rodinnou fotografii.
+//	s03	09991940	To mám, ale ne u sebe. 
+//	s05	09991941	Hmm, tak nám ji ukážeš, až pøijdeme na kasárna, platí?
+//	s03	09991942	Podívejte chlapi, ani jednoho z vás bych nechtìl za švagra, tak nevím, o èem se tu bavíme.
+//	s02	09991943	Ale já neøíkám, že si ji chci vzít, hehehe...
+//	s05	09991944	Jasnì, o svatbì nikdo neøekl ani slovo, hehe...
+//	s03	09991945	Chcete ránu? Vymetli jste každej arabskej bordel od Vádí Al Džazír po Káhiru a budete se otírat o moji sestru?
+//	s02	09991946	Ale jdi, my to tak nemysleli.
+//	s03	09991947	A jestli vás to zajímá, mojí sestøe bude v prosinci dvanáct let.
+//	s02	09991948	Cože?! Já toho Schmitkeho zabiju, tohle nám neøekl!
+//	s03	09991949	No vidíte, hehe ... Hergot, mnì se nìjak toèí hlava, to zatracený horko nesnáším.
+//	s05	09991950	To jo, kdyby ti bylo hùø, tak øekni a my s tebou zajdeme na ošetøovnu, aspoò se ochladíme a nìkdo nás vystøídá.
+
+OnSignal(1){
+  if(!_LoadGameValue(32))
+  {
+    EndScript();
+  }
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR 03");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(s02, 10);
+  FRM_MorphSpeechDelayed(s02, 09991937, 15, 20);
+  SendSignal(s02, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 099919315, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s02, 10);
+  FRM_MorphSpeechDelayed(s02, 09991939, 15, 20);
+  SendSignal(s02, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 09991940, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s05, 10);
+  FRM_MorphSpeechDelayed(s05, 09991941, 15, 20);
+  SendSignal(s05, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 09991942, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s02, 10);
+  FRM_MorphSpeechDelayed(s02, 09991943, 15, 20);
+  SendSignal(s02, 11);
+
+  SendSignal(s05, 10);
+  FRM_MorphSpeechDelayed(s05, 09991944, 15, 20);
+  SendSignal(s05, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 09991945, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s02, 10);
+  FRM_MorphSpeechDelayed(s02, 09991946, 15, 20);
+  SendSignal(s02, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 09991947, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s02, 10);
+  FRM_MorphSpeechDelayed(s02, 099919415, 15, 20);
+  SendSignal(s02, 11);
+
+  SendSignal(s03, 10);
+  FRM_MorphSpeechDelayed(s03, 09991949, 15, 20);
+  SendSignal(s03, 11);
+
+  SendSignal(s05, 10);
+  FRM_MorphSpeechDelayed(s05, 09991950, 15, 20);
+  SendSignal(s05, 11);
+
+  SUBTITLES_SetOn(false);
+}
+
+Whenever endtalk ((_SignalReceived(2)) OR (!_LoadGameValue(32)))
+{
+  block
+  {
+    FRM_MorphSpeech(s02, 0, 0, 0);
+    FRM_MorphSpeech(s03, 0, 0, 0);
+    FRM_MorphSpeech(s05, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+  }
+}
+
+Label END:

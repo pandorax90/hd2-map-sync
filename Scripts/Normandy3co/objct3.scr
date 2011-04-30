@@ -1,0 +1,75 @@
+// Obj 3 - rescue the prisoners
+// ------------------------------
+
+Block
+{
+Integer rescued;
+	rescued=0;
+Integer killed;
+	killed=0;
+}
+
+// ------------------------------
+
+OnSignal(1)  // prisoners rescued 
+{
+rescued=rescued+1;
+
+If(rescued==2)
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(52999907);
+SetobjectiveStatus(3, 1);
+Delay(4000);
+SUBTITLES_SetOn(0);
+}
+goto end;
+}
+
+OnSignal(2)  // prisoners rescued 
+{
+rescued=rescued+1;
+
+If(rescued==2)
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(52999907);
+SetobjectiveStatus(3, 1);
+Delay(4000);
+SUBTITLES_SetOn(0);
+}
+goto end;
+}
+
+OnSignal(3)  // prisoners killed
+{
+killed=killed+1;
+
+If(killed==1)
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(52999906);
+SetobjectiveStatus(3, 2);
+Delay(5000);
+SUBTITLES_SetOn(0);
+}
+goto end;
+}
+
+OnSignal(4)  // prisoners killed
+{
+killed=killed+1;
+
+If(killed==1)
+{
+SUBTITLES_SetOn(1);
+SUBTITLES_SetText(52999906);
+SetobjectiveStatus(3, 2);
+Delay(5000);
+SUBTITLES_SetOn(0);
+}
+goto end;
+}
+
+
+Label end:

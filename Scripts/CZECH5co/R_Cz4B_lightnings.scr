@@ -1,0 +1,12 @@
+//integer time;
+//integer wait;
+//frame lightning;	FRM_GetMyFrame(lightning);
+
+//Label loop:
+//  time = _RandomInt(50) + 1;
+//  THUNDERSTORM_SetOn(true,   lightning);
+//  Delay(time);
+//  THUNDERSTORM_SetOn(false, lightning);
+//  wait = _RandomInt(20000) + 5000;
+//  Delay(wait);
+//goto loop;

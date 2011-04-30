@@ -1,0 +1,25 @@
+FRAME this;			FRM_GetMyFrame(this);
+
+SaveGameValue(70, 0);
+
+if(_LoadGameValue(99) != 1)
+{
+  HUMAN_Suspend(true);
+  SetWhenever(pir, false);
+}
+
+HUMAN_SetAnim("%%nuda", 100, 100, true);
+
+Whenever pir (_PlayerInRange(2))
+{
+  SaveGameValue(70, 1);
+  HUMAN_SetAnim("", 200, 200, false);
+  SUBTITLES_SetOn(true);
+
+  FRM_MorphSpeechDelayed(this, 08991621, 3, 20);
+  FRM_MorphSpeechDelayed(this, 08991622, 3, 20);
+
+  SUBTITLES_SetOn(false);
+  SaveGameValue(70, 0);
+  SetNPCTeamStatus(this, true);
+}

@@ -1,0 +1,12 @@
+
+// hlida kolik DUMMY uz hrac v komplexu minul   (zatim jich je 38)
+
+integer counter = 1;
+frame OBJ3;			FRM_FindFrame(OBJ3, "objectives");
+
+OnSignal(20)
+{
+  If (counter == 28) { SendSignal(Obj3, 8); } 
+  counter = counter + 1; 
+  Printfnumber("DOSLO :", counter);
+}

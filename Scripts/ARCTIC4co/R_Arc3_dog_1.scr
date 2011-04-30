@@ -1,0 +1,40 @@
+
+frame owner;		FRM_FindFrame(owner, "Walking_Guard_3");
+frame NULL;		FRM_FindFrame(NULL, "");
+integer RND_point;	
+integer RND_move_type;	
+
+DOG_SETAIMODE_Aggressive();
+DOG_SetOwner(owner);
+goto wait;
+
+OnAlarm()
+{
+  DOG_SETMODE_Run();
+  DOG_Attack(NULL);
+  printf("DOG_1 start ATTACK");
+}
+
+OnSignal(1)
+{
+	//  Smrt OWNERA
+  printf("Umrel mi OWNER, HAF, HAF, HAF ..... ");
+//  DOG_HafHaf(True);
+//  Delay(5000);
+//  DOG_HafHaf(False);
+  label loop:
+    RND_point = _RandomInt(5) + 1;	
+    RND_move_type = _RandomInt(2) + 1;	
+    If (RND_move_type == 1) { DOG_SETMODE_Run();  } else { DOG_SETMODE_Stand(); }
+
+    If (RND_point == 1)  {  DOG_Move("dog_1");   printf("DOG_1"); }
+    If (RND_point == 2)  {  DOG_Move("dog_2");   printf("DOG_2"); }
+    If (RND_point == 3)  {  DOG_Move("dog_3");   printf("DOG_3"); }
+    If (RND_point == 4)  {  DOG_Move("dog_4");   printf("DOG_4"); }
+    If (RND_point == 5)  {  DOG_Move("dog_5");   printf("DOG_5"); }
+    
+  goto loop;
+}
+
+label wait:
+  DOG_ClearAlarm();

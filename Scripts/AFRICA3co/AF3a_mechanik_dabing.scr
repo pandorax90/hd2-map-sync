@@ -1,0 +1,21 @@
+// AF3a_dummy_mechanik_dabing
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME mechanik;			FRM_FindFrame(mechanik, "AF3a_21");
+INTEGER rnd;
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever LGV (_LoadGameValue(62) == 1)
+{
+  rnd = _RandomInt(5);
+  if(rnd == 0)  {    FRM_MorphSpeech(mechanik, 07991562, 2, 10);  }
+  if(rnd == 1)  {    FRM_MorphSpeech(mechanik, 07991563, 2, 10);  }
+  if(rnd == 2)  {    FRM_MorphSpeech(mechanik, 07991564, 2, 10);  }
+  if(rnd == 3)  {    FRM_MorphSpeech(mechanik, 07991565, 2, 10);  }
+  if(rnd == 4)  {    FRM_MorphSpeech(mechanik, 07991566, 2, 10);  }
+
+  rnd = _RandomInt(10000) + 10000;
+  Delay(rnd);
+  SetWhenever(LGV, true);
+}

@@ -1,0 +1,16 @@
+Integer type;
+type=_SPGetGameType();
+
+
+if (type <> 2)
+{
+Frame box1;		FRM_FindFrame(box1, "la_ammo_");
+SetActorState(box1, 0);
+goto end;
+}
+
+
+
+
+
+label end:

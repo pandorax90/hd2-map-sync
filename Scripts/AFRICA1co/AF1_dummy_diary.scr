@@ -1,0 +1,27 @@
+AddDiaryText(25);  
+Delay(1000);
+INTEGER num_players = _GetNumMembersOfClientTeam();
+
+// MORE PLAYERS 
+// 4110 "Náš úkol vypadal zpocátku jednoduše, obsadit letište, najít Hanse Schumanna a pobít posádku. Schumann ale odletel dríve, než jsme se priblížili a nám nezbylo, než dukladne vyzpovídat jednoho dustojníka a zjistit detaily o Schumannove letu. Jeho hrdinství neodpovídalo jeho hodnosti a my jsme brzy meli to, co jsme potrebovali pro další postup."
+// 4112	"Na zemi bylo nekolik letadel, znicili jsme je do jednoho, sice se nám nezapocítají jako sestrelená, ale od toho jsme v SAS abychom je nenechávali zrezivet."
+// 4113 "Znicili jsme veškeré zásoby leteckého benzínu na letišti, urcite to alespon na krátkou dobu ochromí provoz nemeckých letadel"
+// 4114	"Nekdo se pokoušel letište opustit, jeho letoun jsme zlikvidovali dríve, než se mu podarilo vzlétnout."
+
+// LONE WOLF 
+// 4111 "Muj úkol vypadal zpocátku jednoduše, obsadit letište, najít Hanse Schumanna a pobít posádku. Schumann ale odletel dríve, než jsem se priblížil a tak mi nezbylo, než dukladne vyzpovídat jednoho vojáka a zjistit detaily o Schumannove letu. Nebyl to zrovna hrdina a brzy jsem mel to, co jsem potreboval pro další postup."
+// 4115	"Na zemi bylo nekolik letadel, znicil jsem je do jednoho, sice se nezapocítají jako sestrelená, ale od toho jsem v SAS abych  je nenechl zrezivet."
+// 4116	"Znicil jsem veškeré zásoby leteckého benzínu na letišti, urcite to alespon na krátkou dobu ochromí provoz nemeckých letadel"
+// 4117	"Nekdo se pokoušel letište opustit, jeho letoun jsem zlikvidoval dríve, než se mu podarilo vzlétnout."
+
+OnExit()
+{
+  if(num_players == 1)
+  {
+    AddDiaryText(4111);  
+  }
+  else
+  {
+    AddDiaryText(4110);  
+  }
+}

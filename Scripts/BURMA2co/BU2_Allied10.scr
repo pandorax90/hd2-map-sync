@@ -1,0 +1,81 @@
+// BU2_Allied10 - allied soldier dying in the hill
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame me;
+	FRM_GetMyFrame(me);
+Frame blood_brucho;
+	FRM_FindFrame(blood_brucho, "Frank_blood_brucho.injury2");
+Frame blood_noha;
+	FRM_FindFrame(blood_noha, "Frank_blood_noha.injury");
+Frame link_brucho;
+	FRM_FindChildFrame(link_brucho, "d", me);
+Frame link_noha;
+	FRM_FindChildFrame(link_noha, "s", me);
+Frame xplo;
+	FRM_FindFrame(xplo, "BU2_allxplo");
+Frame a09;
+	FRM_FindFrame(a09, "BU2_Allied09");
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - skriptovy alarm
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+HUMAN_SETEVENTS(false);
+SetAlarmType(1023, false);
+SetWhenever(xplode, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_PlayerInRange(45))
+{
+	HUMAN_Suspend(false);
+	HUMAN_SetAnim("%%umre", 200, 200, true);
+	GoTo end;
+}
+
+Whenever player2(_PlayerInRange(10))
+{
+	SetWhenever(xplode, true);
+	GoTo end;
+}
+
+Whenever xplode(!_PlayerInRange(20))
+{
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(49, me);
+		MakeExplosion(me, 1200000, 15000);
+	}
+	GoTo end;
+}
+
+OnDeath()
+{
+	Block
+	{
+		SendSignal(xplo, 1);
+		SendSignal(a09, 2);
+	}
+	EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+FRM_TeleportNearFrame(blood_noha, link_noha, true);
+FRM_TeleportNearFrame(blood_brucho, link_brucho, true);
+FRM_FindFrame(link_brucho, "");
+FRM_FindFrame(link_noha, "");
+
+FRM_SwitchFaceTexture(me, "e_f059");
+HUMAN_Suspend(true);
+
+Label end:

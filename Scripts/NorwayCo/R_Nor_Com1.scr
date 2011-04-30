@@ -1,0 +1,7 @@
+
+FRAME player;
+
+OnUse()
+{
+  ScriptAssign(player, "R_Nor_OBJ_3");
+}

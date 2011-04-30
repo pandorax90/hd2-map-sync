@@ -1,0 +1,47 @@
+// AF3b_begin_text
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME radio;		FRM_FindFrame(radio, "m_prist_a03b_01");
+  FRAME faker;			FRM_FindFrame(faker, "AF3b_FAKE");
+  FRAME get_player;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever end_prepare (_ACTOR_GetState(radio) == 2)
+{
+  PlaySound(1, 50);
+  FRM_GetNearestPlayer(radio, get_player);  
+  SUBTITLES_SetOn(true);
+  FRM_MorphSpeechDelayed(get_player, 08991618, 3, 20);
+  Delay(1500);
+  FRM_MorphSpeechDelayed(faker, 08991619, 3, 20);
+  Delay(1500);
+  FRM_MorphSpeechDelayed(faker, 08991620, 3, 20);
+  Delay(3000);
+  SUBTITLES_SetOn(true);
+  SUBTITLES_SetText(08991617);
+  Delay(2500);
+  SUBTITLES_SetOn(false);
+  goto END;  
+}
+
+Delay(4000);
+
+Label LOOP:
+  if(_LoadGameValue(70) == 0)
+  {
+    SUBTITLES_SetOn(true);
+    SUBTITLES_SetText(08991616);
+    Delay(4000);
+    SUBTITLES_SetOn(false);
+    Delay(4000);
+  }
+  else
+  {
+    Delay(3000);
+  }
+goto LOOP;
+
+Label END:

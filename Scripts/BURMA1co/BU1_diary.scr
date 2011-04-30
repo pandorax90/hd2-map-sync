@@ -1,0 +1,62 @@
+// BU1_diary - diary
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Integer players;
+	players=0;
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever most(_SignalReceived(1))	// received from bridge BU1_obj_04
+{
+	If(players==1)
+	{
+		AddDiaryText(32);
+		AddDiaryText(4213);
+		GoTo end;
+	}
+	AddDiaryText(32);
+	AddDiaryText(4212);
+	GoTo end;
+}
+
+OnSignal(2)	// received from radio BU1_obj_07
+{
+	If(players==1)
+	{
+		AddDiaryText(4219);
+		GoTo end;
+	}
+	AddDiaryText(4216);
+	GoTo end;
+}
+
+OnExit()
+{
+	If(_IsInInventory(248))
+	{
+	If(players==1)
+	{
+		AddDiaryText(4217);
+	}
+	Else
+	{
+		AddDiaryText(4214);
+	}
+	}
+
+	If(_IsInInventory(247))
+	{
+	If(players==1)
+	{
+		AddDiaryText(4218);
+	}
+	Else
+	{
+	AddDiaryText(4215);
+	}
+	}
+}
+// -------------------------------------------------------------------------------------------------------------
+Delay(1000);
+players=_GetNumMembersOfClientTeam();
+
+Label end:

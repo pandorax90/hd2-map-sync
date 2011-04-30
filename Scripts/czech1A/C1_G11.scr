@@ -1,0 +1,93 @@
+// Ridic Opelu (Opel_1)
+// -------------------------------------------------------------------------------------------------------------
+
+Block
+{
+Frame timer;    FRM_FindFrame(timer,"objectives");
+Frame hakl;    	FRM_FindFrame(hakl,"C1_G05");
+Frame p1;    	FRM_FindFrame(p1,"C1_G12");
+Frame p2;    	FRM_FindFrame(p2,"C1_G13");
+Frame p3;    	FRM_FindFrame(p3,"C1_G14");
+Frame p4;    	FRM_FindFrame(p4,"C1_G15");
+Frame p5;    	FRM_FindFrame(p5,"C1_G16");
+
+SetAlarmType(1,0); //blizka strelba
+SetAlarmType(2,0); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,0); //exploze
+SetAlarmType(32,0); //vidi
+SetAlarmType(64,0); //jsem zranen
+SetAlarmType(128,0); //zeskriptu
+SetAlarmType(256,0); //pratelska strelba
+SetAlarmType(512,0); //vidim flakotu
+
+Frame me;	FRM_GetMyFrame(me);
+FRM_SwitchFaceTexture(me,"e_f007");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+EndScript();
+}
+
+OnAlarm(){
+EndScript();
+}
+
+OnAlarmDone(){
+goto END;
+}
+
+OnSignal(1)
+{
+HUMAN_Suspend(0);
+SendSignal(p1, 1);
+SendSignal(p2, 1);
+SendSignal(p3, 1);
+SendSignal(p4, 1);
+SendSignal(p5, 1);
+HUMAN_BoardVehicle("Opel_1",  1, 0);
+SendSignal(timer, 1);
+HUMAN_Drive("zatacka", 60);
+HUMAN_Drive("zatacka2", 40);
+HUMAN_Drive("kontrola", 40);
+HUMAN_Drive("pokus", 40);
+HUMAN_Drive("end", 37);
+goto END;
+}
+
+OnSignal(5)
+{
+HUMAN_Drive("", 0);
+SendSignal(hakl, 5);
+Delay(1000);
+SendSignal(p1, 2);
+SendSignal(p2, 2);
+SendSignal(p3, 2);
+SendSignal(p4, 2);
+SendSignal(p5, 2);
+HUMAN_BoardVehicle("Opel_1",  0, 0);
+HUMAN_SETSIGHTRANGE(60);
+HUMAN_SETHEARRANGE(60);
+SetAlarmType(4,1); //kroky
+SetAlarmType(8,1); //zvuky by use
+SetAlarmType(32,1); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,1); //zeskriptu
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Crouch();
+HUMAN_SETMODE_Run();
+HUMAN_Move("kec4");
+goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+HUMAN_SETSIGHTRANGE(0);
+HUMAN_SETHEARRANGE(0);
+HUMAN_Suspend(1);
+goto END;
+
+Label END:

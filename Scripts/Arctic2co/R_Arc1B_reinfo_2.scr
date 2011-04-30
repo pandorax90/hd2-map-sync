@@ -1,0 +1,118 @@
+// OK
+// after global alarm income as reinforcement
+
+SetWhenever(Hleda1, false);
+SetWhenever(Hleda2, false);
+SetWhenever(Hleda3, false);
+
+Block
+{
+integer AIEvent;
+Frame FRM; 		FRM_GetMyFrame(FRM);
+Frame see;		FRM_FindFrame(see, "dummy_reinfo_2_see");
+frame alarm;		FRM_FindFrame(alarm, "dummy_GlobalAlarm");
+
+HUMAN_SETEVENTS(false);
+HUMAN_SETAIMODE_Zombie();
+HUMAN_SetOptimized(1);
+}
+HUMAN_Suspend(true);
+
+Whenever ACTIVE  ( _SignalReceived(1); )
+{
+  Printf("REINFO 2 - SSSIIIGGGNNNAALLL 1111111111111111111111111111111111111111111111111+");
+  Label wait_2:
+    if ( _CameraInRange() < 18 ) 
+      {
+        delay(5000);
+        goto wait_2;
+      }
+//  delay(5000);
+  block 
+   {
+      HUMAN_Suspend(false);
+      HUMAN_SETAIMODE_Defensive();
+      HUMAN_SETMODE_Walk();
+//      FRM_TeleportNearCheckpoint(FRM, "Reinfo2", "");
+      HUMAN_SETEVENTS(true);
+   } 
+   HUMAN_Move("Reinfo2");
+   HUMAN_TurnAt(see);
+   HUMAN_SETMODE_Crouch();
+   SetWhenever(Hleda1, true);
+   SetWhenever(Hleda2, true);
+   SetWhenever(Hleda3, true);
+}
+
+SetWheneverTime(ACTIVE, 1500);
+
+Whenever Hleda1 ( (_LoadGameValue(73) == 4) and (_LoadGameValue(72) == 1) )
+{
+  Printf("**********************R2 HLEDA 4 1****************************");
+  HUMAN_SETMODE_Crouch();
+  HUMAN_SETMODE_Silence();
+  HUMAN_Move("R2A_4_1");
+  HUMAN_LookAround(3);  
+  Delay(6000); 
+  HUMAN_Move("Reinfo2");
+  HUMAN_TurnAt(see);
+  SetWhenever(Hleda1, true);
+}
+
+Whenever Hleda2 ( (_LoadGameValue(73) == 2) and (_LoadGameValue(72) == 1) )
+{
+  Printf("**********************R2 HLEDA 2 1****************************");
+  HUMAN_SETMODE_Crouch();
+  HUMAN_SETMODE_Silence();
+  HUMAN_Move("R2A_2_1");
+  HUMAN_LookAround(3);  
+  Delay(6000); 
+  HUMAN_Move("Reinfo2");
+  HUMAN_TurnAt(see);
+  SetWhenever(Hleda2, true);
+}
+
+Whenever Hleda3 ( (_LoadGameValue(73) == 11) and (_LoadGameValue(72) == 6) )
+{
+  Printf("**********************R2 HLEDA 11 6****************************");
+  HUMAN_SETMODE_Crouch();
+  HUMAN_SETMODE_Silence();
+  HUMAN_Move("R2A_11_6");
+  HUMAN_LookAround(3);  
+  Delay(6000); 
+  HUMAN_Move("Reinfo2");
+  HUMAN_TurnAt(see);
+  SetWhenever(Hleda3, true);
+}
+
+OnAlarm()
+{
+  Block
+    {
+      DisableWhenevers(true);
+      AIEvent =_GetAlarmType(); 
+      PrintfNumber("Reinfo 2: ", AIEvent);
+    }
+  EndScript();
+}
+
+OnAlarmDone()
+{
+  // Tak tady jako dojde ke stisku tlacitka alarmu
+If ( ((AIEvent != 4) AND (AIEvent != 8)) and (AIEvent != 128) )  
+    { SendSignal(alarm , 1);  }
+   HUMAN_Move("Reinfo2");
+   HUMAN_TurnAt(see);
+   HUMAN_SETMODE_Crouch();
+   DisableWhenevers(False);
+}
+
+OnDeath()
+{
+  Printf("S litosti oznamujeme, ze  ZEMREL nas kamarad ... POSILA - 2");
+  EndScript();
+}
+
+
+label TheEnd:
+ 

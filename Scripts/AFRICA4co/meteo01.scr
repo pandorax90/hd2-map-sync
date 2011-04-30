@@ -1,0 +1,31 @@
+FRAME meteor;			FRM_FindFrame(meteor, "meteor01");
+FRAME exp;				FRM_FindFrame(exp, "dummy_met_expl");
+FRAME cam;				
+
+Whenever dopadl (_FrameInRange(meteor) < 3)
+{
+  CSC_FadeOutToColor(0, 255, 255, 255);
+  block
+  {
+    FRM_GetActiveCamera(cam);
+    printf("IMPACTTTTTTTTTTTTTTTTTT");
+    PlaySound(6, 2);
+    MakeExplosion(meteor, 100000000, 5000000);
+    MakeExplosion(cam, 1000, 5000);
+    FRM_CreateParticle(66, meteor);
+  }
+  Delay(500);
+  CSC_FadeInFromColor(1000, 255, 255, 255);
+  goto END;
+}
+
+Whenever LGV (_LoadGameValue(60) == 1)
+{
+  SetWhenever(dopadl, false);
+  goto END;
+}
+
+SetWhenever(dopadl, true);
+SetWheneverTime(dopadl, 100);
+
+Label END:

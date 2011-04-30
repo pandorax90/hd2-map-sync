@@ -1,0 +1,46 @@
+// mined thrawler	OBJ  2
+block
+{
+
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+Frame min;		FRM_FindFrame(min,"d_magmineicon_3");
+Frame music;		FRM_FindFrame (music,"minedmusic");
+SetWhenever (yes,0);
+SetWhenever (no,0);
+}
+goto time;
+
+
+label test:
+
+Whenever yes(_ACTOR_GetState(min)==1)
+{
+  SendSignal(OBJ, 6);		//  == Success
+   SendSignal (music,1);
+  SetWhenever (no,1);
+goto end;
+}
+
+Whenever no(_ACTOR_GetState(min)==0)
+{
+  SendSignal(OBJ, 16);		//  == NeSuccess
+SetWhenever (yes,1);
+goto end;
+}
+
+
+
+
+
+Whenever te(_PlayerInRange(9))
+{
+SetWhenever (yes,1);
+
+}
+
+label time:
+
+SetWheneverTime(te, 1500);
+SetWheneverTime(no, 1500);
+SetWheneverTime(yes, 1500);
+label end:

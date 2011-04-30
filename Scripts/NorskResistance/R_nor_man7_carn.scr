@@ -1,0 +1,237 @@
+// Guard
+
+Block
+  {
+HUMAN_SETSIGHTRANGE(16);
+frame alarm;	FRM_findframe(alarm,"alarmer_2");
+
+SetAlarmType(1,0); //blizka strelba
+SetAlarmType(2,1); //slysim strelbu
+SetAlarmType(4,0); //kroky
+SetAlarmType(8,0); //zvuky by use
+SetAlarmType(16,1); //exploze
+SetAlarmType(32,1); //vidi
+SetAlarmType(64,1); //jsem zranen
+SetAlarmType(128,0); //zeskriptu
+SetAlarmType(256,0); //pratelska strelba
+SetAlarmType(512,1); //vidim flakotu
+
+    frame small5;	FRM_FindFrame(small5,"small5");
+    frame small7r;		FRM_FindFrame(small7r,"small7r");   //rozhodowaci dumac
+     frame kecac;		FRM_FindFrame (kecac,"kecac");
+     
+integer k;
+integer d;
+
+    integer AIEvent;
+    HUMAN_SETMODE_Guard();
+HUMAN_SetOptimized(2);
+  }
+
+
+
+
+
+Delay(5000);
+
+OnCutscene(1)		{  HUMAN_Suspend(True); }
+OnCutsceneDone(1)	{  HUMAN_Suspend(False); }
+
+label guard:
+  HUMAN_Move("man7_1");
+  delay(1500);
+  HUMAN_Move("man7_2");
+  HUMAN_Move("man7_3");
+  delay(1500);
+  HUMAN_Move("man7_2");
+goto guard;
+
+OnSignal(10)                           //od detektoru hracu
+{
+HUMAN_Move("man7_2");
+SendSignal(small5,11);	//signal gume
+
+ HUMAN_Move("man7_4");
+//delay(100);
+HUMAN_Move("man7_2");
+
+HUMAN_Move("man7_kec");
+SendSignal(small5,12);                //su tu
+HUMAN_TurnAt(small5);
+HUMAN_ACTIVITY_Salute(1);
+goto end;				//bude ho ovladat script na kecy
+}
+onsignal (11)
+{
+HUMAN_ACTIVITY_Salute(1);
+goto guard;
+}
+
+Whenever bzuch(_SignalReceived(1))
+{
+HUMAN_Stop();
+
+HUMAN_SetAnim("",200,200,0);
+HUMAN_WeaponOnArm(1);
+HUMAN_TurnAtNearestPlayer();
+HUMAN_SetAnim("%%turnleft",200,200,0);
+	Delay(2800);
+	HUMAN_SetAnim("%%turnright",200,200,0);
+	Delay(3700);
+goto guard;
+}
+
+
+
+OnAlarm()
+{
+block
+{
+	SendSignal (kecac,2);
+	DisableSignals(1);
+	SendSignal(small5,13);
+	HUMAN_SetAnim("",50,50,0);
+  	AIEvent =_GetAlarmType(); 
+  	PrintfNumber("Thrawler guard 7: ", AIEvent);
+}
+If(AIEvent==32)
+{
+
+HUMAN_SETAIMODE_Aggressive();
+  EndScript();
+
+}
+
+
+If( AIEvent ==512)
+{
+
+block
+{
+SetAlarmType(512,0);
+HUMAN_SetAlarm(0);
+}
+HUMAN_Stop();
+HUMAN_MoveToAlarm();
+HUMAN_SetAnim("%%medik1",500,500,0);
+delay(2000);
+HUMAN_SetAnim("",500,500,0);
+HUMAN_WeaponOnArm(1);
+HUMAN_SETMODE_Crouch();
+delay (300);
+goto end;
+
+
+
+}
+
+block
+{
+HUMAN_Stop();
+HUMAN_SETAIMODE_Defensive();
+}
+EndScript();
+}
+
+OnAlarmDone()
+{
+block
+{
+DisableSignals(0);
+printf("small7 posila rozhodowaci signal");
+SetAlarmType(1023,0);
+SetAlarmType(626,1);
+SendSignal(small7r,23);
+}
+goto end;
+}
+
+OnDeath()
+{
+DisableSignals(1);
+EndScript();
+}
+
+
+//--------------------------------
+OnSIgnal(22)			//Sirena on
+{
+	SetAlarmType(512,0); //vidim flakotu
+Label 23:
+	HUMAN_SetAlarm(0);
+	HUMAN_SetAnim("",50,50,0);
+	HUMAN_SETMODE_Walk();
+	HUMAN_WeaponOnArm(1);
+	HUMAN_SETSIGHTRANGE(30);
+	goto guard;
+}
+OnSIgnal(23)
+{
+goto 23;
+}
+
+goto end;
+//------------------------------------
+// kecani
+
+OnSignal(15)
+{
+//mlc
+HUMAN_SetAnim("",900,900,0);
+goto end;
+}
+
+OnSignal (16)
+{
+//kecej
+}
+
+
+label kecej:
+k=(_RandomInt(6));
+d=(_RandomInt(4000));
+d=(5000+d);
+
+if (k==0)
+{
+HUMAN_SetAnim("%%mluvi3",900,900,1);
+delay (1028);
+goto kecej;
+}
+
+if (k==1)
+{
+HUMAN_SetAnim("%%mluvi4",900,900,1);
+delay (1285);
+goto kecej;
+}
+
+if (k==2)
+{
+HUMAN_SetAnim("%%mluvi5",900,900,0);
+delay (1914);
+goto kecej;
+}
+
+if (k==3)
+{
+HUMAN_SetAnim("%%mluvi6",900,900,1);
+delay (d);
+goto kecej;
+}
+
+if (k==4)
+{
+HUMAN_SetAnim("%%mluvi2",900,900,1);
+delay (d);
+goto kecej;
+}
+
+if (k==5)
+{
+HUMAN_SetAnim("%%mluvi7",900,900,1);
+delay (d);
+goto kecej;
+}
+
+label end:

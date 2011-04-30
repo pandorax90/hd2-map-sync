@@ -1,0 +1,137 @@
+// AF2_rozhovor_02 - rozhovor mezi trema vojakama v hangaru
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME af14;			FRM_FindFrame(af14, "AF3a_14");
+FRAME af15;			FRM_FindFrame(af15, "AF3a_15");
+
+//	AF3_14	07991515	NOSUB Kolikr·t se v noci takhle dÌv·m na tu planinu tady, vöude kolem n·s	dialog 1	
+//	AF3_14	07991516	NOSUB a ¯Ìk·m si, co by mi tady chybÏlo. Teda kdyby nebyla v·lka.	dialog 1	
+//	AF3_15	07991517	NOSUB Kdyby nebyla tak sedÌö na zadku doma v NÏmecku.	dialog 1	
+//	AF3_14	07991518	NOSUB J· jsem z VÌdnÏ, stejnÏ jako V˘dce, abys vÏdÏl.	dialog 1	
+//	AF3_15	07991519	NOSUB Mno jo, ale V˘dce nenÌ z VÌdnÏ.	dialog 1	
+//	AF3_14	07991520	NOSUB Jak to? A kde se teda narodil?	dialog 1	
+//	AF3_15	07991521	NOSUB V Braunau, do VÌdnÏ se p¯estÏhoval, kdyû tam chtÏl studovat.	dialog 1	
+//	AF3_14	07991522	NOSUB A co studoval?	dialog 1	
+//	AF3_15	07991523	NOSUB Co by studoval, nic. Nevzali ho. ChtÏl b˝t malÌ¯ nebo architekt, 	dialog 1	
+//	AF3_15	07991524	NOSUB ale neproöel p¯ijÌmacÌm ¯ÌzenÌm.	dialog 1	
+//	AF3_14	07991525	NOSUB VidÌö to, to jsem netuöil. 	dialog 1	
+//	AF3_15	07991526	NOSUB Ty toho jeötÏ netuöÌö. Co nov˝ho doma? Dostal jsi nÏjak˝ psanÌ?	dialog 1	
+//	AF3_14	07991527	NOSUB Naposled asi p¯ed t¯emi t˝dny. To co vûdycky.	dialog 1	
+//	AF3_14	07991528	NOSUB KoËka bude mÌt koùata, sestra dalöÌ dÌtÏ, jeötÏûe aspoÚ z t·tovy strany nic nehrozÌ.	dialog 1	
+//	AF3_15	07991529	NOSUB Hehehe. A co ty? Kdy koneËnÏ dot·hneö nÏco do konce a oûenÌö se?	dialog 1	
+//	AF3_14	07991530	NOSUB J·? Na co ... 	dialog 1	
+//	AF3_15	07991531	NOSUB No na co ... jak na co?	dialog 1	
+//	AF3_14	07991532	NOSUB P¯eci aby ses usadil, zaloûil rodinu a tak, ne?	dialog 1	
+//	AF3_15	07991533	NOSUB A proË bych to dÏlal?	dialog 1	
+//	AF3_14	07991534	NOSUB Ty m·ö ale ot·zky ... nechme toho.	dialog 1	
+//	AF3_15	07991535	NOSUB No jo.	dialog 1	
+
+OnSignal(1){
+  if(!_LoadGameValue(31))
+  {
+    EndScript();
+  }
+
+  SendSignal(af14, 9);
+  SendSignal(af15, 9);
+
+  EnableSignal(1, false);
+  printf("BEGIN ROZHOVOR between 14 & 15");
+  SUBTITLES_SetOn(true);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991515, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af14, 07991516, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991517, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991518, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991519, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991520, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991521, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991522, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991523, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af15, 07991524, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991525, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991526, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991527, 8, 20);
+  Delay(100);
+  FRM_MorphSpeechDelayed(af14, 07991528, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991529, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991530, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991531, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991532, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991533, 8, 20);
+  SendSignal(af15, 11);
+
+  SendSignal(af14, 10);
+  FRM_MorphSpeechDelayed(af14, 07991534, 8, 20);
+  SendSignal(af14, 11);
+
+  SendSignal(af15, 10);
+  FRM_MorphSpeechDelayed(af15, 07991535, 8, 20);
+  SendSignal(af14, 12);
+  SendSignal(af15, 12);
+
+  SUBTITLES_SetOn(false);
+}
+
+OnSignal(2){
+  block
+  {
+    FRM_MorphSpeech(af14, 0, 0, 0);
+    FRM_MorphSpeech(af15, 0, 0, 0);
+    SUBTITLES_SetOn(false);
+    SendSignal(af14, 12);
+    SendSignal(af15, 12);
+  }
+  EndScript();
+}
+
+Label END:
+ 

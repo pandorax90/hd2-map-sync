@@ -1,0 +1,41 @@
+Block
+{
+Frame clun;			FRM_GetMyFrame(clun);
+Frame ingame_clun;		FRM_FindFrame(ingame_clun, "m_pt_elco_kryt");
+Frame particle1;		FRM_FindFrame(particle1, "CUTpart1");
+
+}
+
+FRM_SetOn(clun, false);
+
+
+OnCutscene(10)
+{
+
+
+
+	Block
+	{
+	FRM_SetOn(clun, true);
+	FRM_SetOn(ingame_clun, false);
+	FRM_SetAnimation(clun, "#MaskPT.I3D", true);
+
+	}
+
+
+
+}
+
+
+OnCutsceneDone(10)
+{
+
+	Block
+	{
+	FRM_SetOn(clun, false);
+	FRM_SetOn(ingame_clun, true);
+	FRM_SetAnimation(clun, "", true);
+		
+	}
+
+}

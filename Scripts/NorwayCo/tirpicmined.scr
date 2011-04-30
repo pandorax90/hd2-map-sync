@@ -1,0 +1,9 @@
+frame OBJ;		FRM_FindFrame(OBJ, "objectives");
+integer a;	a=0;
+
+
+OnSignal(1)
+{
+a=a+1;
+if (a==2)	{  SendSignal(obj, 5);	}
+}

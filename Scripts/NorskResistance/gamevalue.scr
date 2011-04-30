@@ -1,0 +1,7 @@
+integer a;
+a=_LoadGameValue(2);
+
+label pis:
+PrintfNumber("gamevalue", a);
+delay (4000);
+goto pis;

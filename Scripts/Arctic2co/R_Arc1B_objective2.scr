@@ -1,0 +1,36 @@
+
+frame FRM;		FRM_FindFrame(FRM, "objectives");
+frame OBJ;		FRM_FindFrame(OBJ, "dummy_OBJ_4");		// letadlo
+frame dabing;		FRM_FindFrame(dabing, "dummy_dabing");
+frame TUNEL;		FRM_FindFrame(TUNEL, "fotoplacebox");
+integer Kecy = 0;
+
+
+// aerodinamicky tunel
+
+Whenever OBJ ( _ACTOR_GetState(TUNEL)==1)
+  {
+    printf ("OBJECTIVE PART OK   ( photo place 2 - tunel)");
+    SendSignal(FRM, 7);
+    SendSignal(OBJ, 1);
+    SUBTITLES_SetOn(True);
+    SUBTITLES_SetText(02990402); 
+    Delay(3500);
+    SUBTITLES_SetOn(False);
+
+// SUBTITLES_SetText(02990420); 
+// SUBTITLES_SetText(02990421);
+    If ((Kecy == 0) and (_PlayerInRange(6)))
+      { 
+         SendSignal(dabing, 1); 
+       } else { 
+         SendSignal(dabing, 2); 
+       }
+    Delay(2000);
+  }
+
+OnSignal(1)
+{
+  Kecy = 1;
+}
+

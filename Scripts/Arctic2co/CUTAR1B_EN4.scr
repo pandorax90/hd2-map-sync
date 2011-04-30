@@ -1,0 +1,33 @@
+Block
+{
+Frame commando;	FRM_GetMyFrame(commando);
+Frame brengun;	FRM_FindFrame(brengun, "CUTbren");
+Frame zasleh;		FRM_FindFrame(zasleh, "CUTbren.flash");
+Frame ruka;		FRM_FindChildFrame(ruka, "hw1", commando);
+Frame target; 		FRM_FindChildFrame(target, "wt", commando);
+
+FRM_SetOn(zasleh,false);
+}
+
+
+OnCutscene(1)
+{
+
+	Block
+	{
+	FRM_SetOn(brengun,true);
+	FRM_TeleportNearFrame(brengun, ruka, true);
+	FRM_SetTarget(brengun,target,true );
+
+	FRM_SetAnimation(commando, "%%sashlida.i3d",true);
+	}
+
+}
+
+OnCutsceneDone(1)
+{
+FRM_SetAnimation(commando, "",true);
+
+FRM_SetOn(brengun,false);
+
+}

@@ -1,0 +1,79 @@
+// AF2_posily_02 - rescue team
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME opel;				FRM_FindFRAME(opel, "la_Opel");
+  INTEGER Atype			= 0;
+
+  SetAlarmType(1023, false);		// disable all alarms
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(1){
+  goto ACTIVATE;
+}
+
+OnSignal(2){
+  HUMAN_BoardVehicle("la_Opel", 0, 1);
+  printf("02 prave vystoupil");
+  HUMAN_SetMODE_Crouch();
+  gosub SETALARM;
+  HUMAN_TurnAtNearestPlayer();
+  goto END;
+}
+
+OnDeath(){
+  EndScript();
+}
+
+OnAlarm(){
+  HUMAN_Stop();
+  block{
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(false);
+    Atype = _GetAlarmType();
+    printfnumber("posily02: ", Atype);
+  }
+  HUMAN_SETMODE_Crouch();
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(true);
+  HUMAN_SETMODE_Guard();
+  gosub SETALARM;
+  goto ACTIVITY;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Aggressive();
+  HUMAN_SETMODE_Run();
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(true);
+  HUMAN_SetMODE_Crouch();
+  gosub SETALARM;
+  HUMAN_Move("p02_01");
+goto END;
+
+Label MOVE:
+  HUMAN_BoardVehicle("la_Opel", 1, 1);
+  printf("02 prave nastoupil");
+
+Label ACTIVITY:
+// doplnit
+goto END;
+
+Label SETALARM:
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+return;
+
+Label END:

@@ -1,0 +1,71 @@
+// AF3a_deathdetector - detecting last alive soldiers
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  INTEGER alive				= 27;
+  INTEGER actsignal			= 21;
+  FRAME act;
+  SaveGameValue(101, 1);
+
+  FRAME sold1;		FRM_FindFrame(sold1, "");
+  FRAME sold2;		FRM_FindFrame(sold2, "");
+  FRAME sold3;		FRM_FindFrame(sold3, "");
+  FRAME sold4;		FRM_FindFrame(sold4, "");
+}
+
+goto END;
+
+OnSignal(1)
+{
+  DisableSignals(true);
+  alive = _GetNumLiveEnemies();
+  printfnumber("liveenemies: ", alive);
+
+  if(alive < 5)
+  {
+    printf("UUUUUUUUSTUP DO MESITY !!!!!!");
+    FRM_FindFrame(act, "AF3a_02"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_05"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_06"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_07"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_08"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_10"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_11"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_13"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_14"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_15"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_16"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_18"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_19"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_20"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_22"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_23"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_24"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_25"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_26"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_27"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_28"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_29"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_30"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_31"); gosub CHECKSOLDIER;
+    FRM_FindFrame(act, "AF3a_32"); gosub CHECKSOLDIER;
+    EndScript();
+  }
+  DisableSignals(false);
+  goto END;
+}
+
+Label CHECKSOLDIER:
+  if(_ACTOR_GetState(act) == 1)
+  {
+    ScriptAssign(act, "");
+    ScriptAssign(act, "AF3a_gathering_human");
+    SendSignal(act, 21);
+//    actsignal = actsignal + 1;
+  }
+return;
+
+Label ROZESLI_SIGNALY:
+goto END;
+
+Label END:

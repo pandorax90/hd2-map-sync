@@ -1,0 +1,75 @@
+
+ frame Player;		FRM_FindFrame(Player,  "_PLAYER_ 0");
+	
+
+// 02990420	Co tady asi mohou zkoušet?	
+OnSignal(1)
+{
+  FRM_MorphSpeechDelayed(Player, 02990420, 3, 15);   Delay(20);
+}
+
+// 02990421	Tak tady asi zkouší ty modely.	
+OnSignal(2)
+{
+  FRM_MorphSpeechDelayed(Player, 02990421, 3, 15);   Delay(20);
+}
+
+// 02990422	Tak tohle zkouší tam dole.
+OnSignal(3)
+{
+  FRM_MorphSpeechDelayed(Player, 02990422, 3, 15);   Delay(20);
+}
+
+// 02990423	K èemu ten modýlek asi je?
+OnSignal(4)
+{
+  FRM_MorphSpeechDelayed(Player, 02990423, 3, 15);   Delay(20);
+}
+
+// 02990430	Mìl bych umístit nálož ke generátoru.	
+OnSignal(5)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990430, 3, 15);   Delay(23);
+  SUBTITLES_SetOn(False);
+}
+	
+// 02990431	Skladištì, sem by se taky hodily výbušniny! 
+OnSignal(6)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990431, 3, 15);   Delay(33);
+  SUBTITLES_SetOn(False);
+}
+
+// 02990432	Nádrže a trhaviny, ideální kombinace.	
+OnSignal(7)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990432, 3, 15);   Delay(39);
+  SUBTITLES_SetOn(False);
+}
+
+// 02990433	Tady bude vhodné umístit nálože.
+OnSignal(8)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990433, 3, 15);   Delay(17);
+  SUBTITLES_SetOn(False);
+}
+
+// 02990434	Tady bych taky mohl nechat nìjaké trhaviny.	
+OnSignal(9)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990434, 3, 15);   Delay(31);
+  SUBTITLES_SetOn(False);
+}
+
+// 02990435	Tady bych mohl dát další nálož.	
+OnSignal(10)
+{
+  SUBTITLES_SetOn(True);
+  FRM_MorphSpeechDelayed(Player, 02990435, 3, 15);   Delay(20);
+  SUBTITLES_SetOn(False);
+}

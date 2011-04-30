@@ -1,0 +1,68 @@
+// AF2_12
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  INTEGER Atype			= 0;
+
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Whenever pir (_PlayerInRange(250))
+{
+  goto ACTIVATE;
+}
+
+OnDeath(){
+  printf("12: dead"); 
+  EndScript();
+}
+
+OnAlarm(){
+  block{
+    SetWhenever(pir, false);
+    HUMAN_Suspend(false);
+    HUMAN_SetOptimized(false);
+    HUMAN_SETMODE_Crouch();
+    Atype = _GetAlarmType();
+    printfnumber("12: ", Atype);
+  }
+  HUMAN_SetAnim("", 100, 100, false);
+  Delay(100);
+  EndScript();
+}
+
+OnAlarmDone(){
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(true);
+  HUMAN_SETMODE_Guard();
+  SetAlarmType(1023, true);
+  SetAlarmType(512, false);
+  goto ACTIVITY;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_SETMODE_Guard();
+  HUMAN_Suspend(true);
+  HUMAN_SETEVENTS(true);
+goto END;
+
+Label ACTIVATE:
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(true);
+goto ACTIVITY;
+
+Label ACTIVITY:
+    gosub LOOKAROUND;
+goto ACTIVITY;
+
+Label LOOKAROUND:
+  HUMAN_SetAnim("%%turnleft", 500, 500, false);  Delay(1500);
+  HUMAN_SetAnim("%%turnright", 500, 500, false);  Delay(1500);
+return;
+
+Label END:

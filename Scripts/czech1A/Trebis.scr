@@ -1,0 +1,71 @@
+// Trebisky
+// -------------------------------------------
+
+Block
+{
+Frame obj7;     FRM_FindFrame(obj7, "obj7");
+Frame zidla;    FRM_FindFrame(zidla,"treb_zidla");
+Frame me;       FRM_GetMyFrame(me);
+FRAME get_player;
+}
+
+// -------------------------------------------
+
+OnDeath()  
+{
+Delay(100);
+SendSignal(obj7, 2);
+EndScript();
+}
+
+Whenever player(_PlayerInRange(3))
+{
+PlayMusic(13);
+HUMAN_SetAnim("", 10, 10, false);
+HUMAN_SETMODE_Stand();  
+SUBTITLES_SetOn(1);
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 18993657, 5, 30);
+FRM_MorphSpeechDelayed(me, 18993658, 5, 30);
+Delay(700);
+SUBTITLES_SetOn(1);
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 18993659, 5, 30);
+Delay(1000);
+SUBTITLES_SetOn(1);
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 18993660, 5, 30);
+FRM_MorphSpeechDelayed(me, 18993661, 5, 30);
+Delay(1000);
+
+If(_PlayerInRange(5))
+{
+SUBTITLES_SetOn(1);
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 18993662, 5, 30);
+FRM_MorphSpeechDelayed(me, 18993663, 5, 30); 
+Delay(1000);
+SUBTITLES_SetOn(0);
+HUMAN_SetAnim("%%trebissky", 10, 10, true);
+Delay(1000);
+HUMAN_KillEx(me, 1); 
+Delay(1000);
+SendSignal(obj7, 1);
+GoTo end;
+}
+
+HUMAN_SetAnim("%%trebissky", 10, 10, true);
+Delay(1000);
+HUMAN_KillEx(me, 1);
+Delay(1000);
+SendSignal(obj7, 2);
+GoTo end;
+}
+// --------------------------------------
+
+HUMAN_ACTIVITY_Sit(zidla);
+HUMAN_SetAnim("%%mlacenej", 100,100, true);
+GoTo end;
+
+
+Label END:

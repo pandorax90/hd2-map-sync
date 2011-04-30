@@ -1,0 +1,45 @@
+// BU2_05 - guard in the bunkers
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(280, false);	// vypnute 8, 16, 256
+
+OnAlarm()
+{
+	printf("Shooter at Type97_07 - ALARMED");
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	SetAlarmType(280, false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_PlayerInRange(40))
+{
+	HUMAN_Suspend(false);
+	HUMAN_BoardVehicle("Type97_07", 1, 0);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+FRM_SwitchFaceTexture(me, "e_f050");
+HUMAN_Suspend(true);
+
+Label end:

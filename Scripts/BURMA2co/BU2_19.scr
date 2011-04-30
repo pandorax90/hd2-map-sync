@@ -1,0 +1,54 @@
+// BU2_19 - guard in the bunkers
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(280, false);	// vypnute 8, 16, 256
+
+OnAlarm()
+{
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	SetAlarmType(280, false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_SignalReceived(1))	// received from BU2_19_A1
+{
+	HUMAN_Suspend(false);
+	GoTo action1;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+HUMAN_SETAIMODE_Defensive();
+HUMAN_SETMODE_Run();
+FRM_SwitchFaceTexture(me, "e_f049");
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label action1:
+	HUMAN_Move("BU2_19_01");
+	HUMAN_TurnAtNearestPlayer();
+	GoTo end;
+
+Label end:

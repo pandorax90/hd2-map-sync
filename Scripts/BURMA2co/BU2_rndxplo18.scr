@@ -1,0 +1,29 @@
+// BU2_rndxplo18 - explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame rndxplo18;
+	FRM_FindFrame(rndxplo18, "rndxplo18");
+Frame tank;
+	FRM_FindFrame(tank, "Sherman");
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)
+{
+	If(_FrameInRange(tank)<25)
+	{
+		GoTo end;
+	}
+		PlaySound(6, 8);
+		Delay(900);
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(48, rndxplo18);
+		MakeExplosion(rndxplo18, 800000, 15000);
+	}
+}
+
+Label end:

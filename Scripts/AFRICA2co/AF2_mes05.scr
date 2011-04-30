@@ -1,0 +1,62 @@
+// AF2_mes05 - Messersmit attacking Kubelwagen (attacking after mes03 destroyed)
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME kubel;				FRM_FindFrame(kubel, "kubel");
+  FRAME null;					FRM_FindFrame(null, "");
+  FRAME this;					FRM_GetMyFrame(this);
+  FRAME dummy;				FRM_FindFrame(dummy, "dummy_afterattack");
+
+  FRAME pl01;					FRM_FindFrame(pl01, "_PLAYER_ 0");
+  FRAME pl02;					FRM_FindFrame(pl02, "_PLAYER_ 1");
+  FRAME pl03;					FRM_FindFrame(pl03, "_PLAYER_ 2");
+  FRAME pl04;					FRM_FindFrame(pl04, "_PLAYER_ 3");
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnCutScene(1){
+  FRM_SetOn(this, false);
+}
+
+OnSignal(1){
+  FRM_SetOn(this, true);
+  Delay(1000);
+  gosub CHOOSETARGET;
+  Delay(60000);
+  AirAttack_SetTarget(dummy, true);
+  Delay(20000);
+  FRM_SetOn(this, false);
+}
+
+OnCutSceneDone(1){
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+goto END;
+
+Label CHOOSETARGET:
+  if(_ACTOR_GetState(pl01) == 1){
+    AirAttack_SetTarget(pl01, true);
+    return;
+  }
+  Delay(100);
+  if(_ACTOR_GetState(pl02) == 1){
+    AirAttack_SetTarget(pl02, true);
+    return;
+  }
+  Delay(100);
+  if(_ACTOR_GetState(pl03) == 1){
+    AirAttack_SetTarget(pl03, true);
+    return;
+  }
+  Delay(100);
+  if(_ACTOR_GetState(pl04) == 1){
+    AirAttack_SetTarget(pl04, true);
+    return;
+  }
+  AirAttack_SetTarget(dummy, false);
+return;
+
+Label END:

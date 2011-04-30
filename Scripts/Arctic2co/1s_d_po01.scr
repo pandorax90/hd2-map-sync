@@ -1,0 +1,24 @@
+////-------------prepinani lightmap od dveri d_po09------------------------
+//---------------define variable----------------------------------------------------------
+
+	frame p1s01;	FRM_FindFrame(p1s01,"p1s01");
+frame d_po09;		FRM_GetMyFrame(d_po09);
+integer door_d_po09;		door_d_po09=0;
+
+//----------------main script---------------------------------------------------------------
+
+// INITIALIZATION
+  FRM_SetLightMap(d_po09, 0);
+/////////////////////////
+
+OnUse()
+	{
+	Delay(800);
+
+	If     (door_d_po09==1)	{door_d_po09=0}
+	Else				{door_d_po09=1}	
+
+	FRM_SetLightMap(d_po09,door_d_po09);
+	SendSignal(p1s01,1);
+	}
+

@@ -1,0 +1,21 @@
+
+integer number;		number = _LoadGameValue(1);
+integer diary;			diary = 0;
+
+if ( number > 1 ) {Diary = 4030} else {Diary = 4031}
+
+Whenever BORDEL ( _SignalReceived(1) ) {Diary = Diary +2;}
+
+OnExit()
+{
+ AddDiaryText(22); 
+ AddDiaryText(Diary);
+}
+
+PrintfNumber("***ACTUAL DIARY STATE ***", Diary);
+
+//  MORE PLAYERS - SILENCE  	4030 	
+//  LONE WOLF - SILENCE 		4031 
+//  MORE PLAYERS - AGGRESSIVE 	4032 
+//  LONE WOLF - AGGRESSIVE 	4033
+

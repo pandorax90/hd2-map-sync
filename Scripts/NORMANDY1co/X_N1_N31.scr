@@ -1,0 +1,94 @@
+// N31 - shooting from the cannon
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer aievent;
+	aievent=0;
+Frame fire;
+	FRM_FindFrame(fire, "N_kanon01fire");
+Frame kanon01xplo;
+	FRM_FindFrame(kanon01xplo, "N_kanon01xplo");
+Frame N32;
+	FRM_FindFrame(N32, "N32");
+Frame me;
+	FRM_GetMyFrame(me);
+}
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(28, false);	// vypnute zvuky a kroky a explozie
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+		aievent=_GetAlarmType();
+
+	If((aievent==1) OR (aievent==512))
+	{
+		HUMAN_SETMODE_Crouch();
+		EndScript();
+	}
+
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	HUMAN_SETMODE_Stand();
+	GoTo end;
+}
+
+Whenever activate(_SignalReceived(1))	// received from N31_A1, N31_A2, N31_A3
+{
+	HUMAN_Suspend(false);
+	HUMAN_Move("N31_1");
+	HUMAN_TurnAt(fire);
+	printf("N31: activating");
+	GoTo end;
+}
+
+OnSignal(2)	// received from N_kanon01xplo
+{
+	HUMAN_SetAnim("%%tocista", 200, 200, false);
+	Delay(6000);
+	HUMAN_ACTIVITY_Point(fire);
+	HUMAN_Move("N31_2");
+	SendSignal(N32, 2);
+	HUMAN_SetAnim("%%neslysim", 200, 200, false);
+	Delay(500);
+	SendSignal(kanon01xplo, 3);
+	Delay(2300);
+	GoTo end;
+}
+
+OnSignal(3)	// received from N_kanon01xplo
+{
+	Delay(6000);
+	HUMAN_Move("N31_1");
+	HUMAN_TurnAt(fire);
+	GoTo end;
+}
+
+OnDeath()
+{
+	SendSignal(kanon01xplo, 5);
+	EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f021");
+HUMAN_Suspend(true);
+
+Label end:

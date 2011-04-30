@@ -1,0 +1,96 @@
+// AF2_activator - turns on the enemies
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME this;					FRM_GetMyFrame(this);
+  FRAME null;					FRM_FindFrame(null, "");
+  FRAME opelsflakem;				FRM_FindFrame(opelsflakem, "opelsflakem");
+  FRAME camera01;				FRM_FindFrame(camera01, "camera_cut01");
+  FRAME camera02;				FRM_FindFrame(camera02, "camera_cut02");
+  FRAME camera04;				FRM_FindFrame(camera04, "camera_cut04");
+  FRAME cam_end;				FRM_FindFrame(cam_end, "cam_end01");
+  FRAME junk;					FRM_FindFrame(junk, "horicijunkers");
+  FRAME spit01;				FRM_FindFRAME(spit01, "spit01");
+  FRAME mes01;				FRM_FindFRAME(mes01, "mes01");
+  FRAME mes02;				FRM_FindFRAME(mes02, "mes02");
+  FRAME mes03;				FRM_FindFRAME(mes03, "mes03");
+  FRAME mes04;				FRM_FindFRAME(mes04, "mes04");
+  FRAME turnat;				FRM_FindFRAME(turnat, "dummy_turnat");
+  FRAME part01;				FRM_FindFRAME(part01, "HoriciJunkers.engine_l00");
+  FRAME bum;					FRM_FindFRAME(bum, "S_bum");
+  INTEGER dymzkridla;
+  FRAME camera;
+
+  FRAME s_air1;				FRM_FindFrame(s_air1, "s_air1");
+  FRAME s_air_death;				FRM_FindFrame(s_air_death, "s_air_death");
+  FRAME s_air_stihac1;			FRM_FindFrame(s_air_stihac1, "s_air_stihac1");
+  FRAME s_air_stihac2;			FRM_FindFrame(s_air_stihac2, "s_air_stihac2");
+  FRAME s_air_stihac3;			FRM_FindFrame(s_air_stihac3, "s_air_stihac3");
+  FRM_SoundAdjustDoppler(s_air1, 1, 100, 1);
+  FRM_SoundAdjustDoppler(s_air_death, 1, 100, 1);
+  FRM_SoundAdjustDoppler(s_air_stihac1, 1, 100, 1);
+  FRM_SoundAdjustDoppler(s_air_stihac2, 1, 100, 1);
+  FRM_SoundAdjustDoppler(s_air_stihac3, 1, 100, 1);
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  FRM_CreateIndexedParticle(16, part01, dymzkridla);
+  block
+  {
+    FRM_SetOn(mes03, false);  
+    FRM_SetOn(junk, true);
+    FRM_SetOn(spit01, true);
+    FRM_SetOn(mes01, true);
+    FRM_SetOn(mes02, true);
+    FRM_SetOn(s_air1, true);
+    FRM_SetOn(s_air_stihac1, true);
+    FRM_SetOn(s_air_stihac2, true);
+    FRM_SetOn(s_air_stihac3, true);
+  }
+
+  Delay(1500);
+  SUBTITLES_SetText(06011201);
+  Delay(2000);
+  FRM_WatchTrack(junk, "fight_stage01");  Delay(400);
+  FRM_WatchTrack(spit01, "fight_stage03");  Delay(1500);
+  FRM_WatchTrack(mes01, "fight_stage01");  Delay(100);
+  FRM_WatchTrack(mes02, "fight_stage01");
+  Delay(4000);
+  SUBTITLES_SetOn(false);
+  FRM_SetOn(s_air_death, true);
+
+  Delay(19000);
+
+  FRM_GetActiveCamera(camera);
+  printf("LETADLO JE V HAAAJI");
+  block{
+    SendSignal(mes03, 1);
+    FRM_SetOn(junk, false);
+    FRM_SetOn(spit01, false);
+    FRM_SetOn(mes01, false);
+    FRM_SetOn(mes02, false);
+    FRM_SetOn(bum, true);
+    MakeExplosion(camera, 0, 10000);
+    FRM_SetOn(s_air1, false);
+    FRM_SetOn(s_air_death, false);
+    FRM_SetOn(s_air_stihac1, false);
+    FRM_SetOn(s_air_stihac2, false);
+    FRM_SetOn(s_air_stihac3, false);
+  }
+  FRM_FindFrame(camera, "");
+  FRM_FinishIndexedParticle(dymzkridla);
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnDeath(){
+  printf("player01 dead");
+  SendSignal(mes03, 20);
+  SendSignal(mes04, 20);
+  printf("signals sent");
+  EndScript();
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+Label END:

@@ -1,0 +1,71 @@
+// AF1_tank01_03
+// -------------------------------------------------------------------------------------------------------------
+
+block
+{
+  INTEGER gt			= _SPGetGameDifficulty();
+  INTEGER value		= 100 ;
+  INTEGER see_val		= value + (70 * (gt));
+  INTEGER hear_val		= value + (70 * (gt));
+  HUMAN_SETSIGHTRANGE(see_val);
+  HUMAN_SETHEARRANGE(hear_val);
+  SetAlarmType(1023, true);
+  SetAlarmType(1,1); //blizka strelba
+  SetAlarmType(2,1); //slysim strelbu
+  SetAlarmType(4,1); //kroky
+  SetAlarmType(8,1); //zvuky by use
+  SetAlarmType(16,1); //exploze
+  SetAlarmType(32,1); //vidi
+  SetAlarmType(64,1); //jsem zranen
+  SetAlarmType(128,1); //zeskriptu
+  SetAlarmType(256,1); //pratelska strelba
+  SetAlarmType(512,1); //vidim flakotu
+  if(gt == 0)
+  {
+    SetAlarmType(4, true);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------------------
+OnDeath(){
+EndScript();
+}
+  
+OnAlarm(){
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+EndScript();
+}
+
+OnAlarmDone(){
+  goto END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(false);
+  HUMAN_BoardVehicle("Panzer01", false, 2);
+  HUMAN_TurnAtNearestPlayer();
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SETMODE_Walk();
+  HUMAN_SETMODE_Stand();
+  HUMAN_SETAIMODE_Defensive();
+  HUMAN_BoardVehicle("Panzer01", true, 2);
+  HUMAN_Suspend(false); 
+  HUMAN_SetOptimized(2);
+goto END;
+
+Label END:

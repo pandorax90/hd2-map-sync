@@ -1,0 +1,68 @@
+// BU2_R31 - reinforcement
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+Integer gametype;
+	gametype=0;
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(792, false);	// vypnute 8, 16, 256, 512
+
+OnAlarm()
+{
+	HUMAN_SETSIGHTRANGE(30);
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	SetAlarmType(792, false);
+	GoTo end;
+}
+
+gametype=_SPGetGameType();
+If((gametype==3) OR (gametype==7))
+{
+	DisableSignals(true);
+	DisableWhenevers(true);
+}
+SetWhenever(machinegun, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever machinegun(_SignalReceived(1))	// received from BU2_Type97_05
+{
+	HUMAN_Suspend(false);
+	HUMAN_Move("BU2_R31_01");
+	HUMAN_Move("BU2_R31_02");
+	HUMAN_SETMODE_Crouch();
+	GoTo end;
+}
+
+Whenever activate(_SignalReceived(2))	// received from BU2_Type97_05
+{
+	SetWhenever(machinegun, true);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+HUMAN_SETMODE_Run();
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f048");
+}
+HUMAN_Suspend(true);
+
+Label end:

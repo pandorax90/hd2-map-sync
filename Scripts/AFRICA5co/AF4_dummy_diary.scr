@@ -1,0 +1,25 @@
+AddDiaryText(29);  
+Delay(1000);
+INTEGER num_players = _GetNumMembersOfClientTeam();
+
+// MORE PLAYERS
+// 4171 "Pri naší smule na automobily se nám ani nechce verit, že to, které jsme ukoristili v oáze, nás dovezlo až na letište v Daiburnu. Najít Schumanna nám dalo dost práce, byl schovaný v jedné z kancelárí a neprojevoval nejmenší ochotu ke spolupráci. Nekolik výstrelu ale výrazne zmenilo jeho názor na otázku nemecko-britské vzájemné pomoci a nekolik okamžiku poté už s námi nastupoval do trupu Junkerse."
+// 4173 "Na tomto letišti se nám podarilo znehodnotit a znicit všechny zásoby benzínu."
+// 4174 "Letadla na stojánkách už se do vzduchu nedostanou, naše zbrane udelaly svou práci dobre."
+
+// LONE WOLF 
+// 4172 "Pri mé smule na automobily se mi ani nechce verit, že to, které jsem ukoristil v oáze, mne dovezlo až na letište v Daiburnu. Najít Schumanna mi dalo dost práce, byl schovaný v jedné z kancelárí a neprojevoval nejmenší ochotu ke spolupráci. Nekolik výstrelu ale výrazne zmenilo jeho názor na otázku nemecko-britské vzájemné pomoci a nekolik okamžiku poté už se mnou nastupoval do trupu Junkerse."
+// 4175	"Na tomto letišti se mi podarilo znehodnotit a znicit všechny zásoby benzínu."
+// 4176	"Letadla na stojánkách už se do vzduchu nedostanou, mé zbrane udelaly svou práci dobre."
+
+OnExit()
+{
+  if(num_players == 1)
+  {
+    AddDiaryText(4172);
+  }
+  else
+  {
+    AddDiaryText(4171);
+  }
+}

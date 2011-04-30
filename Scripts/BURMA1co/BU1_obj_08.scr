@@ -1,0 +1,34 @@
+// BU1_obj_08 - optional - soldier's papers
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame obj;
+	FRM_FindFrame(obj, "BU_obj");
+	Frame Papers;
+
+SetWhenever(lost, false);
+SetWhenever(found, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+
+Whenever znamky(_MP_IsItemInTeamInventory(1, 247, Papers))
+{
+	SetWhenever(lost, true);
+	SendSignal(obj, 11);
+	PlayMusic(36);
+	GoTo end;
+}
+Whenever lost(!_MP_IsItemInTeamInventory(1, 247, Papers))
+{
+	SetWhenever(found, true);
+	SendSignal(obj, 12);
+	GoTo end;
+}
+Whenever found(_MP_IsItemInTeamInventory(1, 247, Papers))
+{
+	SetWhenever(lost, true);
+	SendSignal(obj, 11);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+
+Label end:

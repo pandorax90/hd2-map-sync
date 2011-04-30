@@ -1,0 +1,95 @@
+// AF3b_26
+// -------------------------------------------------------------------------------------------------------------
+
+block{
+  FRAME organizer;		FRM_FindFrame(organizer, "dummy_organizer");
+  FRAME this;			FRM_GetMyFrame(this);
+  INTEGER odvysilali 		= _LoadGameValue(20);
+  INTEGER randdist 		= _RandomInt(40)+50;
+  INTEGER rnd			= 0;
+  INTEGER Atype		= 0;
+
+  SetAlarmType(1023, true);		// all alarm events on
+  SetAlarmType(924, false);		// 512, 256, 128, 16, 8, 4, 2
+}
+
+if(!odvysilali) 
+{ 
+  FRM_SetOn(this, false);  
+  HUMAN_Kill(this); 
+  EndScript();
+}
+
+
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(22){			// RETREAT SECTION
+  SetAlarmType(1023, false);
+  DisableSignals(true);
+  HUMAN_Stop();
+  HUMAN_SetMODE_Run();
+  HUMAN_Move("AF3b_retreat");
+  goto END;
+}
+
+OnDeath(){
+  if(odvysilali){
+    SendSignal(organizer, 1);
+  }
+  EndScript();
+}
+  
+OnAlarm(){
+  block{
+    HUMAN_Suspend(false);
+    HUMAN_Stop();
+    Atype = _GetAlarmType();
+  }
+//  printfnumber("26: ", Atype);
+
+  if((((Atype == 32) OR (Atype == 64)) OR (Atype == 1)) AND (_PlayerInRange(randdist))){
+    EndScript();
+  }  
+  HUMAN_SetAlarm(false);
+  HUMAN_MoveToAlarm();     
+  goto CROUCH_END;
+}
+
+OnAlarmDone(){
+  HUMAN_SETMODE_Run();
+  HUMAN_SetAlarm(false);
+  HUMAN_SetOptimized(0);
+  goto CROUCH_END;
+}
+
+OnSignal(1){
+  HUMAN_Suspend(false);
+  HUMAN_SetOptimized(1);
+  goto ACTIVITY;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+  HUMAN_SetSightRange(300);
+  HUMAN_SETMODE_Run();
+  HUMAN_SETMODE_Crouch();
+  rnd = _RandomInt(2);
+  HUMAN_SETAIMODE_Zombie();
+  HUMAN_SetOptimized(0);
+  HUMAN_Suspend(true);
+  HUMAN_SetEvents(true);
+goto END;
+
+Label ACTIVITY:
+  HUMAN_Move("AF3b_26_01");
+
+Label CROUCH_END:
+  HUMAN_SetOptimized(1);
+  HUMAN_SETMODE_Crouch();
+  HUMAN_WeaponOnArm(true);
+Label CROUCH_END_LOOP:
+  HUMAN_TurnAtNearestPlayer();
+  Delay(1500);
+goto CROUCH_END_LOOP;  
+
+Label END:

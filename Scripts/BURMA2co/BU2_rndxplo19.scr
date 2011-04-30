@@ -1,0 +1,21 @@
+// BU2_rndxplo19 - explosion effect
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame rndxplo19;
+	FRM_FindFrame(rndxplo19, "rndxplo19");
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(1)
+{
+If(_PlayerInRange(50))
+{
+		PlaySound(6, 8);
+		Delay(700);
+	Block
+	{
+		PlaySound(6, 2);
+		FRM_CreateParticle(48, rndxplo19);
+		MakeExplosion(rndxplo19, 800000, 15000);
+	}
+}
+}

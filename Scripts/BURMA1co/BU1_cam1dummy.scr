@@ -1,0 +1,37 @@
+// BU1_cam1dummy - dummy frame for camera
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Frame cam1dummy;
+	FRM_GetMyFrame(cam1dummy);
+Frame cam1dummyend;
+	FRM_FindFrame(cam1dummyend, "Cam1dummy_end");
+Frame cam1;
+	FRM_FindFrame(cam1, "Cam1");
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnCutscene(1)
+{
+	GoTo end;
+}
+
+OnCutsceneDone(1)
+{
+	GoTo end;
+}
+
+Whenever signal(_SignalReceived(1))
+{
+	FRM_WatchTrack(cam1dummy, "Dummy1");
+	GoTo end;
+}
+
+Whenever end(_FrameInRange(cam1dummyend) < 2)
+{
+	SendSignal(cam1, 1);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Label end:

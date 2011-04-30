@@ -1,0 +1,71 @@
+// BU1_06 - guardian, moves from broken bridge to village and back
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(12, false);
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnAlarm()
+{
+	HUMAN_SETSIGHTRANGE(55);
+	HUMAN_SETMODE_Run();
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	GoTo end;
+}
+
+Whenever player(_PlayerInRange(60))
+{
+	HUMAN_Suspend(false);
+	GoTo start;
+}
+
+OnDeath()
+{
+EndScript();
+}
+// -------------------------------------------------------------------------------------------------------------
+// Starting pose
+Block
+{
+HUMAN_SETMODE_Guard();
+HUMAN_SETAIMODE_Defensive();
+FRM_SwitchFaceTexture(me, "e_f046");
+}
+HUMAN_Suspend(true);
+GoTo end;
+
+Label start:
+	HUMAN_Move("BU1_06_01");
+	Delay(2000);
+	HUMAN_Move("BU1_06_02");
+	HUMAN_Move("BU1_06_03");
+	HUMAN_Move("BU1_06_04");
+	HUMAN_Move("BU1_06_05");
+	HUMAN_Move("BU1_06_06");
+	Delay(2000);
+	HUMAN_Move("BU1_06_05");
+	HUMAN_Move("BU1_06_04");
+	HUMAN_Move("BU1_06_03");
+	HUMAN_Move("BU1_06_02");
+	GoTo start;
+
+Label end:

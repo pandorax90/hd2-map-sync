@@ -1,0 +1,54 @@
+// obj 2 - destroy the tanks
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+  
+  Frame OBJ;		FRM_GetMyFrame(OBJ);
+  
+  Frame t1;		FRM_FindFrame(t1, "La_tiger_1");
+  Frame t2;		FRM_FindFrame(t2, "La_tiger_2");
+  Frame t3;		FRM_FindFrame(t3, "La_tiger_3");
+  Frame t4;		FRM_FindFrame(t4, "La_tiger_4");
+
+  SaveGameValue(11, 1);
+  SaveGameValue(12, 1);
+  SaveGameValue(13, 1);
+  SaveGameValue(14, 1);
+  
+  INTEGER tank1			= 1;
+  INTEGER tank2			= 1;
+  INTEGER tank3			= 1;
+  INTEGER tank4			= 1;
+
+  Integer gametype;
+	gametype=0;
+}
+
+gametype=_SPGetGameType();
+// -------------------------------------------------------------------------------------------------------------
+
+OnSignal(2)
+{
+  tank1 = _LoadGameValue(11);  printfnumber("tank1: ", tank1);
+  tank2 = _LoadGameValue(12);  printfnumber("tank2: ", tank2);
+  tank3 = _LoadGameValue(13);  printfnumber("tank3: ", tank3);
+  tank4 = _LoadGameValue(14);  printfnumber("tank4: ", tank4);
+
+  if(tank1){ goto END;  }
+  if(tank2){ goto END;  }
+  if(tank3){ goto END;  }
+  if(tank4){ goto END;  }
+
+  SUBTITLES_SetOn(true);
+  PlayMusic(6);
+  SUBTITLES_SetText(09991829);      //  úkol byl splnìn: Znièil jsi tìžkou techniku
+  Delay(4000);
+  SetObjectiveStatus(2, 1);
+  SUBTITLES_SetOn(false);
+  goto end;
+}
+
+Label end:
+
+

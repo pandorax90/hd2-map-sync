@@ -1,0 +1,32 @@
+// AF3a_obj_carnage - carnage objectives detector
+// -------------------------------------------------------------------------------------------------------------
+
+FRAME obj;			FRM_FindFrame(obj, "MINARET22");
+INTEGER game_type = _SPGetGameType();
+
+// -------------------------------------------------------------------------------------------------------------
+
+//DisableSignals(true);
+
+Whenever alldead (_GetCountOfCarnageEnemies() == 0){
+//  SUBTITLES_SetOn(true);
+//  SUBTITLES_SetText(08991602);
+//  Delay(2000);
+  SetObjectiveStatus(4, 1);
+  SendSignal(obj, 2);
+  goto END;
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+if((game_type == 3) OR (game_type == 7))
+{
+  SetObjectiveStatus(4, 0);		// carnage init
+}
+else
+{
+  SetWhenever(alldead, false);
+}
+
+
+Label END:

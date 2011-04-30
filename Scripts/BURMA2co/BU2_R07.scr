@@ -1,0 +1,60 @@
+// BU2_R07 - outer guard
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Frame me;
+	FRM_GetMyFrame(me);
+// -------------------------------------------------------------------------------------------------------------
+// Alarm and AI event settings
+// vsetky typy alarmov nastavene na true
+//     1 - blizka strelba
+//     2 - strelba
+//     4 - kroky
+//     8 - zvuky (OnUse)
+//   16 - explozia
+//   32 - vidim
+//   64 - zranenie
+// 128 - smrtelny vykrik
+// 256 - friendly fire
+// 512 - vidim mrtvolu
+SetAlarmType(792, false);	// vypnute 8, 16, 256, 512
+
+OnAlarm()
+{
+	HUMAN_SETSIGHTRANGE(30);
+	If(_SPGetGameType()==2)	{	HUMAN_SETSIGHTRANGE(25);	}
+	EndScript();
+}
+
+OnAlarmDone()
+{
+	HUMAN_SetAlarm(false);
+	SetAlarmType(792, false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+Whenever player(_PlayerInRange(40))
+{
+	SetWhenever(allied, false);
+	HUMAN_Suspend(false);
+	GoTo end;
+}
+
+Whenever allied(_SignalReceived(1))	// received from allied soldier
+{
+	SetWhenever(player, false);
+	HUMAN_Suspend(false);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+Block
+{
+HUMAN_SETMODE_Run();
+HUMAN_SETAIMODE_Aggressive();
+FRM_SwitchFaceTexture(me, "e_f049");
+HUMAN_SetOptimized(2);
+}
+If(_SPGetGameType()==2)	{	HUMAN_SETSIGHTRANGE(25);	}
+HUMAN_Suspend(true);
+
+Label end:

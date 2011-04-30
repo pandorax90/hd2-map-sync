@@ -1,0 +1,110 @@
+// BU2_objective2 - objectives bloodshed
+// -------------------------------------------------------------------------------------------------------------
+// Variables definition
+Block
+{
+Integer obj;
+	obj=0;
+Frame xplo;
+	FRM_FindFrame(xplo, "rndxplo01");
+Frame diary;
+	FRM_FindFrame(diary, "BU2_diary");
+Integer killedall;
+	killedall=0;
+Integer bunker;
+	bunker=0;
+}
+// -------------------------------------------------------------------------------------------------------------
+// Whenever keywords and signals
+OnSignal(2)	// received from BU2_06, BU2_22
+{
+		obj=obj+1;
+	If((obj==2))
+	{
+		SetWhenever(alldead, true);
+		GoTo obj1complete;
+	}
+	GoTo end;
+}
+
+OnSignal(3)	// received from rndxplo01
+{
+	GoTo obj2complete;
+}
+
+Whenever alldead(_GetCountOfCarnageEnemies()==0)
+{
+	killedall=1;
+	printf("all enemiesdead");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(21990002);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	If(bunker==1)
+	{
+		GoSub setobjective2;
+	}
+	SetObjectiveStatus(4, 1);
+	GoTo end;
+}
+// -------------------------------------------------------------------------------------------------------------
+SetWhenever(alldead, false);
+
+SetObjectiveStatus(1, 0);	// capture the bunker
+//SetObjectiveStatus(2, 4);	// gather your troops at the exit point
+//SetObjectiveStatus(3, 4);	// optional - all troops must survive
+SetObjectiveStatus(4, 0);	// carnage - kill all enemies
+
+Delay(2000);
+printf("capture bunker on the hill");
+SUBTITLES_SetOn(true);
+SUBTITLES_SetText(13992607);
+Delay(3000);
+SUBTITLES_SetText(20994001);
+Delay(3000);
+SUBTITLES_SetOn(false);
+GoTo end;
+
+Label obj1complete:
+	printf("Capture bunker on the hill - objective complete");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992606);
+	Delay(3000);
+	PlayMusic(36);
+
+	If(killedall==1)
+	{
+		Gosub setobjective2;
+	}
+	SetObjectiveStatus(1, 1);
+	bunker=1;
+	GoTo end;
+
+Label setobjective2:
+	SetObjectiveStatus(2, 0);
+	SendSignal(xplo, 2);
+	printf("Gather your troops at the exit point");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992732);
+	Delay(3000);
+	SUBTITLES_SetOn(false);
+	Return;
+
+Label obj2complete:
+	If(_IsTeamMemberDead())
+	{
+		GoTo dalej;
+	}
+	SetObjectiveStatus(3, 1);
+	SendSignal(diary, 1);
+
+	Label dalej:
+	printf("objective complete - gather your troops at exit point");
+	SUBTITLES_SetOn(true);
+	SUBTITLES_SetText(13992733);
+	Delay(3000);
+	SetObjectiveStatus(2, 1);
+	SUBTITLES_SetOn(false);
+	GoTo end;
+
+Label end:

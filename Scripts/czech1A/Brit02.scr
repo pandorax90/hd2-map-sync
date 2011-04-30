@@ -1,0 +1,205 @@
+// Brit 2 - posadka Jeepu - keca s hracem
+// --------------------------------------------
+
+Block
+{
+Frame s1;		FRM_FindFrame(s1,"C1_G54");
+Frame s2;		FRM_FindFrame(s2,"C1_G55");
+Frame s3;		FRM_FindFrame(s3,"C1_G56");
+Frame s4;		FRM_FindFrame(s4,"C1_G57");
+Frame s5;		FRM_FindFrame(s5,"C1_G58");
+
+Frame vechtr;		FRM_FindFrame(vechtr,"vechtr");
+Frame obj4;		FRM_FindFrame(obj4,"obj4");
+Frame b1;		FRM_FindFrame(b1,"Brit01");
+Frame b3;		FRM_FindFrame(b3,"Brit03");
+Frame b4;		FRM_FindFrame(b4,"Brit04");
+Frame Jeep;		FRM_FindFrame(Jeep,"Jeep");
+Frame me;		FRM_GetMyFrame(me);
+Frame get_player;
+
+FRM_SwitchFaceTexture(me, "e_f001");
+}
+
+// --------------------------------------------
+
+OnDeath(){
+SendSignal(obj4, 2);
+EndScript();
+}
+
+Whenever Jedem (_SignalReceived(1))
+{
+HUMAN_Suspend(0);
+HUMAN_BoardVehicle("Jeep",  1, 1);
+goto End;
+}
+
+Whenever Jdu_Kecat (_SignalReceived(2))
+{
+HUMAN_BoardVehicle("Jeep",  0, 1);
+HUMAN_SETMODE_Crouch();
+HUMAN_SETMODE_Run();
+HUMAN_MoveFromFrame(Jeep, 5);
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+
+If(_PlayerInRange(5))
+{
+goto kecame;
+}
+
+SUBTITLES_SetOn(1);
+FRM_MorphSpeechDelayed(me, 13022605, 5, 30); // sssst !!
+Delay(1000);
+SendSignal(b3, 2);
+FRM_MorphSpeechDelayed(me, 90000531, 5, 30); // folow me!
+HUMAN_TurnAtNearestplayer();
+Delay(200);
+FRM_MorphSpeechDelayed(me, 90000233, 5, 30); // move there!!
+HUMAN_TurnAtNearestplayer();
+SetWhenever(gokec, 1);
+SendSignal(b4, 2);
+Delay(120000);
+
+If(_PlayerInRange(8))
+{
+goto END;
+}
+goto valime;
+}
+
+Whenever Dojeli_Jsme (_SignalReceived(3))
+{
+HUMAN_BoardVehicle("Jeep",  0, 1);
+SendSignal(s1, 1);
+SendSignal(s2, 1);
+SendSignal(s3, 1);
+SendSignal(s4, 1);
+SendSignal(s5, 1);
+Delay(500);
+DisableSignals(1);
+HUMAN_Suspend(1);
+goto End;
+}
+
+Whenever gokec (_PlayerInRange(8)){
+goto kecame;
+}
+
+// --------------------------------------------
+
+SetWhenever(gokec, 0);
+HUMAN_Suspend(1);
+goto End;
+
+Label kecame:
+SendSignal(b3, 2);
+SendSignal(b4, 2);
+HUMAN_SETMODE_Stand();
+HUMAN_SETMODE_Walk();
+SUBTITLES_SetOn(1);
+HUMAN_TurnAtNearestPlayer();
+Delay(1000);
+FRM_MorphSpeechDelayed(me, 13022630, 5, 30); // don´t shoot us!! 
+Delay(500);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(me, 18993604, 5, 30); // Quick , tebissky was captured....
+Delay(300);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(me, 00990163, 5, 30); // .......
+
+If(_PlayerInRange(8))
+{
+Delay(300);
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 20994068, 5, 30); // Why am I not surprised....
+Delay(200);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(b3, 18993651, 5, 30); // Try to find the Signal man....
+Delay(200);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(b3, 18993652, 5, 30); // And Ask him about the details...
+Delay(200);
+
+If(_PlayerInRange(8))
+{
+FRM_GetNearestPlayer(me, get_player); 
+FRM_MorphSpeechDelayed(get_player, 18993653, 5, 30); // Thx , now you should.....
+HUMAN_TurnAtNearestPlayer();
+Delay(200);
+FRM_MorphSpeechDelayed(get_player, 18993654, 5, 30); // Stay away from the trainstation tonight....
+HUMAN_TurnAtNearestPlayer();
+Delay(500);
+FRM_MorphSpeechDelayed(me, 18993656, 5, 30); // Sure.... 
+Delay(200);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(b3, 20994069, 5, 30); // Take care guys 
+Delay(200);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(get_player, 20994070, 5, 30); // Thx allot lads , have a safe trip 
+SUBTITLES_SetOn(0);
+SendSignal(obj4, 1);  // OBJ 4 SUCCESS
+SendSignal(vechtr, 8);
+SendSignal(b3, 4);
+SendSignal(b4, 4);
+HUMAN_TurnAt(Jeep);
+HUMAN_MoveToFrame(Jeep, 2);
+Delay(300);
+HUMAN_BoardVehicle("Jeep",  1, 1);
+Delay(700);
+FRM_MorphSpeechDelayed(me, 90000526, 5, 30); // Advance!
+SendSignal(b1, 1);
+FRM_MorphSpeechDelayed(b1, 90000235, 5, 30); // Yes Sir!!
+goto End;
+}
+goto Jsi_v_prdeli;
+}
+
+Label Jsi_v_prdeli:
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(me, 00990095, 5, 30); //
+Delay(1000);
+FRM_MorphSpeechDelayed(me, 00990108, 5, 30); //
+Delay(200);
+FRM_MorphSpeechDelayed(me, 00990109, 5, 30); //
+Delay(200);
+HUMAN_TurnAtNearestPlayer();
+FRM_MorphSpeechDelayed(me, 00990110, 5, 30); //
+Delay(200);
+FRM_MorphSpeechDelayed(me, 00990111, 5, 30); //
+Delay(200);
+FRM_MorphSpeechDelayed(me, 00990112, 5, 30); //
+Delay(200);
+FRM_MorphSpeechDelayed(me, 00990113, 5, 30); //
+SUBTITLES_SetOn(0);
+SendSignal(obj4, 2); // - MISSION FAILED
+SendSignal(b3, 4);
+SendSignal(b4, 4);
+HUMAN_TurnAt(Jeep);
+HUMAN_MoveToFrame(Jeep, 2);
+Delay(300);
+HUMAN_BoardVehicle("Jeep",  1, 1);
+Delay(700);
+FRM_MorphSpeechDelayed(me, 90000526, 5, 30); // Advance!
+SendSignal(b1, 1);
+FRM_MorphSpeechDelayed(b1, 90000235, 5, 30); // Yes Sir!!
+goto End;
+
+Label valime:
+SUBTITLES_SetOn(0);
+SendSignal(b3, 4);
+SendSignal(b4, 4);
+HUMAN_TurnAt(Jeep);
+HUMAN_MoveToFrame(Jeep, 2);
+Delay(300);
+HUMAN_BoardVehicle("Jeep",  1, 1);
+Delay(700);
+FRM_MorphSpeechDelayed(me, 90000526, 5, 30); // Advance!
+SendSignal(b1, 1);
+SendSignal(obj4, 2); // - MISSION FAILED
+FRM_MorphSpeechDelayed(b1, 90000235, 5, 30); // Yes Sir!!
+goto End;
+
+Label End:

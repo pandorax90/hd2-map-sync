@@ -1,0 +1,14 @@
+// Obj 6 - Kill All Enemy
+//----------------------------------------------------------
+
+Block
+{
+SetObjectiveStatus(6, 0);
+}
+
+Whenever AED (_AllEnemiesDead())
+{
+
+SetObjectiveStatus(6, 1);
+EndScript();
+}

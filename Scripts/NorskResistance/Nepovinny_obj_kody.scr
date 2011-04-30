@@ -1,0 +1,49 @@
+
+
+
+
+
+
+
+SetWhenever(ne,0);
+frame obj;	FRM_FindFrame(obj,"objectives");
+integer a;	a=0;
+goto end;
+
+
+Whenever jo(_IsInInventory(250))
+{
+//prskout cislo itemu kodove knihy
+SetWhenever(ne,1);
+SendSignal (obj,11);
+if (a==0)
+{
+  a=1;
+  SUBTITLES_SetOn(1);
+  SUBTITLES_SetText(11992213); 		
+  Delay(4000);
+  SUBTITLES_SetOn(0);
+}
+printf("nepovinny ukol PLNEN MAS Kodovou knihu");
+goto end;
+}
+
+
+
+
+
+Whenever ne(!_IsInInventory(250))
+{
+SetWhenever(jo,1);
+SendSignal (obj,12);
+  //SUBTITLES_SetOn(1);
+  //SUBTITLES_SetText(14992808); 		
+ // Delay(4000);
+  //SUBTITLES_SetOn(0);
+goto end;
+}
+
+
+
+
+label end:

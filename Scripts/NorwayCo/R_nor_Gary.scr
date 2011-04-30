@@ -1,0 +1,5 @@
+// Gary
+
+HUMAN_SETMODE_Crouch();
+HUMAN_SETAIMODE_Zombie();
+

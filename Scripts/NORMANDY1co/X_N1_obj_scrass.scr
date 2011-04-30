@@ -1,0 +1,18 @@
+// objective_scriptassign - objective script assigner
+// -------------------------------------------------------------------------------------------------------------
+Frame obj;
+	FRM_FindFrame(obj, "objective");
+Integer gametype;
+	gametype=0;
+// -------------------------------------------------------------------------------------------------------------
+gametype=_SPGetGameType();
+
+If((gametype==3) OR (gametype==7))
+{
+	ScriptAssign(obj, "X_N1_objective_car");
+	GoTo end;
+}
+
+ScriptAssign(obj, "X_N1_objective");
+
+Label end:
