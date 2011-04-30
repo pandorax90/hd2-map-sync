@@ -2147,6 +2147,45 @@
     </MAP>
   </GAMESTYLE>
   <GAMESTYLE type="cooperative" desc="17685">
+   <MAP name="Burgundy|Farmstead|" dir="Burg_1">
+      <ALLOWEDITEMS version="0.1">
+        <ITEM item_id="1" item_num="1" ammo_num="10" />
+        <ITEM item_id="2" item_num="1" ammo_num="10" />
+        <ITEM item_id="5" item_num="1" ammo_num="10" />
+        <ITEM item_id="6" item_num="1" ammo_num="10" />
+        <ITEM item_id="7" item_num="1" ammo_num="10" />
+        <ITEM item_id="8" item_num="1" ammo_num="10" />
+        <ITEM item_id="10" item_num="1" ammo_num="10" />
+        <ITEM item_id="11" item_num="1" ammo_num="10" />
+        <ITEM item_id="14" item_num="1" ammo_num="10" />
+        <ITEM item_id="20" item_num="1" ammo_num="10" />
+        <ITEM item_id="21" item_num="1" ammo_num="10" />
+        <ITEM item_id="22" item_num="1" ammo_num="10" />
+        <ITEM item_id="53" item_num="2" />
+        <ITEM item_id="54" item_num="5" />
+        <ITEM item_id="56" item_num="1" />
+        <ITEM item_id="57" item_num="1" />
+        <ITEM item_id="60" item_num="2" />
+        <ITEM item_id="62" item_num="3" />
+        <ITEM item_id="66" item_num="2" />
+        <ITEM item_id="70" item_num="1" />
+        <ITEM item_id="99" item_num="1" />
+        <ITEM item_id="101" item_num="1" />
+        <ITEM item_id="115" item_num="1" ammo_num="1" />
+        <ITEM item_id="118" item_num="1" ammo_num="1" />
+        <ITEM item_id="123" item_num="1" ammo_num="1" />
+        <ITEM item_id="124" item_num="1" ammo_num="1" />
+        <ITEM item_id="168" item_num="1" ammo_num="1" />
+        <ITEM item_id="169" item_num="1" ammo_num="1" />
+        <ITEM item_id="263" item_num="1" ammo_num="10" />
+      </ALLOWEDITEMS>
+      <ALLOWEDPRESETS>"Allied gunner" "Axis gunner" "Allied sniper" "Axis sniper" "Allied rifleman" "Axis rifleman" "Allied heavy gunner" "Axis heavy gunner" "Allied assault gunner" "Axis assault gunner"</ALLOWEDPRESETS>
+      <OBJECTIVE allied_text="15538" axis_text="15538" value="03" />
+      <OBJECTIVE allied_text="6032" axis_text="6032" value="03" />
+      <OBJECTIVE allied_text="15585" axis_text="15585" value="03" />
+      <OBJECTIVE allied_text="15556" axis_text="15556" value="03" />
+      <OBJECTIVE allied_text="6062" axis_text="6062" value="03" />
+    </MAP>
     <MAP name="|Burgundy-1|" dir="Co_Burgundy1" desc="17828">
       <ALLOWEDITEMS version="0.1">
         <ITEM item_id="1" item_num="1" ammo_num="100" />
