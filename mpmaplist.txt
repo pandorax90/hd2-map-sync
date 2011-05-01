@@ -2337,7 +2337,7 @@
       <OBJECTIVE allied_text="15556" axis_text="15556" value="03" />
       <OBJECTIVE allied_text="6062" axis_text="6062" value="03" />
     </MAP>
-    <MAP name="|Brest|" dir="Co_Brest" desc="17820">
+    <MAP name="Brest" dir="Co_Brest" desc="17820">
       <ALLOWEDITEMS version="0.1">
         <ITEM item_id="7" item_num="1" ammo_num="100" />
         <ITEM item_id="9" item_num="1" />
